@@ -1,0 +1,35 @@
+LIQUID FINANCING — COLLATERAL HAIRCUT POLICY (v7)
+Effective: 2026-01-01
+
+1. SCOPE
+Applies to all collateral posted against financing, securities lending, and margin
+facilities across Equities & Delta One, Rate & Credit Financing, and FX.
+
+2. BASE HAIRCUTS BY ASSET CLASS
+- G10 Government Bonds (0-5y):      1.0% - 2.0%
+- G10 Government Bonds (5y+):        3.0% - 5.0%
+- IG Corporate Bonds (A- or better): 8.0%
+- IG Corporate Bonds (BBB range):    15.0% base haircut; +5.0% add-on if ADV < $2mm
+- High Yield Corporate Bonds:        20.0% - 30.0%
+- Large-Cap Developed Equities:      15.0%
+- Small-Cap / EM Equities:           25.0% - 35.0%
+- Money Market Instruments:          0.5%
+
+3. LIQUIDITY ADD-ONS
+An additional haircut add-on applies when average daily volume (ADV) over the trailing
+20 trading days is below $2mm notional equivalent: +5.0% add-on, cumulative with base.
+
+4. CONCENTRATION ADD-ON
+Where a single issuer or asset exceeds 10% of a client's posted collateral, a
+concentration add-on of +3.0% to +8.0% applies on the excess, scaled by the issuer's
+rating bucket.
+
+5. OVERRIDE AUTHORITY
+Manual override of model-derived or grid haircuts requires sign-off from the Financing
+Risk desk head and is logged in the Margin Override Register with a stated business
+rationale and expiry date not exceeding 30 calendar days.
+
+6. REVIEW CADENCE
+This policy and any underlying model-derived haircut schedule is reviewed quarterly by
+Model Risk and Financing Risk jointly, or immediately following any realized loss event
+exceeding $250k attributable to haircut inadequacy.

@@ -1,0 +1,23 @@
+LIQUID FINANCING — FINANCING RATE & REBATE POLICY (v4)
+Effective: 2026-01-01
+
+1. GENERAL COLLATERAL (GC) RATE
+The GC rate benchmark is set daily off the prevailing overnight SOFR fixing plus a
+desk-determined spread reflecting term funding conditions. Published to the desk by 7:00am ET.
+
+2. SPECIALNESS FEE DETERMINATION
+For hard-to-borrow (HTB) securities, the specialness fee is quoted as an annualized
+basis-point spread over GC, determined by the desk's fee forecasting model with a
+mandatory trader review for any quote where the model's predicted 80% interval spans
+more than 50bps.
+
+3. REBATE RATE (CASH COLLATERAL)
+Rebate rate = GC rate - specialness fee, floored at zero for securities trading special.
+
+4. QUARTER-END / MONTH-END ADJUSTMENT
+Financing rates quoted within the two business days preceding a quarter-end are subject
+to a documented balance-sheet scarcity premium, communicated via the morning desk note.
+
+5. DISPUTE RESOLUTION
+Any client dispute regarding a quoted financing rate must be escalated within 2 business
+days with reference to the specific model version and input snapshot used for the quote.

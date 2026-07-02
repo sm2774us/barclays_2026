@@ -1,0 +1,292 @@
+\documentclass[11pt]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{array}
+
+\definecolor{navy}{RGB}{0,33,71}
+\definecolor{steel}{RGB}{70,90,110}
+\definecolor{codebg}{RGB}{245,245,248}
+
+\titleformat{\chapter}[display]{\normalfont\bfseries\color{navy}}{\chaptertitlename\ \thechapter}{10pt}{\Large}
+\titleformat{\section}{\normalfont\Large\bfseries\color{navy}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{steel}}{\thesubsection}{1em}{}
+
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true,
+  columns=fullflexible,
+  language=Python
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small\color{steel}AI/ML Modeler — Liquid Financing}
+\lhead{\small\color{steel}Barclays Take-Home Research Portfolio}
+\rfoot{\thepage}
+
+\title{
+  \vspace{-1.5cm}
+  {\Large\color{steel}A Dissertation-Style Research Presentation}\\[0.4cm]
+  {\huge\bfseries\color{navy} Machine Learning and Generative AI Systems\\ for Cross-Asset Liquid Financing}\\[0.6cm]
+  {\large\color{steel}Five Production-Grade Case Studies: Securities-Lending Fee Forecasting,\\
+  Client Margin Optimization, Funding-Spread Anomaly Detection,\\
+  Deep-Learning Balance Forecasting, and a Retrieval-Augmented Financing Copilot}
+}
+\author{Candidate Presentation \\ \small Prepared for: Barclays Quantitative Research \& Trading Panel (5 Reviewers)}
+\date{Take-Home Discussion \\ Wednesday, July 8, 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent This work presents five production-oriented machine learning and generative AI systems
+designed for a cross-asset Liquid Financing platform spanning Equities \& Delta One, Rate and Credit
+Financing, FX, Risk, and Futures \& Prime Derivatives Solutions. Each system is scoped directly against
+a stated business roadmap of 50+ identified problem statements and mirrors the explicit technical
+requirements of the target role: regularized regression (OLS, LASSO, Elastic Net), tree-ensemble
+methods, time-series forecasting, deep sequence models (RNN/LSTM/GRU), and generative AI
+(fine-tuning, prompt engineering, retrieval-augmented generation, and evaluation). We present, for
+each system: (i) the business problem and P\&L or risk lever it addresses; (ii) the mathematical
+formulation and model architecture; (iii) a reference implementation; and (iv) a validation and
+production-monitoring protocol consistent with institutional model-risk practice. We conclude with a
+cross-cutting discussion of deployment standards, model governance, and the trade-offs between
+prompt-engineered and fine-tuned generative systems in a regulated financial environment.
+\end{abstract}
+
+\tableofcontents
+
+\chapter{Introduction and Problem Framing}
+
+\section{Business Context}
+Liquid Financing intermediates the price of \emph{borrowing} — securities, cash, and balance sheet —
+across a cross-asset platform. Its economics are driven by three coupled quantities: (1) the fee or
+rate charged for financing an asset, (2) the collateral haircut required to protect against
+counterparty default, and (3) the balance-sheet capacity consumed by client positions. Each of the
+five case studies in this dissertation targets exactly one of these economic levers, chosen so that,
+collectively, they cover every technical bullet point in the target job description while remaining
+traceable to a concrete desk P\&L or risk outcome.
+
+\section{Mapping to the Stated Technical Requirements}
+\begin{center}
+\begin{tabular}{p{2.7cm}p{6.3cm}p{5.5cm}}
+\toprule
+\textbf{Case Study} & \textbf{Core Method} & \textbf{JD Requirement Addressed} \\
+\midrule
+P1 & Elastic Net + Gradient-Boosted Trees + AR/event time-series blend & Regression (OLS/LASSO/Elastic Net), Tree models, Time series \\
+P2 & LASSO haircut model + GBM correlation-breakdown add-on & Regression, Tree models, model-risk governance \\
+P3 & Robust Mahalanobis + Isolation Forest + LLM text fusion & Time series, Gen AI \\
+P4 & Sequence-to-sequence GRU/LSTM with quantile heads & Deep Learning (Neural Networks, RNN, LSTM, GRU) \\
+P5 & Hybrid retrieval-augmented LLM copilot & Gen AI: fine-tuning, prompting, RAG, evaluation, inference infrastructure \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\chapter{P1 --- Securities-Lending Fee and Rebate-Rate Forecasting}
+
+\section{Problem Statement}
+We forecast the daily specialness fee $f_{i,t}$, expressed in annualized basis points over the general
+collateral (GC) rate, for a universe of hard-to-borrow equities, at horizons $h \in \{1,\dots,5\}$
+business days, to feed a pre-trade financing pricing engine.
+
+\section{Model Formulation}
+A three-tier ensemble is used. The first tier is an Elastic Net regression:
+\begin{equation}
+\hat\beta = \arg\min_{\beta}\; \lVert y - X\beta \rVert_2^2 + \lambda_1 \lVert \beta \rVert_1 + \lambda_2 \lVert \beta \rVert_2^2
+\end{equation}
+chosen for auditability: every surviving coefficient can be defended in a model-risk review.
+The second tier is a gradient-boosted tree ensemble,
+\begin{equation}
+F_M(x) = \sum_{m=1}^{M} \gamma_m h_m(x), \qquad h_m = \arg\min_h \sum_{i} L\big(y_i,\, F_{m-1}(x_i) + h(x_i)\big),
+\end{equation}
+which captures the empirically convex relationship between utilization and fee once utilization
+exceeds approximately 90\%, a threshold effect that a purely linear model cannot represent. The third
+tier is a mean-reverting, event-augmented time-series component,
+\begin{equation}
+f_{i,t} = \mu_i + \phi\,(f_{i,t-1} - \mu_i) + \sum_j \kappa_j \, \mathbb{1}[\text{event}_{j,t}]\, e^{-\eta_j (t - t_j)} + \varepsilon_t,
+\end{equation}
+which explicitly models the predictable fee spikes around dividend record dates and index
+rebalancing events. The final forecast is a constrained convex combination of the three tiers, with
+weights fit by non-negative least squares on a walk-forward validation window.
+
+\section{Reference Implementation (excerpt)}
+\begin{lstlisting}
+en  = ElasticNetCV(l1_ratio=[.1,.5,.7,.9,.95,1], cv=5).fit(X_train, y_train)
+gbm = LGBMRegressor(n_estimators=600, num_leaves=31,
+                     learning_rate=0.03).fit(X_train, y_train)
+w, _ = nnls(np.column_stack([en.predict(X_val), gbm.predict(X_val)]), y_val)
+forecast = np.column_stack([en.predict(X_new), gbm.predict(X_new)]) @ (w / w.sum())
+\end{lstlisting}
+
+\section{Validation Protocol}
+Weighted MAPE (notional-weighted), directional hit-rate on fee changes exceeding 25 bps, and pinball
+loss at the 10th/90th percentiles are tracked on an expanding walk-forward window. Feature population
+stability index (PSI) is monitored monthly, with automatic fallback to the Elastic Net tier if the
+gradient-boosted tree's input PSI exceeds 0.25.
+
+\chapter{P2 --- Client Margin and Haircut Optimization}
+
+\section{Problem Statement}
+Given a client's cross-asset collateral basket, we predict the required per-asset haircut and
+portfolio-level initial margin such that the modeled 99\% five-day liquidation shortfall is covered,
+while minimizing over-collateralization relative to the existing rules-based haircut grid.
+
+\section{Model Formulation}
+The per-asset haircut is modeled log-linearly with LASSO-selected covariates,
+\begin{equation}
+\log h_i = \beta_0 + \beta_1 \log \sigma_i + \beta_2 \log(\text{ADV}_i) + \beta_3\, \text{Corr}_{i,\text{mkt}} + \beta_4\, \text{Rating}_i + \varepsilon_i,
+\end{equation}
+and the portfolio-level required initial margin is decomposed into a linear per-asset component plus
+a tree-learned correlation-breakdown add-on,
+\begin{equation}
+\text{IM}_{\text{portfolio}} = \sum_i h_i\,|q_i|\,P_i \;+\; g_\theta(\mathbf{q}, \boldsymbol\Sigma, \text{concentration}),
+\end{equation}
+where $g_\theta$ is a gradient-boosted regressor trained on the historical-simulation shortfall
+residual unexplained by the linear component. This add-on is precisely the mechanism that captures
+correlations moving toward one under stress, historically the primary failure mode of purely
+rules-based haircut grids. The final output is clipped to $[\text{rules-based floor},\, 1.2\times
+\text{VaR}_{99\%}]$ and trained against the chance constraint
+\begin{equation}
+\Pr\big(\text{Shortfall}_{5d} > h \cdot V\big) \le 1\%.
+\end{equation}
+
+\section{Backtesting Discipline}
+Kupiec proportion-of-failures and Christoffersen independence tests are applied to daily VaR breach
+counts. Champion/challenger comparison runs for a minimum of two full quarters in shadow mode before
+promotion, with stress overlays replaying 2008, March 2020, and 2023 regional-banking scenarios
+against the current book.
+
+\chapter{P3 --- Cross-Asset Funding-Spread Anomaly Detection}
+
+\section{Problem Statement}
+We detect anomalous divergence across the repo, securities-lending, cross-currency-basis, and
+credit-basis complex in real time, fused with a natural-language classifier over overnight desk
+commentary, and rank alerts by likely P\&L impact.
+
+\section{Model Formulation}
+A robust multivariate anomaly score is computed via Mahalanobis distance under an EWMA-updated,
+Minimum-Covariance-Determinant-robustified covariance estimate,
+\begin{equation}
+z_t = (\mathbf{x}_t - \boldsymbol\mu_t)^\top \boldsymbol\Sigma_t^{-1} (\mathbf{x}_t - \boldsymbol\mu_t),
+\end{equation}
+cross-checked by an Isolation Forest score $s(x) = 2^{-E[h(x)]/c(n)}$ that is more robust to
+regime-dependent non-Gaussianity. A fine-tuned or prompt-engineered language model classifies
+overnight commentary into stress categories, and the statistical and textual signals are fused as
+\begin{equation}
+\text{AlertScore}_t = \alpha\cdot \text{sigmoid}(z_t - z^*) + (1-\alpha)\cdot p(\text{stress} \mid \text{text}_t).
+\end{equation}
+
+\section{Human-in-the-Loop Design}
+Every alert above threshold routes to a trader queue accompanied by the driving spread chart, the
+top-attributed statistical features, and a cited natural-language rationale; no action is executed
+automatically. Precision and recall are tracked weekly against trader-labeled outcomes, with the
+alert threshold retuned via a Neyman--Pearson-style asymmetric cost ratio reflecting that missed
+funding-stress events are materially more costly than false positives on this desk.
+
+\chapter{P4 --- Prime Balance and Utilization Forecasting via Deep Sequence Models}
+
+\section{Problem Statement}
+We forecast daily aggregate client financing balances and utilization ratios one to twenty business
+days ahead, with explicit treatment of month-end and quarter-end window-dressing effects, for
+Treasury capacity and RWA/LCR planning.
+
+\section{Model Formulation}
+A sequence-to-sequence Gated Recurrent Unit (GRU) encoder-decoder is used,
+\begin{equation}
+h_t = \text{GRU}(x_t, h_{t-1}), \qquad \hat y_{t+1:t+H} = \text{Decoder}(h_T,\; \text{calendar embeddings}),
+\end{equation}
+with an explicit, learned calendar embedding concatenated at every decoder step so that the
+known, calendar-driven quarter-end balance-reduction pattern is treated as an inspectable input rather
+than left for the network to rediscover implicitly. Three quantile heads are trained jointly via the
+pinball loss,
+\begin{equation}
+\mathcal{L} = \sum_{q\in\{0.1,0.5,0.9\}} \sum_{h=1}^{H} \rho_q\big(y_{t+h} - \hat y_{t+h}^{(q)}\big), \qquad \rho_q(u) = u\,(q - \mathbb{1}[u<0]),
+\end{equation}
+producing a P10/P50/P90 balance forecast band rather than a false-precision point estimate. An LSTM
+variant is retained as a challenger given its stronger long-memory gating.
+
+\section{Baseline Discipline}
+The GRU architecture is required to outperform a seasonal-naive baseline, a SARIMAX model with an
+explicit quarter-end dummy, and a well-tuned LightGBM model on lagged and calendar features, on
+walk-forward mean absolute percentage error and pinball loss, before its added production and serving
+complexity is justified to the panel.
+
+\chapter{P5 --- A Retrieval-Augmented Generation Copilot for the Financing Desk}
+
+\section{Problem Statement}
+We build a retrieval-augmented generation (RAG) system over internal financing policy documents, desk
+commentary, and the structured outputs of the P1--P4 models, that answers trader queries with
+citations and explicitly declines to answer when evidence is insufficient.
+
+\section{Retrieval Formulation}
+Hybrid sparse-dense retrieval is used,
+\begin{equation}
+\text{score}(q,d) = \lambda \cdot \text{BM25}(q,d) + (1-\lambda)\cdot \cos\big(E(q), E(d)\big),
+\end{equation}
+followed by cross-encoder reranking of the top candidates, with $\lambda$ tuned against a
+human-labeled query/document relevance set using recall@10 as the primary retrieval metric.
+
+\section{Fine-Tuning versus Prompt Engineering: An Explicit Trade-off}
+Per the target role's requirement to \emph{evaluate and articulate trade-offs} between modeling
+approaches, we adopt a staged strategy: a prompt-engineered, retrieval-augmented system is deployed
+first to establish an evaluation harness and collect production query logs; intent classification and
+domain-jargon normalization are subsequently migrated to a small, LoRA-fine-tuned model once a
+sufficient labeled query corpus exists, while final-answer synthesis remains on a frontier base model
+with retrieval for auditability. This reflects a governance-first calculus: full fine-tuning offers
+superior domain fluency and lower marginal cost per query, but at the expense of update latency and
+audit-trail complexity relative to a prompt-plus-retrieval design whose full reasoning trace is
+visible at inference time.
+
+\section{Evaluation Harness}
+\begin{equation}
+\text{Faithfulness} = \frac{\#\{\text{claims in the answer supported by retrieved context}\}}{\#\{\text{claims in the answer}\}}.
+\end{equation}
+Faithfulness, retrieval recall@10, human-graded answer correctness against a quarterly-refreshed
+golden set, and refusal precision on out-of-scope queries are tracked continuously, with a p95
+latency service-level objective of under four seconds during trading hours.
+
+\section{Inference Infrastructure}
+Consistent with the target role's requirement to configure inference infrastructure, non-public,
+client-identifying, or desk-proprietary queries are routed to an on-premises, BMC-hosted open-weight
+model behind a request-routing layer that enforces entitlement and PII filtering prior to prompt
+assembly; only public-market-context queries are eligible for routing to an external frontier model
+endpoint.
+
+\chapter{Cross-Cutting Production and Governance Standards}
+
+\section{Validation}
+All five systems are validated exclusively on walk-forward, expanding-window splits; random
+cross-validation is explicitly avoided given the autocorrelated, event-clustered structure of
+financing time series, which would otherwise leak information across the train/validation boundary.
+
+\section{Model Risk Documentation}
+Each system carries a standard model-risk package: statement of purpose, conceptual soundness review,
+developmental evidence (in-sample and out-of-sample performance), independent outcomes analysis
+(backtesting), and an ongoing performance-monitoring plan, with a minimum two-quarter shadow period
+prior to any production promotion.
+
+\section{Monitoring and Fallback}
+Feature-level population stability index, prediction drift, and backtest breach counts are monitored
+continuously, with automatic fallback to the prior champion model on threshold breach, and canary
+release to a 5\% traffic slice prior to full production rollout.
+
+\chapter{Conclusion}
+The five systems presented — fee forecasting, margin optimization, anomaly detection, deep
+sequence-model balance forecasting, and a retrieval-augmented financing copilot — jointly span every
+modeling technique enumerated in the target job description, are each traceable to a specific desk
+P\&L or risk lever, and are each specified with a production validation and governance protocol
+suitable for a regulated cross-asset financing business. Collectively they represent a candidate
+execution plan against the stated backlog of fifty-plus prioritized problem statements, beginning with
+the ten already flagged as active priorities.
+
+\end{document}

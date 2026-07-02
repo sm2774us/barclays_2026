@@ -1,0 +1,457 @@
+2024-06-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-06-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-06-10 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-12 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-06-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-06-14 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-06-17 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-06-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-19 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-06-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-06-25 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-06-26 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-06-27 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-06-28 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-01 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-02 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-07-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-04 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-08 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-07-09 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-07-11 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-07-12 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-07-15 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-07-16 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-07-18 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-07-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-07-22 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-07-25 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-07-26 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-07-29 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-07-30 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-01 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-02 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-08-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-08-07 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-08 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-08-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-12 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-08-14 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-15 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-08-16 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-08-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-08-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-08-21 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-08-22 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-08-23 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-08-26 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-08-29 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-08-30 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-09-02 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-09-03 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-09-04 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-09-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-09-06 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-09-09 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-09-10 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-09-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-09-12 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-09-13 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-09-16 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-09-17 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-09-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-09-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-09-23 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-09-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-09-26 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-09-30 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-01 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-10-02 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-10-03 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-10-07 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-08 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-10-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-10 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-11 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-10-14 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-16 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-17 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-10-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-22 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-10-23 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-25 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-10-28 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-10-29 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-10-30 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-10-31 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-01 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-11-04 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-05 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-07 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-08 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-11 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-12 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-14 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-18 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-19 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-11-20 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-21 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-11-22 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-11-26 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-11-27 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-11-28 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-11-29 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-12-02 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-12-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-12-05 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-12-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-12-09 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-12-10 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-12-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-12 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-12-16 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-12-17 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-12-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2024-12-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2024-12-23 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-12-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2024-12-26 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2024-12-30 | GC-SOFR spread widened sharply into the close on quarter-end balance sheet pressure; dealers pulled back repo lines.
+2024-12-31 | Cross-currency basis gapped wider amid quarter-end funding demand from European banks; expect normalization post rollover.
+2025-01-02 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-01-07 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-08 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-01-09 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-01-10 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-01-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-01-14 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-01-15 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-01-17 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-23 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-01-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-27 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-01-30 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-01-31 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-03 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-04 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-06 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-07 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-02-10 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-11 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-02-12 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-13 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-14 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-02-17 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-02-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-02-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-02-24 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-26 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-02-27 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-02-28 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-03 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-04 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-03-05 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-03-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-07 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-03-11 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-12 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-03-14 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-03-17 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-03-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-03-19 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-03-20 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-03-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-25 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-03-26 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-03-27 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-03-28 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-04-01 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-02 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-04-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-04-04 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-08 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-10 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-11 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-14 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-04-15 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-16 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-04-17 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-04-18 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-04-21 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-04-23 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-04-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-04-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-04-28 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-04-29 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-04-30 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-01 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-05-02 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-05-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-07 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-08 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-05-09 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-05-12 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-14 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-05-16 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-05-19 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-05-20 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-21 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-05-22 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-05-23 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-27 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-05-28 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-05-29 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-05-30 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-06-02 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-06-03 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-06-04 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-05 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-06-06 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-09 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-06-10 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-06-12 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-06-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-16 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-17 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-06-18 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-06-19 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-06-23 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-06-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-06-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-06-26 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-06-27 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-06-30 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-01 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-02 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-07 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-08 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-07-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-07-10 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-07-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-14 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-07-15 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-07-16 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-17 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-18 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-07-22 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-23 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-07-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-07-25 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-07-28 | Cross-currency basis gapped wider amid quarter-end funding demand from European banks; expect normalization post rollover.
+2025-07-29 | CDX-cash basis moved sharply amid a broad risk-off move; desk flagged elevated recall notice volume overnight.
+2025-07-30 | GC-SOFR spread widened sharply into the close on quarter-end balance sheet pressure; dealers pulled back repo lines.
+2025-07-31 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-01 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-05 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-07 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-08 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-08-11 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-12 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-08-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-08-14 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-08-18 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-08-19 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-21 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-22 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-08-25 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-26 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-08-27 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-28 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-08-29 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-09-01 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-09-02 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-09-03 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-09-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-09-05 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-09-08 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-09-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-09-10 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-09-11 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-09-12 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-09-15 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-09-16 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-09-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-09-22 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-09-23 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-09-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-09-25 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-09-26 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-09-29 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-09-30 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-02 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-10-03 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-10-06 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-10-07 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-08 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-10-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-10 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-10-13 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-14 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-10-15 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-10-16 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-17 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-10-20 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-10-21 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-10-22 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-10-23 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-10-24 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-10-27 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-28 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-10-29 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-10-30 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-10-31 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-03 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-04 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-05 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-11-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-11-07 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-11-10 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-11 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-11-12 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-11-14 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-17 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-18 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-11-19 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-11-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-25 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-11-26 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-27 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-11-28 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-01 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-02 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-04 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-09 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-10 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-11 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-12 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-15 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-16 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-17 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-19 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-22 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-23 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2025-12-24 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-25 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-26 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2025-12-29 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2025-12-30 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2025-12-31 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-01 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-01-02 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-01-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-07 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-09 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-12 | GC-SOFR spread widened sharply into the close on quarter-end balance sheet pressure; dealers pulled back repo lines.
+2026-01-13 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-01-14 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-01-15 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-01-16 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-19 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-01-20 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-01-21 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-26 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-01-27 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-01-28 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-01-29 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-01-30 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-02-02 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-02-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-04 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-05 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-02-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-09 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-10 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-11 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-02-12 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-16 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-02-17 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-02-18 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-19 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-23 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-02-24 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-25 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-02-26 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-02-27 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-03-02 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-03 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-04 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-05 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-06 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-09 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-10 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-11 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-12 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-16 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-17 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-18 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-03-19 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-23 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-03-24 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-03-25 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-26 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-03-27 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-03-30 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-03-31 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-01 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-04-03 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-06 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-07 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-08 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-09 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-10 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-04-13 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-14 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
+2026-04-15 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-04-16 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-04-17 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-20 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-21 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-22 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-23 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-04-24 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-27 | Credit basis unchanged; IG new issuance absorbed without spread widening.
+2026-04-28 | Sec-lending desk reports stable demand; utilization flat week-over-week across the HTB book.
+2026-04-30 | Quiet session in cross-currency basis; EUR/USD 3m basis drifted 1bp tighter on modest corporate hedging flow.
+2026-05-01 | Overnight repo trading was orderly; GC-SOFR spread within normal 2bp band. No dealer balance sheet constraints noted.
