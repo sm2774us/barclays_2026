@@ -24,6 +24,7 @@ TREE-BASED MODELS                 Q12–Q14     Med     XGBoost internals, not j
 TIME SERIES / FORECASTING         Q15–Q19     High    Financing curve is a time-series problem
 DEEP LEARNING (NN/MLP/RNN/LSTM)   Q20–Q27     High    Core JD requirement — go deep
 SYSTEM DESIGN / STRATEGY          Q28–Q30     High    "Build AI/ML capability from the ground up"
+TAKE HOME PROJECTS                P1-P5       High    "Research and Present"
 ```
 
 > **Priority rule:** Liquid Financing spans Equities & Delta One, Rate/Credit Financing, FX, Risk, Futures & Prime Derivatives. Rishi's own background is electronification/eTrading — expect him to push hardest on **time series forecasting for pricing curves (repo/financing spreads)**, **RNN/LSTM sequence modeling**, and **Gen AI infra** (the team explicitly uses Claude Code). Have Q15–Q27 cold; Q1–Q3 and Q28–Q30 are where you differentiate as someone who ships, not just researches.
@@ -76,7 +77,7 @@ SYSTEM DESIGN / STRATEGY          Q28–Q30     High    "Build AI/ML capability 
 - [Q29 · Bayesian Inference for Regime-Adaptive Position Sizing](#q29--bayesian-inference-for-regime-adaptive-position-sizing)
 - [Q30 · Building an AI/ML Capability From Zero — the Greenfield Roadmap](#q30--building-an-aiml-capability-from-zero--the-greenfield-roadmap)
 
-## ⏱️ TAKE HOME PROJECTS
+### 🏗️ TAKE HOME PROJECTS
 - **P1 · Securities-Lending Fee & Rebate-Rate Forecasting**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-1-securities-lending-fee--rebate-rate-forecasting)**
   - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p1--securities-lending-fee--rebate-rate-forecasting)**
@@ -89,9 +90,9 @@ SYSTEM DESIGN / STRATEGY          Q28–Q30     High    "Build AI/ML capability 
 - **P4 · Prime Balance & Utilization Forecasting (Deep Learning)**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-4-prime-balance--utilization-forecasting-deep-learning)**
   - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p4--prime-balance--utilization-forecasting-deep-learning)**
-- [P5 · RAG Financing-Desk Copilot (GenAI / LLM)](#p5--rag-financing-desk-copilot-genai--llm)
-  - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-4-prime-balance--utilization-forecasting-deep-learning)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p4--prime-balance--utilization-forecasting-deep-learning)**
+- **P5 · RAG Financing-Desk Copilot (GenAI / LLM)**
+  - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-5-rag-financing-desk-copilot-genai)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p5--rag-financing-desk-copilot-genai--llm)**
 
 - **[Quick-Reference Equation Sheet](#quick-reference-equation-sheet)**
 
