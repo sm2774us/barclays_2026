@@ -1008,7 +1008,13 @@ $$\frac{\partial S_{\text{ridge}}}{\partial\beta} = -2X^\top y + 2X^\top X\beta 
 
 **Lasso — no closed form, subgradient condition.** The $\ell_1$ penalty $\lambda\lVert\beta\rVert_1$ is non-differentiable at 0. The KKT/subgradient stationarity condition for coordinate $j$:
 
-$$-2x_j^\top(y - X\beta) + \lambda\, s_j = 0, \quad s_j \in \begin{cases}\{\text{sign}(\beta_j)\} & \beta_j\neq 0\\ [-1,1] & \beta_j = 0\end{cases}$$
+$$
+-2x_j^\top(y - X\beta) + \lambda\, s_j = 0, \quad s_j \in 
+\begin{cases}
+\{\text{sign}(\beta_j)\} & \beta_j\neq 0 \\
+[-1,1] & \beta_j = 0
+\end{cases}
+$$
 
 This is why Lasso produces **exact sparsity**: whenever the correlation of a feature with the residual is smaller in magnitude than $\lambda/2$, the optimal $\beta_j$ is driven exactly to 0 (a corner solution of the $\ell_1$ ball), unlike Ridge's smooth, everywhere-differentiable penalty which shrinks but never zeroes out.
 
@@ -1121,7 +1127,7 @@ $$\text{Var}(\hat\beta) = (X^\top X)^{-1}X^\top \Omega X (X^\top X)^{-1}, \qquad
 
 $$\widehat{X^\top\Omega X} = \sum_{t=1}^n \hat\varepsilon_t^2 x_t x_t^\top + \sum_{l=1}^{L}\left(1-\frac{l}{L+1}\right)\sum_{t=l+1}^{n}\hat\varepsilon_t\hat\varepsilon_{t-l}\big(x_t x_{t-l}^\top + x_{t-l}x_t^\top\big)$$
 
-**Say it out loud:** *"The first term is the standard heteroskedasticity-robust (White) correction — weight each observation's contribution by its own squared residual instead of assuming a common $\sigma^2$. The second term adds cross-products of residuals at lags 1 through $L$, down-weighted linearly (the Bartlett kernel) so more distant lags contribute less — this captures the fact that today's residual is correlated with yesterday's, which OLS otherwise ignores entirely."* The lag truncation $L$ is typically set via $L = \lfloor 4(n/100)^{2/9}\rfloor$ (Newey-West's rule of thumb) to guarantee the resulting matrix stays positive semi-definite.
+**Say it out loud:** **"The first term is the standard heteroskedasticity-robust (White) correction — weight each observation's contribution by its own squared residual instead of assuming a common $\sigma^2$. The second term adds cross-products of residuals at lags 1 through $L$, down-weighted linearly (the Bartlett kernel) so more distant lags contribute less — this captures the fact that today's residual is correlated with yesterday's, which OLS otherwise ignores entirely."** The lag truncation **$L$** is typically set via **$L = \lfloor 4(n/100)^{2/9}\rfloor$** (Newey-West's rule of thumb) to guarantee the resulting matrix stays positive semi-definite.
 
 ```python
 """Newey-West HAC standard errors for OLS coefficients."""
@@ -1568,7 +1574,7 @@ which requires $\alpha+\beta<1$ for stationarity — **the persistence parameter
 
 $$\ln(\sigma_t^2) = \omega + \beta\ln(\sigma_{t-1}^2) + \alpha\left(\frac{|\varepsilon_{t-1}|}{\sigma_{t-1}} - \mathbb{E}\left[\frac{|\varepsilon_{t-1}|}{\sigma_{t-1}}\right]\right) + \gamma\frac{\varepsilon_{t-1}}{\sigma_{t-1}}$$
 
-**Say it out loud:** *"Modeling log-variance guarantees positivity automatically — no need to constrain $\omega,\alpha,\beta \geq 0$ like plain GARCH. The $\gamma$ term is the asymmetry: because it multiplies the **signed** standardized shock rather than its absolute value, a negative shock ($\varepsilon_{t-1}<0$) with $\gamma<0$ adds positive log-variance — 'bad news raises vol more than good news of the same magnitude,' exactly the leverage effect."*
+**Say it out loud:** **"Modeling log-variance guarantees positivity automatically — no need to constrain $\omega,\alpha,\beta \geq 0$ like plain GARCH. The $\gamma$ term is the asymmetry: because it multiplies the **signed** standardized shock rather than its absolute value, a negative shock ($\varepsilon_{t-1}<0$) with $\gamma<0$ adds positive log-variance — 'bad news raises vol more than good news of the same magnitude,' exactly the leverage effect."**
 
 ```python
 """GARCH(1,1) log-likelihood estimation via scipy MLE, from scratch."""
@@ -1660,7 +1666,7 @@ $$\alpha_t(j) = b_j(x_t)\sum_{i=1}^K \alpha_{t-1}(i)A_{ij}, \qquad \alpha_1(j) =
 
 $$\delta_t(j) = b_j(x_t)\max_{i}\big[\delta_{t-1}(i)A_{ij}\big], \qquad \psi_t(j)=\arg\max_i\big[\delta_{t-1}(i)A_{ij}\big]$$
 
-**Say it out loud:** *"$\delta_t(j)$ is the probability of the single best path that ends in state $j$ at time $t$ — we build it up recursively: to be in state $j$ optimally at time $t$, you must have arrived from whichever prior state $i$ maximized $\delta_{t-1}(i)A_{ij}$, then multiply by how well state $j$ explains the current observation. The backpointer $\psi_t(j)$ remembers which $i$ won, so a final backward pass from $\arg\max_j \delta_T(j)$ reconstructs the whole optimal regime path."*
+**Say it out loud:** **"$\delta_t(j)$ is the probability of the single best path that ends in state $j$ at time $t$ — we build it up recursively: to be in state $j$ optimally at time $t$, you must have arrived from whichever prior state $i$ maximized $\delta_{t-1}(i)A_{ij}$, then multiply by how well state $j$ explains the current observation. The backpointer $\psi_t(j)$ remembers which $i$ won, so a final backward pass from $\arg\max_j \delta_T(j)$ reconstructs the whole optimal regime path."**
 
 **Baum-Welch (EM)** alternates: E-step computes $\gamma_t(j)=P(s_t=j\mid X,\theta)$ and $\xi_t(i,j)=P(s_t=i,s_{t+1}=j\mid X,\theta)$ via forward-backward; M-step re-estimates:
 
@@ -2056,7 +2062,7 @@ $$\sigma(z)=\frac{1}{1+e^{-z}}, \quad \sigma'(z)=\sigma(z)(1-\sigma(z)) \le 0.25
 
 $$\frac{\partial \mathcal{L}}{\partial W^{(1)}} \propto \prod_{l=2}^{L}\Big[(W^{(l)})^\top \odot \sigma'(z^{(l)})\Big]$$
 
-**Say it out loud:** *"Each factor in that product includes $\sigma'(z^{(l)})$, which for sigmoid is bounded above by $0.25$ — multiply 20 such factors and the gradient magnitude shrinks by roughly $0.25^{20}\approx 10^{-12}$, i.e., early layers essentially stop learning. ReLU's derivative is exactly 1 wherever the unit is active, so it doesn't systematically shrink gradients through depth — at the cost of a new failure mode, 'dying ReLU,' where a unit that goes permanently negative has zero gradient forever."*
+**Say it out loud:** **"Each factor in that product includes $\sigma'(z^{(l)})$, which for sigmoid is bounded above by $0.25$ — multiply 20 such factors and the gradient magnitude shrinks by roughly $0.25^{20}\approx 10^{-12}$, i.e., early layers essentially stop learning. ReLU's derivative is exactly 1 wherever the unit is active, so it doesn't systematically shrink gradients through depth — at the cost of a new failure mode, 'dying ReLU,' where a unit that goes permanently negative has zero gradient forever."**
 
 ```
 ACTIVATION   RANGE        MAX |DERIVATIVE|   FAILURE MODE
@@ -2297,7 +2303,7 @@ $$z_t = \sigma(W_z[h_{t-1},x_t]) \quad\text{(update gate — merges LSTM's forge
 $$r_t = \sigma(W_r[h_{t-1},x_t]) \quad\text{(reset gate)}$$
 $$\tilde h_t = \tanh(W[r_t\odot h_{t-1}, x_t]) \qquad h_t = (1-z_t)\odot h_{t-1} + z_t\odot \tilde h_t$$
 
-**Say it out loud:** *"GRU collapses LSTM's separate cell state and hidden state into one, and collapses the forget/input gates into a single update gate $z_t$ that directly interpolates between the old hidden state and a new candidate — no separate 'memory conveyor belt,' just a convex combination each step. This costs one fewer gate (3 weight matrices vs. LSTM's 4), roughly 25% fewer parameters, faster to train, and empirically matches LSTM performance on many tasks — but LSTM's separate cell state can be advantageous for very long sequences where you want finer-grained control over what's remembered vs. what's exposed to downstream layers."*
+**Say it out loud:** **"GRU collapses LSTM's separate cell state and hidden state into one, and collapses the forget/input gates into a single update gate $z_t$ that directly interpolates between the old hidden state and a new candidate — no separate 'memory conveyor belt,' just a convex combination each step. This costs one fewer gate (3 weight matrices vs. LSTM's 4), roughly 25% fewer parameters, faster to train, and empirically matches LSTM performance on many tasks — but LSTM's separate cell state can be advantageous for very long sequences where you want finer-grained control over what's remembered vs. what's exposed to downstream layers."**
 
 ```
 DIMENSION           LSTM                              GRU
@@ -2323,7 +2329,7 @@ When to prefer        Long sequences, ample compute       Latency-sensitive prod
 
 $$\tilde a_j = \frac{m_j}{1-p}\, a_j, \qquad m_j \sim \text{Bernoulli}(1-p)$$
 
-**Say it out loud:** *"The $1/(1-p)$ scaling is 'inverted dropout' — it rescales the surviving activations at **train** time so that the **expected** activation matches what it would be at test time with no dropout at all, meaning inference requires zero changes to the forward pass."* Mechanistically, dropout prevents co-adaptation: a unit can't rely on any specific set of other units always being present, which is mathematically equivalent to training an implicit ensemble of $2^h$ thinned sub-networks that share weights, averaged at test time.
+**Say it out loud:** *"The **$1/(1-p)$** scaling is 'inverted dropout' — it rescales the surviving activations at **train** time so that the **expected** activation matches what it would be at test time with no dropout at all, meaning inference requires zero changes to the forward pass."* Mechanistically, dropout prevents co-adaptation: a unit can't rely on any specific set of other units always being present, which is mathematically equivalent to training an implicit ensemble of **$2^h$** thinned sub-networks that share weights, averaged at test time.
 
 **Batch Normalization.** For a mini-batch $\mathcal{B}=\{z_1,\dots,z_m\}$ of pre-activations for one unit:
 
