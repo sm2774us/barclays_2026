@@ -1666,7 +1666,7 @@ $$\alpha_t(j) = b_j(x_t)\sum_{i=1}^K \alpha_{t-1}(i)A_{ij}, \qquad \alpha_1(j) =
 
 $$\delta_t(j) = b_j(x_t)\max_{i}\big[\delta_{t-1}(i)A_{ij}\big], \qquad \psi_t(j)=\arg\max_i\big[\delta_{t-1}(i)A_{ij}\big]$$
 
-**Say it out loud:** **"$\delta_t(j)$ is the probability of the single best path that ends in state $j$ at time $t$ — we build it up recursively: to be in state $j$ optimally at time $t$, you must have arrived from whichever prior state $i$ maximized $\delta_{t-1}(i)A_{ij}$, then multiply by how well state $j$ explains the current observation. The backpointer $\psi_t(j)$ remembers which $i$ won, so a final backward pass from $\arg\max_j \delta_T(j)$ reconstructs the whole optimal regime path."**
+**Say it out loud:** **"$\delta_{t}(j)$ is the probability of the single best path that ends in state $j$ at time $t$ — we build it up recursively: to be in state $j$ optimally at time $t$, you must have arrived from whichever prior state $i$ maximized $\delta_{t-1}(i)A_{ij}$, then multiply by how well state $j$ explains the current observation. The backpointer $\psi_t(j)$ remembers which $i$ won, so a final backward pass from $\arg\max_j \delta_T(j)$ reconstructs the whole optimal regime path."**
 
 **Baum-Welch (EM)** alternates: E-step computes $\gamma_t(j)=P(s_t=j\mid X,\theta)$ and $\xi_t(i,j)=P(s_t=i,s_{t+1}=j\mid X,\theta)$ via forward-backward; M-step re-estimates:
 
