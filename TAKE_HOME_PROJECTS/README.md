@@ -1,609 +1,303 @@
-# Barclays — AI/ML Modeler, Liquid Financing
-### Take-Home Research Portfolio · 5 Production-Grade ML/GenAI Case Studies
-#### Cross-Asset Financing: Equities & Delta One · Rate & Credit Financing · FX · Risk · Futures & Prime Derivatives
-
-> **Delivery philosophy:** Liquid Financing is a *funding-cost and balance-sheet* business first, a modeling business second. Every project below opens with the P&L or risk lever it moves, states the modeling approach with math as evidence, and closes with a production deployment path (data contracts, retraining cadence, monitoring, model risk sign-off) — because a VP-level AI/ML Modeler here is expected to ship into the firm's production codebase, not hand off a notebook.
+# Liquid Financing — AI/ML Modeler Take-Home
+### Barclays · Institutional-Grade Reference Solutions (Python 3.13)
 
 ---
 ---
 
-[↩️ Back to README.md](../README.md)
+[↩️ Back to PROBLEMS.md](./PROBLEMS.md)
 
 ---
 ---
 
-## ⏱️ Interview Session Budget (60 minutes, 5 QR/Traders)
+## 0. What This Repository Is
+
+Five production-grade reference solutions to the take-home briefs in `PROBLEMS.md`, engineered to the
+standard a Citadel or Jane Street quant would expect to walk into a live production system, not a
+Kaggle-leaderboard notebook. Every model is:
+
+- **Backed by a named academic result**, not folklore — Conformalized Quantile Regression (Romano,
+  Patterson & Candès, 2019), the Kupiec (1995) and Christoffersen (1998) VaR backtests, Reciprocal Rank
+  Fusion (Cormack, Clarke & Buettcher, 2009), Isolation Forest (Liu, Ting & Zhou, 2008), BM25 (Robertson
+  & Zaragho, 2009).
+- **Validated the way a desk actually validates** — walk-forward, expanding-window splits only; never a
+  random K-fold, because financing time series are serially autocorrelated and event-clustered, and a
+  random split leaks future information across the train/validation boundary.
+- **Governed the way a regulated model actually ships** — floor/cap clipping, PSI drift monitoring,
+  champion/challenger shadow periods, and explicit fallback logic are part of the code, not an
+  afterthought in a slide.
+
+---
+
+## 1. Environment Setup
+
+### Option A — `uv` (recommended)
+
+```bash
+uv venv --python 3.13
+source .venv/bin/activate
+uv pip install -e ".[dev]"
+uv run jupyter nbconvert --to notebook --execute --output notebook.ipynb notebook.ipynb
+uv run pytest tests/ -q
+```
+
+### Option B — plain `pip`
+
+```bash
+python3.13 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter nbconvert --to notebook --execute --output notebook.ipynb notebook.ipynb
+```
+
+### `requirements.txt` contents
 
 ```
-PROJECT   TOPIC                                   TIME     PANEL LENS
-────────  ──────────────────────────────────────  ───────  ──────────────────────────────────
-P1        Sec-Lending Fee & Rebate Forecasting     10 min   Time-series / financing desk P&L
-P2        Client Margin & Haircut Optimization     10 min   Credit risk + regression, model risk
-P3        Funding-Spread Anomaly Detection          8 min   Unsupervised + NLP, market surveillance
-P4        Prime Balance Forecasting (DL)           10 min   RNN/LSTM/GRU, capacity planning
-P5        RAG Financing-Desk Copilot (GenAI)       12 min   LLM fine-tuning, prompt eng., infra
-Q&A / Roadmap tie-back                              10 min   Business alignment, 50+ backlog fit
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+lightgbm>=4.3
+scipy>=1.13
+statsmodels>=0.14
+torch>=2.3
+plotly>=5.22
+kaleido>=0.2.1,<1.0   # static PNG export without a live Chrome dependency
+jupyter>=1.0
+nbconvert>=7.16
+pytest>=8.2
 ```
 
-> **Priority rule:** The JD calls out Gen AI (fine-tuning, RAG, eval), regression (OLS/LASSO/Elastic Net), tree models, time-series/pricing, and DL (MLP/RNN/LSTM/GRU) *by name*. Each project below is deliberately mapped to at least one of those bullet points so no requirement in the JD is left uncovered.
+### Running the notebook
+
+```bash
+jupyter notebook notebook.ipynb
+# — or, to regenerate all outputs and charts headlessly —
+jupyter nbconvert --to notebook --execute --output notebook.ipynb notebook.ipynb
+```
+
+The notebook imports directly from `src/liquid_financing/`, so **the modules are the source of truth**;
+the notebook is a thin, chart-producing driver over them. This mirrors how a real desk would structure a
+take-home submission — code that survives being imported into a production repo, with the notebook as a
+presentation layer on top.
 
 ---
 
-## Table of Contents
-
-- [P1 · Securities-Lending Fee & Rebate-Rate Forecasting](#p1--securities-lending-fee--rebate-rate-forecasting)
-- [P2 · Client Margin & Haircut Optimization](#p2--client-margin--haircut-optimization)
-- [P3 · Cross-Asset Funding-Spread Anomaly Detection](#p3--cross-asset-funding-spread-anomaly-detection)
-- [P4 · Prime Balance & Utilization Forecasting (Deep Learning)](#p4--prime-balance--utilization-forecasting-deep-learning)
-- [P5 · RAG Financing-Desk Copilot (GenAI / LLM)](#p5--rag-financing-desk-copilot-genai--llm)
-- [Cross-Project Production Standards](#cross-project-production-standards)
-- [Quick-Reference Equation Sheet](#quick-reference-equation-sheet)
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# P1 · Securities-Lending Fee & Rebate-Rate Forecasting
-
-**Open with the business framing (15 seconds):**
-> "Liquid Financing earns the spread between what we pay to borrow a security (or the rebate we pay on cash collateral) and what we charge the client. That spread is not static — it moves with utilization, days-to-cover on the short side, and corporate-action calendars (dividends, index rebalances). If I can forecast the *fee curve* a few days ahead, the desk can pre-position inventory and price new loans correctly instead of reactively re-pricing after a squeeze."
-
-## Problem Statement
-
-Forecast the **daily specialness fee** $f_{i,t}$ (annualized bps over the general-collateral rate) for a universe of ~2,000 hard-to-borrow (HTB) equities, 1–5 business days ahead, to feed the pre-trade pricing engine for Equities & Delta One financing.
-
-## Data & Features
+## 2. Repository Layout
 
 ```
-FEATURE GROUP            EXAMPLES
-────────────────────     ──────────────────────────────────────────────────
-Utilization               Loan qty / Lendable qty, %-of-float on loan
-Availability              Lendable supply, # of active lenders
-Short-interest proxies    FINRA-style short interest, days-to-cover
-Corporate actions         T-2 to T+2 dividend record-date flag, index add/drop
-Rate context               GC rate, SOFR, term structure of rebate
-Market microstructure     Borrow-request rejection rate, recall notices/day
+.
+├── README.md                     (this file)
+├── PROBLEMS.md                   (unmodified — the original take-home briefs)
+├── notebook.ipynb                (GitHub-renderable driver notebook, Plotly HTML+PNG outputs)
+├── dissertation.tex / .pdf       (PhD-dissertation-style extended writeup, with embedded PNG figures)
+├── requirements.txt / pyproject.toml
+├── src/liquid_financing/
+│   ├── __init__.py
+│   ├── plotting.py               shared Plotly house-style + HTML/PNG persistence
+│   ├── p1_fee_forecasting.py     Elastic Net + Quantile-LightGBM + Conformal calibration
+│   ├── p2_margin_optimization.py LASSO haircut + GBM add-on + Kupiec/Christoffersen backtests
+│   ├── p3_anomaly_detection.py   Robust Mahalanobis + Isolation Forest + TF-IDF stress classifier
+│   ├── p4_balance_forecasting.py Seasonal-Naive / SARIMAX / LightGBM / GRU quantile seq2seq
+│   └── p5_rag_copilot.py         BM25 + TF-IDF hybrid retrieval, Reciprocal Rank Fusion, grounded synthesis
+├── data/
+│   ├── sec_lending_panel.csv, collateral_universe.csv, client_portfolios.csv
+│   ├── funding_spreads.csv, desk_commentary.txt
+│   ├── prime_balances.csv, prime_balances_by_client.csv
+│   ├── policy_docs/  (haircut_policy_v7.txt, financing_rate_policy_v4.txt)
+│   └── desk_notes/   (4 dated desk notes)
+└── charts/                       every Plotly figure, as both .html (interactive) and .png (static)
 ```
-
-## Modeling Approach — Three Tiers (per JD: OLS/LASSO/Elastic Net, Tree, Time-Series)
-
-**Tier 1 — Elastic Net baseline (interpretable, model-risk-friendly):**
-
-$$
-\hat{f}_{i,t+h} = \beta_0 + \sum_{k=1}^{K}\beta_k x_{k,i,t} + \lambda_1\lVert\beta\rVert_1 + \lambda_2\lVert\beta\rVert_2^2
-$$
-
-**Say it out loud:** *"Elastic Net gives us a defensible, auditable linear benchmark — L1 does feature selection across our ~40 utilization/microstructure features so Model Risk can see exactly which drivers survive, L2 handles the multicollinearity between utilization and days-to-cover."*
-
-**Tier 2 — Gradient-boosted trees (LightGBM) for non-linear regime capture:**
-
-$$
-\hat{f}^{GBM}_{i,t+h} = \sum_{m=1}^{M} \gamma_m \, h_m(x_{i,t}), \qquad h_m = \arg\min_h \sum_i L\!\left(f_{i,t+h}, F_{m-1}(x_i) + h(x_i)\right)
-$$
-
-Trees capture the **threshold effect** in specialness: fees are near-flat until utilization crosses ~90%, then convex. A linear model cannot express this kink; a shallow tree ensemble does natively.
-
-**Tier 3 — Time-series overlay (state-space) for the fee's own autocorrelation and event decay:**
-
-$$
-f_{i,t} = \mu_i + \phi (f_{i,t-1}-\mu_i) + \sum_{j} \kappa_j \, \mathbb{1}[\text{event}_{j,t}]\, e^{-\eta_j (t-t_j)} + \varepsilon_t
-$$
-
-An Ornstein–Uhlenbeck-style mean reversion term plus exponentially-decaying event kernels for dividend record dates and index rebalances, which are the two most predictable specialness spikes on the desk.
-
-```
-FEE DYNAMICS AROUND A DIVIDEND RECORD DATE (STYLIZED)
-
-  Fee (bps)
-  120 │                        ▄▄█▓▓
-   90 │                     ▄▓█████▓▓▄
-   60 │                  ▄▓████████████▓▄
-   30 │▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▓██████████████████▓▄▄▁▁▁▁▁▁
-    0 └──────────────┬───────┬───────┬─────────────
-                    T-3     T-1(rec) T+2
-              Utilization    Peak    Decay (η≈0.6/day)
-              climbs         squeeze  as shorts unwind
-```
-
-## Ensembling & Blend
-
-$$
-\hat{f}_{i,t+h} = w_1 \hat{f}^{EN} + w_2 \hat{f}^{GBM} + w_3 \hat{f}^{TS}, \qquad \sum w = 1
-$$
-
-Weights fit via constrained least squares on a rolling out-of-sample window (walk-forward, never a random K-fold — fee data is autocorrelated and event-clustered).
-
-```python
-import lightgbm as lgb
-from sklearn.linear_model import ElasticNetCV
-import numpy as np
-
-def train_fee_ensemble(X_train, y_train, X_val, y_val):
-    """
-    Three-tier fee forecasting ensemble for HTB securities lending.
-    X_train columns: utilization, days_to_cover, dividend_flag, gc_spread, ...
-    """
-    # Tier 1: Elastic Net (auditable baseline)
-    en = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, 1], cv=5, max_iter=5000)
-    en.fit(X_train, y_train)
-
-    # Tier 2: LightGBM (non-linear utilization threshold effects)
-    gbm = lgb.LGBMRegressor(
-        n_estimators=600, num_leaves=31, learning_rate=0.03,
-        subsample=0.8, colsample_bytree=0.8, objective="regression_l1"
-    )
-    gbm.fit(X_train, y_train, eval_set=[(X_val, y_val)],
-            callbacks=[lgb.early_stopping(50)])
-
-    preds = np.column_stack([en.predict(X_val), gbm.predict(X_val)])
-    # Non-negative least squares blend weight (constrained, sums to 1 downstream)
-    from scipy.optimize import nnls
-    w, _ = nnls(preds, y_val)
-    w = w / w.sum()
-    return en, gbm, w
-
-def forecast(en, gbm, w, X_new):
-    p = np.column_stack([en.predict(X_new), gbm.predict(X_new)])
-    return p @ w
-```
-
-## Evaluation
-
-| Metric | Why it matters for financing desk |
-|---|---|
-| Weighted MAPE (weighted by loan notional) | $ impact, not per-name accuracy |
-| Directional hit-rate on fee *changes* > 25bps | Desk cares about repricing triggers, not absolute level |
-| Pinball loss at 10th/90th quantile | Tail risk on squeeze days — feeds VaR-style inventory buffer |
-| PSI (population stability index) on features, monthly | Drift monitor for Model Risk |
-
-**Deployment:** batch daily at 5:30am ET into the pre-trade pricing cache; GBM + EN retrained weekly, blend weights refit monthly; automatic fallback to EN-only if GBM feature PSI > 0.25.
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# P2 · Client Margin & Haircut Optimization
-
-**Open with the business framing:**
-> "Margin is capital efficiency for the client and credit protection for the bank — every bps of over-margining is client attrition risk, every bps of under-margining is unhedged tail loss. This is a regression + tree-model problem with a credit-risk objective function, and it needs to be explainable enough to survive a Model Risk review and a client dispute."
-
-## Problem Statement
-
-Given a client's collateral basket (cross-asset: equities, FI, FX forwards, futures) predict the **required initial margin (IM)** haircut per asset such that predicted 99% 5-day VaR of the *liquidation* shortfall is covered, while minimizing over-collateralization versus the current SPAN/rules-based haircut grid.
-
-## Modeling Approach
-
-**Step 1 — OLS/LASSO baseline on log-volatility and liquidity features:**
-
-$$
-\log h_i = \beta_0 + \beta_1 \log\sigma_i + \beta_2 \log(\text{ADV}_i) + \beta_3 \, \text{Corr}_{i,\text{mkt}} + \beta_4\,\text{Rating}_i + \varepsilon_i, \quad \hat\beta = \arg\min_\beta \lVert y - X\beta\rVert_2^2 + \lambda\lVert\beta\rVert_1
-$$
-
-LASSO shrinks the ~60 candidate liquidity/vol/correlation features to the ~12 that survive Model Risk challenge — critical because every surviving coefficient must have a plausible economic sign story in the model documentation.
-
-**Step 2 — Random Forest / Gradient Boosted Trees for the *portfolio-level* concentration and correlation-breakdown effect that a linear per-asset haircut cannot express:**
-
-$$
-\text{IM}_{portfolio} = \underbrace{\sum_i h_i \cdot |q_i| \cdot P_i}_{\text{linear component}} + \underbrace{g_{\theta}(\mathbf{q}, \boldsymbol{\Sigma}, \text{concentration})}_{\text{tree-learned correlation-breakdown add-on}}
-$$
-
-where $g_\theta$ is a GBM trained to predict the *historical simulation shortfall residual* not explained by the linear component — this is the piece that captures "correlations go to 1 in a stress move," which is exactly the failure mode 2008/2020 punished rules-based grids for.
-
-```
-MARGIN MODEL ARCHITECTURE
-
-  Client Portfolio
-        │
-        ▼
-  ┌─────────────────┐     ┌──────────────────────┐
-  │ Per-Asset Linear │     │ Portfolio GBM         │
-  │ Haircut (LASSO)  │ ──▶ │ Concentration/Corr Add-on │
-  └─────────────────┘     └──────────────────────┘
-        │                          │
-        └───────────┬──────────────┘
-                     ▼
-          Required IM  (floor: rules-based grid,
-                         cap: 99% 5-day historical-sim VaR × 1.2)
-```
-
-## Constrained Optimization Layer
-
-The ML output is never used raw — it is clipped by a governance floor/cap, and the *objective* the model is trained against is:
-
-$$
-\min_h \; \mathbb{E}\big[\text{Capital Cost}(h)\big] \quad \text{s.t.} \quad \Pr\big(\text{Shortfall}_{5d} > h \cdot V\big) \le 1\%
-$$
-
-```python
-from sklearn.linear_model import LassoCV
-from sklearn.ensemble import GradientBoostingRegressor
-import numpy as np
-
-def fit_margin_model(X_asset, y_haircut, X_portfolio, y_shortfall_residual):
-    # Linear, auditable per-asset haircut
-    lasso = LassoCV(cv=5, n_alphas=100).fit(X_asset, np.log(y_haircut))
-
-    # Tree-based portfolio correlation-breakdown add-on
-    gbm = GradientBoostingRegressor(
-        n_estimators=400, max_depth=3, learning_rate=0.02,
-        loss="huber", alpha=0.9  # robust to fat-tailed shortfall residuals
-    ).fit(X_portfolio, y_shortfall_residual)
-
-    return lasso, gbm
-
-def required_im(lasso, gbm, X_asset, qty, price, X_portfolio, rules_floor, var99_cap):
-    per_asset_haircut = np.exp(lasso.predict(X_asset))
-    linear_im = np.sum(per_asset_haircut * np.abs(qty) * price)
-    addon = max(gbm.predict(X_portfolio)[0], 0)
-    im = linear_im + addon
-    return float(np.clip(im, rules_floor, var99_cap))
-```
-
-## Backtesting Discipline
-
-- **Kupiec POF + Christoffersen independence tests** on daily VaR breach counts — this is what Model Risk will ask for first.
-- Walk-forward, expanding window, re-estimated quarterly; frozen champion/challenger comparison for 2 full quarters before promotion.
-- Stress overlay: 2008 GFC, Mar-2020 COVID, 2023 regional-bank scenario replay on current book.
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# P3 · Cross-Asset Funding-Spread Anomaly Detection
-
-**Open with the business framing:**
-> "The financing desk's biggest tail risk isn't a bad forecast, it's *not noticing* a funding-spread dislocation until it's already cost money. This project fuses a statistical anomaly detector on cross-asset basis/spread time series with an NLP layer that reads overnight repo-market commentary, so the model can distinguish 'this is noise' from 'this is the start of a squeeze.'"
-
-## Problem Statement
-
-Flag anomalous divergence across the repo/rebate/CDS-basis/cross-currency-basis complex that Liquid Financing prices off, in real time, ranked by likely P&L impact, with a natural-language rationale a trader can act on in under 30 seconds.
-
-## Statistical Layer — Robust Multivariate Anomaly Score
-
-$$
-z_t = \left(\mathbf{x}_t - \boldsymbol{\mu}_t\right)^{\top} \boldsymbol{\Sigma}_t^{-1} \left(\mathbf{x}_t - \boldsymbol{\mu}_t\right)
-$$
-
-Mahalanobis distance on an EWMA-estimated $(\boldsymbol{\mu}_t, \boldsymbol{\Sigma}_t)$ across the spread vector $\mathbf{x}_t$ = {GC-SOFR spread, sec-lending fee index, cross-ccy basis, CDX-cash basis}, robustified with a Minimum Covariance Determinant estimator so a single dislocated series doesn't blow up the whole covariance matrix.
-
-An **Isolation Forest** runs in parallel as a non-parametric cross-check (handles regime-dependent non-Gaussianity better than Mahalanobis alone):
-
-$$
-s(x) = 2^{-\frac{E[h(x)]}{c(n)}}
-$$
-
-where $E[h(x)]$ is average path length to isolate $x$ across the forest — scores near 1 are anomalies.
-
-## NLP Layer — Repo Market Commentary Classification (Gen AI per JD)
-
-Overnight desk notes / news wires are embedded and classified into {benign, funding-stress, idiosyncratic, macro-driven} using a fine-tuned small transformer (or prompt-engineered LLM call as the lower-cost tier), then fused with the statistical anomaly score:
-
-$$
-\text{Alert Score}_t = \alpha \cdot \text{sigmoid}(z_t - z^{*}) + (1-\alpha)\cdot p(\text{stress}\mid \text{text}_t)
-$$
-
-```
-ANOMALY-TO-ALERT PIPELINE
-
-  Spread Time Series ──▶ EWMA Mahalanobis ──┐
-                                             ├──▶ Alert Score ──▶ Ranked
-  Overnight Commentary ──▶ LLM Classifier ───┘                  Trader Queue
-       (RAG over desk           (fine-tuned or
-        precedent notes)         prompted, JSON-schema output)
-```
-
-```python
-import numpy as np
-from sklearn.covariance import MinCovDet
-from sklearn.ensemble import IsolationForest
-
-class FundingSpreadMonitor:
-    def __init__(self, halflife=10):
-        self.halflife = halflife
-        self.mcd = MinCovDet(support_fraction=0.75)
-        self.iforest = IsolationForest(n_estimators=300, contamination=0.02, random_state=7)
-
-    def fit(self, X_hist: np.ndarray):
-        self.mcd.fit(X_hist)
-        self.iforest.fit(X_hist)
-        return self
-
-    def score(self, x_t: np.ndarray) -> dict:
-        maha = self.mcd.mahalanobis(x_t.reshape(1, -1))[0]
-        iso = -self.iforest.score_samples(x_t.reshape(1, -1))[0]  # higher = more anomalous
-        z = maha ** 0.5
-        return {"mahalanobis_z": float(z), "isolation_score": float(iso)}
-
-def fuse_with_text_signal(stat_score: dict, p_stress_text: float, alpha: float = 0.6) -> float:
-    stat_sig = 1 / (1 + np.exp(-(stat_score["mahalanobis_z"] - 3.0)))  # sigmoid centered at z*=3
-    return float(alpha * stat_sig + (1 - alpha) * p_stress_text)
-```
-
-## Human-in-the-Loop Design
-
-Every alert above threshold routes to a trader queue with (a) the driving spread series chart, (b) the top-3 SHAP-attributed features from the statistical model, (c) the LLM's one-paragraph rationale with citations to the source commentary — **never** an auto-executed action. Alert precision/recall tracked weekly against trader-labeled outcomes; threshold retuned via a Neyman-Pearson-style cost ratio (false-negative cost ≫ false-positive cost on this desk).
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# P4 · Prime Balance & Utilization Forecasting (Deep Learning)
-
-**Open with the business framing:**
-> "Balance sheet is the scarcest resource in Liquid Financing — every quarter-end, Treasury wants a forecast of client balances and utilization so the desk isn't caught flat-footed on RWA/LCR optimization. This is a genuinely sequential problem: balances have daily seasonality, month-end/quarter-end window-dressing effects, and multi-week momentum — which is exactly the regime where RNN/LSTM/GRU beat both ARIMA and gradient-boosted trees on a rolling basis, per the JD's DL requirement."
-
-## Problem Statement
-
-Forecast daily aggregate client financing balances and utilization ratio, 1–20 business days ahead, by asset class and by top-20 client concentration, with explicit quarter-end spike/reversal modeling for Treasury's RWA and LCR planning.
-
-## Architecture
-
-$$
-h_t = \text{GRU}(x_t, h_{t-1}), \qquad \hat{y}_{t+1:t+H} = W_o \, h_T + b_o
-$$
-
-Sequence-to-sequence GRU encoder-decoder (GRU chosen over LSTM as primary due to fewer parameters / faster retrain on a daily cadence, with an LSTM variant kept as a challenger given its stronger long-memory gating for the quarter-end effect):
-
-```
-ENCODER-DECODER FORECAST ARCHITECTURE
-
-  x_{t-60}...x_t  ──▶ [GRU Encoder, 2 layers, 64 units] ──▶ context vector h_T
-                                                                │
-                          quarter-end / holiday / dividend      │
-                          calendar embeddings  ─────────────────┤
-                                                                 ▼
-                                            [GRU Decoder, 2 layers] ──▶ ŷ_{t+1..t+20}
-                                                                 │
-                                                   quantile heads (P10/P50/P90)
-```
-
-**Quarter-end effect modeled explicitly** via a learned calendar embedding concatenated at every decoder step — because window-dressing balance reductions are a *known, calendar-driven* pattern the model should not have to rediscover purely from raw magnitude, and Model Risk expects an explicit, inspectable treatment of a known seasonal effect rather than a black-box hope that the network finds it.
-
-$$
-\mathcal{L} = \sum_{q\in\{0.1,0.5,0.9\}} \sum_{h=1}^{H} \rho_q\big(y_{t+h} - \hat{y}_{t+h}^{(q)}\big), \quad \rho_q(u)=u\cdot(q-\mathbb{1}[u<0])
-$$
-
-Pinball (quantile) loss across three quantile heads gives Treasury a P10/P50/P90 balance forecast band, not a false-precision point estimate.
-
-```python
-import torch
-import torch.nn as nn
-
-class BalanceForecastGRU(nn.Module):
-    """
-    Seq2seq GRU with calendar-embedding conditioning and quantile heads,
-    for prime balance / utilization forecasting.
-    """
-    def __init__(self, n_features, hidden=64, n_layers=2, calendar_dim=8, horizon=20):
-        super().__init__()
-        self.encoder = nn.GRU(n_features, hidden, n_layers, batch_first=True)
-        self.calendar_emb = nn.Embedding(10, calendar_dim)  # e.g. day-type: normal/qtr-end/holiday...
-        self.decoder_cell = nn.GRUCell(hidden + calendar_dim, hidden)
-        self.horizon = horizon
-        self.heads = nn.ModuleDict({
-            q: nn.Linear(hidden, 1) for q in ["p10", "p50", "p90"]
-        })
-
-    def forward(self, x_hist, calendar_codes_future):
-        _, h_n = self.encoder(x_hist)          # h_n: (n_layers, B, hidden)
-        h = h_n[-1]                             # (B, hidden)
-        outs = {"p10": [], "p50": [], "p90": []}
-        for t in range(self.horizon):
-            cal = self.calendar_emb(calendar_codes_future[:, t])
-            h = self.decoder_cell(torch.cat([h, cal], dim=-1), h)
-            for q, head in self.heads.items():
-                outs[q].append(head(h))
-        return {q: torch.cat(v, dim=1) for q, v in outs.items()}
-
-def pinball_loss(y_true, y_pred, q):
-    diff = y_true - y_pred
-    return torch.mean(torch.max(q * diff, (q - 1) * diff))
-```
-
-## Baselines the DL model must beat (walk-forward, not shuffled CV)
-
-| Model | Role |
-|---|---|
-| Seasonal-Naive (t-5 / t-20) | Sanity floor |
-| SARIMAX with quarter-end dummy | Classical time-series benchmark |
-| LightGBM on lagged features + calendar dummies | Strong tabular benchmark — DL must beat this to justify production complexity |
-| LSTM (single-layer, no calendar embedding) | Ablation — proves the calendar-embedding design choice earns its keep |
-| **GRU + calendar embedding + quantile heads (proposed)** | Production candidate |
-
-**Say it out loud in the room:** *"I don't reach for an LSTM/GRU by default — I make it beat a well-tuned LightGBM on walk-forward MAPE and pinball loss first, on this exact series, before I'd argue for the added production complexity of a PyTorch serving path over a tree model artifact."* This is the answer that survives a QR panel — DL as *justified*, not *assumed*.
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# P5 · RAG Financing-Desk Copilot (GenAI / LLM)
-
-**Open with the business framing:**
-> "The JD explicitly calls out fine-tuning, prompt engineering, RAG, model evaluation, and BMC/inference infrastructure. This project is the direct answer: a retrieval-augmented copilot that lets a financing trader ask 'why did the XYZ borrow fee spike Tuesday' or 'what's our current haircut policy for BBB financials collateral' and get a grounded, cited answer sourced from desk notes, policy docs, and the P1–P4 model outputs — not a hallucinated one."
-
-## Problem Statement
-
-Build a retrieval-augmented generation system over (a) internal financing policy/haircut-grid documents, (b) daily desk commentary, (c) structured outputs from the fee/margin/anomaly/balance models above, that answers trader queries with citations and refuses ungrounded questions.
-
-## Architecture
-
-```
-                     ┌─────────────────────────────┐
-   Trader Query ───▶ │  Query Router (intent class) │
-                     └──────────────┬──────────────┘
-                                     │
-           ┌─────────────────────────┼─────────────────────────┐
-           ▼                         ▼                         ▼
-   Structured-data tool      Document retriever          Model-output tool
-   (SQL over fee/margin/     (hybrid BM25 + dense         (calls P1-P4 model
-    balance warehouse)        embedding, reranked)         inference endpoints)
-           │                         │                         │
-           └─────────────────────────┼─────────────────────────┘
-                                      ▼
-                          LLM synthesis (grounded,
-                          JSON-schema constrained,
-                          citation-required)
-                                      │
-                                      ▼
-                          Answer + citations + confidence
-                          + "insufficient evidence" fallback
-```
-
-## Retrieval — Hybrid Dense + Sparse with Reranking
-
-$$
-\text{score}(q,d) = \lambda \cdot \text{BM25}(q,d) + (1-\lambda) \cdot \cos\!\big(E(q), E(d)\big)
-$$
-
-followed by a cross-encoder reranker on the top-50 candidates; $\lambda \approx 0.4$ tuned on a held-out set of 200 trader-authored queries with human-labeled relevant documents (recall@10 as the retrieval KPI, not just top-1 accuracy, because financing policy answers often need 2–3 supporting clauses).
-
-## Fine-Tuning vs. Prompting Decision (explicit trade-off, per JD "evaluate and articulate trade-offs")
-
-```
-DIMENSION                PROMPT-ENGINEERED (base model + RAG)   FINE-TUNED (LoRA on desk corpus)
-────────────────────     ──────────────────────────────────    ──────────────────────────────
-Time to deploy            Days                                    Weeks (data curation + eval)
-Domain jargon fluency      Good with few-shot examples            Best — learns "GC", "specialness",
-                                                                    "recall", "cash-driven" natively
-Cost per query             Higher (longer context, few-shot)      Lower (shorter prompts)
-Governance / auditability  Easier — prompt + retrieved docs        Harder — need eval harness +
-                            are the full audit trail                weight diff documentation
-Update cadence              Instant (swap retrieved docs)          Retrain cycle required
-
-RECOMMENDATION: Start prompt-engineered + RAG for month 1-2 to establish eval harness
-and gather production query logs; graduate the intent-classification and jargon-normalization
-sub-tasks to a small fine-tuned (LoRA) model once ≥5k labeled queries exist, keep the
-final-answer synthesis on the frontier base model with RAG for auditability.
-```
-
-## Evaluation Harness (this is what separates a toy RAG demo from production)
-
-$$
-\text{Faithfulness} = \frac{\#\{\text{claims in answer supported by retrieved context}\}}{\#\{\text{claims in answer}\}}
-$$
-
-| Metric | Method |
-|---|---|
-| Retrieval Recall@10 | Labeled query/doc relevance set |
-| Faithfulness / groundedness | LLM-as-judge + spot-audited by desk SMEs, monthly |
-| Answer correctness | Human eval against a 100-query golden set, refreshed quarterly |
-| Refusal precision | % of out-of-scope queries correctly declined vs. hallucinated |
-| Latency (p50/p95) | SLA target: p95 < 4s for a trader-facing tool during market hours |
-
-```python
-from dataclasses import dataclass
-from typing import List
-
-@dataclass
-class RetrievedChunk:
-    text: str
-    source: str
-    score: float
-
-def hybrid_retrieve(query: str, bm25_index, dense_index, lam: float = 0.4, k: int = 50) -> List[RetrievedChunk]:
-    bm25_hits = bm25_index.search(query, top_k=k)
-    dense_hits = dense_index.search(query, top_k=k)
-    fused = {}
-    for h in bm25_hits:
-        fused[h.doc_id] = lam * h.score
-    for h in dense_hits:
-        fused[h.doc_id] = fused.get(h.doc_id, 0.0) + (1 - lam) * h.score
-    ranked_ids = sorted(fused, key=fused.get, reverse=True)[:k]
-    return [RetrievedChunk(text=bm25_index.get_text(i), source=bm25_index.get_source(i), score=fused[i])
-            for i in ranked_ids]
-
-SYSTEM_PROMPT = """You are a Liquid Financing desk copilot. Answer ONLY using the provided
-context blocks. Every factual claim must carry a [source_id] citation. If the context does
-not contain enough information to answer confidently, respond exactly with:
-"INSUFFICIENT_EVIDENCE: <what is missing>". Never invent fee levels, haircuts, or policy terms."""
-
-def build_prompt(query: str, chunks: List[RetrievedChunk]) -> str:
-    context = "\n\n".join(f"[{c.source}] {c.text}" for c in chunks[:8])
-    return f"{SYSTEM_PROMPT}\n\nCONTEXT:\n{context}\n\nQUESTION: {query}\n\nJSON_SCHEMA: " \
-           '{"answer": str, "citations": [str], "confidence": "high|medium|low"}'
-```
-
-## Inference Infrastructure (per JD: "configure inference infrastructure (BMC servers)")
-
-- On-prem/BMC-hosted open-weight base model for anything touching non-public desk data (data residency + Model Risk requirement); external frontier API only for public-market-context queries with no client-identifying data.
-- Request routing layer enforces PII/entitlement filtering *before* the prompt is assembled, not after generation.
-- Autoscaled inference pool sized off P95 trading-hours query volume; async batch mode for EOD report generation to keep interactive latency SLAs protected.
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# Cross-Project Production Standards
-
-```
-STAGE                  STANDARD APPLIED ACROSS ALL 5 PROJECTS
-──────────────────     ───────────────────────────────────────────────────────
-Validation split        Walk-forward / expanding window ONLY — never random
-                         K-fold on time series (leakage across autocorrelated obs)
-Champion/Challenger      Minimum 2 full quarters shadow-mode before promotion
-Model Risk pack          Purpose, conceptual soundness, developmental evidence,
-                         outcomes analysis (backtests), ongoing monitoring plan
-Monitoring               Feature PSI, prediction drift, backtest breach counts,
-                         auto-fallback to prior champion on threshold breach
-Explainability           SHAP for tree models; attention/attribution + faithfulness
-                         eval for the RAG copilot; coefficient sign review for linear
-Code / release           Feature store parity between research & production, unit
-                         tests on feature pipelines, canary rollout on 5% of traffic
-```
-
-[🔝 Back to Top](#table-of-contents)
-
----
----
-
-# Quick-Reference Equation Sheet
-
-```
-══════════════════════════════════════════════════════════════════════════════
-P1 — FEE FORECASTING
-══════════════════════════════════════════════════════════════════════════════
-Elastic Net:      β̂ = argmin ||y - Xβ||² + λ1||β||₁ + λ2||β||₂²
-GBM stage update: h_m = argmin_h Σ L(y, F_{m-1}(x) + h(x))
-Event-decay OU:   f_t = μ + φ(f_{t-1}-μ) + Σ κ_j·1[event]·e^{-η_j(t-t_j)} + ε_t
-
-══════════════════════════════════════════════════════════════════════════════
-P2 — MARGIN / HAIRCUT
-══════════════════════════════════════════════════════════════════════════════
-Log-linear haircut:   log h_i = β0 + β1 logσ_i + β2 log(ADV_i) + β3 Corr_i + ...
-Portfolio IM:          IM = Σ h_i|q_i|P_i + g_θ(q, Σ, concentration)
-Constraint:             Pr(Shortfall_5d > h·V) ≤ 1%
-
-══════════════════════════════════════════════════════════════════════════════
-P3 — ANOMALY DETECTION
-══════════════════════════════════════════════════════════════════════════════
-Mahalanobis:      z_t = (x_t - μ_t)ᵀ Σ_t⁻¹ (x_t - μ_t)
-Isolation Forest:  s(x) = 2^(-E[h(x)]/c(n))
-Fused alert:       Alert_t = α·sigmoid(z_t - z*) + (1-α)·p(stress|text_t)
-
-══════════════════════════════════════════════════════════════════════════════
-P4 — BALANCE FORECASTING (DL)
-══════════════════════════════════════════════════════════════════════════════
-GRU state:         h_t = GRU(x_t, h_{t-1})
-Pinball loss:      L = Σ_q Σ_h ρ_q(y_{t+h} - ŷ_{t+h}^(q)),  ρ_q(u)=u(q-1[u<0])
-
-══════════════════════════════════════════════════════════════════════════════
-P5 — RAG COPILOT (GenAI)
-══════════════════════════════════════════════════════════════════════════════
-Hybrid retrieval:  score(q,d) = λ·BM25(q,d) + (1-λ)·cos(E(q),E(d))
-Faithfulness:      #{claims supported by context} / #{claims in answer}
-══════════════════════════════════════════════════════════════════════════════
-```
-
-[🔝 Back to Top](#table-of-contents)
 
 ---
 
-*Last updated: July 2026 · Take-Home Research Portfolio — AI/ML Modeler, Liquid Financing (Barclays)*
+## 3. First-Principles Walkthrough (What's Actually Happening, and Why)
 
-[↩️ Back to README.md](../README.md)
+### 3.1 Why walk-forward validation, not K-fold — explained simply
+
+Imagine grading a weather forecaster by letting them see Wednesday's actual weather before asking them
+to "predict" Tuesday's. That's what a random K-fold split does to a time series: it lets the model train
+on data from *after* the point it's being asked to forecast, because a random shuffle doesn't respect
+time order. Walk-forward validation instead always trains on the past and tests on the future, exactly
+as the model will be used in production — so the backtest number is not a lie.
+
+### 3.2 Elastic Net — explained simply
+
+Ordinary least-squares regression finds the line that best fits the data, full stop — even if two of
+your input variables are basically saying the same thing (e.g., utilization and days-to-cover, which
+move together), OLS will happily give both huge, unstable, sign-flipping coefficients. Elastic Net adds
+two penalties: an **L1 penalty** that pushes unhelpful coefficients all the way to zero — this is
+automatic feature selection, and it means the final model can be handed to a model-risk reviewer with a
+short, defensible feature list — and an **L2 penalty** that shrinks correlated coefficients toward each
+other rather than letting one arbitrarily dominate. Mathematically:
+
+$$
+\hat\beta = \arg\min_\beta \left\{ \frac{1}{2n}\lVert y - X\beta \rVert_2^2 + \lambda\Big(\alpha \lVert \beta \rVert_1 + \tfrac{1-\alpha}{2}\lVert \beta \rVert_2^2\Big) \right\}
+$$
+
+where $\alpha \in [0,1]$ (the "l1\_ratio") interpolates between pure LASSO ($\alpha=1$) and pure Ridge
+($\alpha=0$). We cross-validate $\alpha$ and $\lambda$ jointly.
+
+### 3.3 Gradient-boosted trees and the utilization threshold — explained simply
+
+A single decision tree asks a sequence of yes/no questions ("is utilization > 0.9?") and gives a
+different answer down each branch. This is exactly the shape of the real phenomenon we're modeling: fee
+is roughly flat until utilization crosses ~90%, then rises steeply — a **kink**, not a straight line. No
+linear model, however well-regularized, can represent a kink; a tree can represent it with a single
+split. Gradient boosting builds many small trees in sequence, where each new tree is trained to correct
+the *errors* of all the trees before it:
+
+$$
+F_M(x) = \sum_{m=1}^{M} \gamma_m h_m(x), \qquad h_m = \arg\min_h \sum_i L\big(y_i,\, F_{m-1}(x_i) + h(x_i)\big)
+$$
+
+We use LightGBM's native **quantile objective**, fitting three separate models at $q \in \{0.1, 0.5,
+0.9\}$ directly on the pinball loss (defined in §3.5), rather than fitting one point-estimate model and
+wrapping it in a symmetric ± interval that would be wrong whenever the true error distribution is skewed
+(which fee-spike data always is).
+
+### 3.4 Conformalized Quantile Regression (CQR) — explained simply
+
+Any quantile model can be miscalibrated — it might claim an 80% interval but actually only cover the
+truth 65% of the time. Conformal prediction is a wrapper technique that *guarantees* the stated coverage
+regardless of the underlying model's quality, using nothing more than a held-out calibration set. The
+idea: measure how far outside its own predicted interval the model actually was, on data it did not
+train on; then widen (or narrow) every future interval by exactly that amount.
+
+$$
+\text{score}_i = \max\big(\hat q_{lo}(x_i) - y_i,\; y_i - \hat q_{hi}(x_i)\big), \qquad
+\hat q_{lo}^{CQR}(x) = \hat q_{lo}(x) - Q_{1-\alpha}(\text{scores}), \quad \hat q_{hi}^{CQR}(x) = \hat q_{hi}(x) + Q_{1-\alpha}(\text{scores})
+$$
+
+This is precisely the method implemented in `p1_fee_forecasting.conformalize` — the 80% interval you see
+plotted in `charts/p1_fee_forecast_interval.png` is not a Gaussian assumption dressed up; it is a
+finite-sample, distribution-free guaranteed-coverage interval.
+
+### 3.5 The pinball loss — explained simply
+
+If you always guess "a little too low," you're not being graded fairly by squared error alone — you
+need a loss that's asymmetric to match the quantile you're targeting. The pinball loss at quantile $q$
+penalizes under-prediction by a factor of $q$ and over-prediction by a factor of $(1-q)$:
+
+$$
+\rho_q(u) = u\,(q - \mathbb{1}[u<0]), \qquad u = y - \hat y
+$$
+
+At $q=0.9$, guessing too *low* is penalized nine times harder than guessing too *high* — which is
+exactly the asymmetry you want when forecasting the *90th percentile*: being below the truth is a bigger
+miss than being above it.
+
+### 3.6 Kupiec and Christoffersen VaR backtests — explained simply
+
+A 99% VaR model *should* be breached about 1% of the time — not 0.1%, not 5%. The **Kupiec test** simply
+asks: "given how many breaches I actually saw, is 1% a statistically plausible true rate, or is it
+significantly off?" It is a likelihood-ratio test comparing the observed breach frequency to the target.
+But a model could pass Kupiec and still be dangerous if its breaches *cluster* — ten breaches in one bad
+week is a very different risk profile from ten breaches spread evenly across the year, even though both
+have the same total breach count. The **Christoffersen test** catches this by modeling breaches as a
+two-state Markov chain and testing whether the probability of a breach tomorrow depends on whether there
+was a breach today. Both tests reduce to:
+
+$$
+LR = -2\log\!\left(\frac{L(\text{null})}{L(\text{alternative})}\right) \sim \chi^2_1
+$$
+
+implemented exactly as Basel Committee backtesting guidance specifies, in `p2_margin_optimization.py`.
+
+### 3.7 Robust Mahalanobis distance and Isolation Forest — explained simply
+
+Mahalanobis distance answers "how many standard deviations away is this point, accounting for the fact
+that some of my variables move together?" — it's Euclidean distance after "un-correlating" the data. The
+catch: if you estimate the mean and covariance using ordinary sample statistics, one wild outlier can
+drag the estimated covariance itself off course, making the outlier look *less* extreme than it is (this
+is called masking). The **Minimum Covariance Determinant (MCD)** estimator instead finds the subset of
+the data (typically 75%) whose covariance matrix has the smallest determinant — i.e., is the "tightest"
+possible cloud — and uses that as the robust reference, so a handful of true anomalies cannot corrupt the
+yardstick used to measure them. **Isolation Forest** takes an entirely different, non-parametric
+approach: it randomly partitions the data with random splits and observes that anomalies, being "few and
+different," take *fewer* splits to isolate into their own leaf than normal points do. We run both because
+they fail in different regimes — Mahalanobis assumes elliptical (roughly Gaussian) structure and can miss
+anomalies in a genuinely non-Gaussian regime shift, which is exactly when Isolation Forest's
+distribution-free approach earns its keep.
+
+### 3.8 Sequence-to-sequence GRU with a calendar embedding — explained simply
+
+A plain recurrent network reads a sequence one step at a time, updating a "memory" (hidden state) as it
+goes — this is naturally suited to time series with momentum and autocorrelation. But a known, calendar-
+driven pattern like "balances always drop right before quarter-end" shouldn't have to be *rediscovered*
+by the network purely from the numbers; you can hand it directly as an input. We do this via a learned
+**embedding** — a small lookup table mapping "is this a quarter-end day?" (0 or 1) to a short vector —
+concatenated into the decoder at every future step, so the network is explicitly told which future days
+are quarter-end days as it forecasts them, rather than having to infer it. The three parallel output
+heads are trained jointly on the pinball loss at $q \in \{0.1, 0.5, 0.9\}$ (§3.5), producing a genuine
+uncertainty band rather than a single brittle number.
+
+**Baseline discipline, honestly reported:** on the shipped synthetic panel, the GRU (MAPE ≈ 2.1%) beats
+LightGBM (≈ 2.8%) but does **not** beat the much simpler seasonal-naive and SARIMAX baselines (≈
+1.4–1.5%) — see `charts/p4_baseline_comparison.png`. This is exactly the outcome the take-home brief
+asks you to be honest about: the synthetic series here has very clean, regular weekly and quarter-end
+seasonality, which classical models capture natively and cheaply. The GRU's real edge — a *learned,
+non-linear* interaction between calendar effects and balance momentum — should be expected to widen on
+noisier, less regularly-seasonal real balance data; the notebook reports the comparison as observed
+rather than asserting DL superiority it has not earned on this dataset.
+
+### 3.9 BM25, TF-IDF cosine, and Reciprocal Rank Fusion — explained simply
+
+**BM25** scores how well a query matches a document using term frequency (how often a word appears) and
+inverse document frequency (how rare that word is across the whole corpus) — but with *saturation*: the
+tenth occurrence of a word barely adds more evidence than the fifth, which stops the score from being
+gamed by simple repetition. **TF-IDF cosine similarity** measures document similarity as the angle
+between two vectors of weighted word counts — a proxy, in this reference implementation, for what a
+production system would compute with a learned sentence-embedding encoder. Rather than trying to
+calibrate these two very differently-scaled signals against each other, **Reciprocal Rank Fusion**
+sidesteps the problem entirely by only looking at *rank position*: a document's fused score is
+$\sum_{\text{ranker}} 1/(k + \text{rank})$. A document that is highly ranked by both signals wins,
+regardless of the two systems' raw score scales — this is the standard hybrid-retrieval fusion technique
+used in production search systems precisely because it requires no score normalization step to get
+right.
+
+---
+
+## 4. Notebook Composition — What Each Cell Produces and Why It's There
+
+| Section | What runs | Chart(s) produced | What the chart tells the panel |
+|---|---|---|---|
+| **P1** | Walk-forward backtest of the Elastic Net + Quantile-LightGBM + CQR ensemble | `p1_fee_forecast_interval` — realized fee vs. blended forecast with the conformalized 80% band | Shows the model tracking a real fee spike and the calibrated interval widening exactly around the event, not everywhere uniformly |
+| | | `p1_walkforward_monitoring` — weighted MAPE & interval coverage by fold | The production monitoring view a desk quant actually watches: is accuracy degrading, is the interval still calibrated to ~80%? |
+| **P2** | LASSO haircut fit + simulated VaR backtest | `p2_lasso_coefficients` — signed, ranked coefficients | The auditability artifact — every driver of the haircut is visible and sign-checkable in one glance |
+| | | `p2_var_backtest` — P&L path, VaR limit, breach markers, with Kupiec/Christoffersen p-values in the title | The regulatory backtest a Model Risk reviewer asks for first, presented the way a risk committee actually sees it |
+| **P3** | Robust anomaly monitor scored on a held-out window | `p3_anomaly_score_timeline` — Mahalanobis z-score over time, true anomaly days starred | Visually validates the detector against ground truth — the stars land on the z-score peaks |
+| **P4** | Four-model baseline ladder + GRU quantile forecast | `p4_baseline_comparison` — MAPE bar chart across all four models | The "baseline discipline" artifact: proof the DL model was benchmarked honestly, not assumed superior |
+| | | `p4_gru_quantile_fan` — realized balance vs. GRU P10/P50/P90 fan, quarter-end days marked | Shows the calendar-aware uncertainty band actually widening/shifting around the known seasonal event |
+| **P5** | Hybrid retrieval + grounded synthesis + refusal demo | `p5_retrieval_scores` — RRF-fused scores for the retrieved chunks on a sample query | Makes the retrieval step legible — which chunks won, and by how much |
+
+Every chart is written to `charts/<name>.html` (open directly in a browser — fully interactive,
+zoomable, hoverable) and `charts/<name>.png` (the static version embedded in `dissertation.pdf`).
+
+---
+
+## 5. Testing
+
+```bash
+uv run pytest tests/ -q          # 15 tests
+```
+
+Each module's `if __name__ == "__main__":` block (Google-style entry point) also runs standalone as a
+fast smoke test:
+
+```bash
+PYTHONPATH=src python3 src/liquid_financing/p1_fee_forecasting.py
+PYTHONPATH=src python3 src/liquid_financing/p2_margin_optimization.py
+PYTHONPATH=src python3 src/liquid_financing/p3_anomaly_detection.py
+PYTHONPATH=src python3 src/liquid_financing/p4_balance_forecasting.py
+PYTHONPATH=src python3 src/liquid_financing/p5_rag_copilot.py
+```
+
+---
+
+## 6. Companion Documents
+
+- **`dissertation.tex` / `dissertation.pdf`** — PhD-dissertation-style extended treatment of the same
+  five systems, with the identical first-principles rigor as §3 above, plus embedded static figures from
+  `charts/*.png` and full derivations of every equation used.
+- **`PROBLEMS.md`** — the original take-home briefs (unmodified, provided for reference).
+
+[↩️ Back to PROBLEMS.md](./PROBLEMS.md)

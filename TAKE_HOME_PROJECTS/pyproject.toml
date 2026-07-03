@@ -1,0 +1,30 @@
+[project]
+name = "liquid-financing"
+version = "2.0.0"
+description = "Barclays AI/ML Modeler take-home — Liquid Financing reference implementations"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "lightgbm>=4.3",
+    "scipy>=1.13",
+    "statsmodels>=0.14",
+    "torch>=2.3",
+    "plotly>=5.22",
+    "kaleido>=0.2.1,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter>=1.0",
+    "nbconvert>=7.16",
+    "pytest>=8.2",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
