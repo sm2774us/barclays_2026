@@ -118,7 +118,7 @@ TAKE HOME PROJECTS                P1-P5       High    "Research and Present"
      │                                                                       ▼
  POST-MORTEM ◀── LIVE MONITORING ◀── PROD DEPLOYMENT ◀── PAPER TRADE ◀── OOS TEST
      │                                                                       │
-     └───────────────────── feedback loop (research library) ◀──────────────┘
+     └───────────────────── feedback loop (research library) ◀───────────────┘
 ```
 
 **Feynman explanation:** Think of it like a drug trial. You don't approve a drug because it worked once on the training population (in-sample fit). You need a held-out population (out-of-sample), a placebo comparison (a naive benchmark — e.g., a random-walk forecast), and post-market surveillance (live PnL attribution vs. backtest expectation) because the population itself drifts (regime change). A model is never "done" — it's on a lifecycle with a kill-switch.
