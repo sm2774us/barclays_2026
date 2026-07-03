@@ -9,12 +9,6 @@
 > (2025–2026 reports) — see `LIQUID_FINANCING_TAKEHOME.md` for full technical detail per project.
 
 ---
----
-
-[↩️ Back to README.md](./README.md)
-
----
----
 
 ## 1. Opening framing (60 seconds — say this before slide 1)
 
