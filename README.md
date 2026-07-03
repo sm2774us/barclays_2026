@@ -445,12 +445,12 @@ if __name__ == "__main__":
 
 ```
                     Does the answer need FRESH / PROPRIETARY facts?
-                                    │
-                    ┌───────yes────┴────no────────┐
-                    ▼                              ▼
+                                   │
+                    ┌───────yes────┴────no──────────┐
+                    ▼                               ▼
                    RAG                  Is it a FORMATTING / STYLE /
         (embeddings + retriever         DOMAIN-BEHAVIOR problem?
-         + frozen LLM + citations)                 │
+         + frozen LLM + citations)                  │
                                         ┌────yes────┴────no─────┐
                                         ▼                       ▼
                               FINE-TUNE (LoRA)          PROMPT ENGINEER
@@ -554,29 +554,29 @@ if __name__ == "__main__":
 ```
   DOCS (ISDA, term sheets,        QUERY: "What's the haircut on
   research notes, rate memos)      GC repo vs. specials for HY collateral?"
-        │                                   │
-        ▼                                   ▼
- ┌────────────────┐                 ┌────────────────┐
+         │                                   │
+         ▼                                   ▼
+ ┌─────────────────┐                 ┌─────────────────┐
  │ Chunk (semantic,│                 │ Embed query     │
  │ 512–1024 tok,   │                 │ (same encoder)  │
  │ 10–15% overlap) │                 └───────┬─────────┘
  └───────┬─────────┘                         │
          ▼                                   ▼
  ┌────────────────┐                 ┌────────────────────┐
- │ Embed chunks    │                 │ ANN search (HNSW/  │
- │ (bi-encoder)    │────────────────▶│ IVF-PQ) top-k=50    │
- └───────┬─────────┘                 └──────────┬─────────┘
-         ▼                                       ▼
- ┌────────────────┐                 ┌────────────────────┐
- │ Vector store    │                 │ Cross-encoder rerank │
- │ (metadata:      │                 │ → top-k=6           │
- │ doc_id, date,   │                 └──────────┬─────────┘
- │ counterparty)   │                            ▼
- └────────────────┘                 ┌────────────────────┐
-                                     │ LLM synthesis w/    │
-                                     │ inline citations     │
-                                     └──────────┬─────────┘
-                                                 ▼
+ │ Embed chunks    │                │ ANN search (HNSW/  │
+ │ (bi-encoder)    │────────────── ▶│ IVF-PQ) top-k=50   │
+ └───────┬─────────┘                └────────┬───────────┘
+         ▼                                   ▼
+ ┌────────────────┐                 ┌──────────────────────┐
+ │ Vector store   │                 │ Cross-encoder rerank │
+ │ (metadata:     │                 │ → top-k=6            │
+ │ doc_id, date,  │                 └────────┬─────────────┘
+ │ counterparty)  │                          ▼
+ └────────────────┘                 ┌──────────────────────┐
+                                    │ LLM synthesis w/     │
+                                    │ inline citations     │
+                                    └────────┬─────────────┘
+                                             ▼
                                      Answer + source spans
                                      (auditable for Compliance)
 ```
