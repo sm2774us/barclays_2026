@@ -1471,7 +1471,7 @@ if __name__ == "__main__":
 
 $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^{p}\delta_i \Delta y_{t-i} + \varepsilon_t$$
 
-**Say it out loud:** *"If $\gamma = 0$, then $y_{t-1}$ has no explanatory power for the change $\Delta y_t$ beyond the lagged differences — meaning today's level doesn't pull tomorrow's change back toward anything, which is the definition of a random walk / unit root. If $\gamma < 0$ and statistically significant, the series exhibits mean reversion: a high $y_{t-1}$ predicts a negative $\Delta y_t$, pulling the series back down."* The ADF test statistic is $t_\gamma = \hat\gamma / SE(\hat\gamma)$, compared against **non-standard** critical values (not the usual t-distribution, because under $H_0$ the process is a random walk and the asymptotic distribution is the Dickey-Fuller distribution).
+**Say it out loud:** **"If $\gamma = 0$, then $y_{t-1}$ has no explanatory power for the change $\Delta y_t$ beyond the lagged differences — meaning today's level doesn't pull tomorrow's change back toward anything, which is the definition of a random walk / unit root. If $\gamma < 0$ and statistically significant, the series exhibits mean reversion: a high $y_{t-1}$ predicts a negative $\Delta y_t$, pulling the series back down."** The ADF test statistic is **$t_\gamma = \hat\gamma / SE(\hat\gamma)$**, compared against **non-standard** critical values (not the usual t-distribution, because under **$H_0$** the process is a random walk and the asymptotic distribution is the Dickey-Fuller distribution).
 
 **ARIMA(p,d,q)**: difference $d$ times to induce stationarity, then model as AR(p) + MA(q):
 
