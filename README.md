@@ -2085,7 +2085,7 @@ GELU/SiLU    smooth        ~1.0 near 0        Used in modern transformers
 
 **Recurrence:** $h_t = \tanh(W_{hh}h_{t-1} + W_{xh}x_t + b_h)$, output $\hat y_t = W_{hy}h_t$.
 
-**BPTT derivation.** The total loss is $\mathcal{L}=\sum_t \mathcal{L}_t$. Because $h_t$ depends on $h_{t-1}$ which depends on $h_{t-2}$, etc., the gradient w.r.t. the **shared** weight $W_{hh}$ must sum contributions through **every** path back through time:
+**BPTT derivation.** The total loss is **$\mathcal{L}=\sum_t \mathcal{L}_t$**. Because **$h_t$** depends on **$h_{t-1}$** which depends on **$h_{t-2}$**, etc., the gradient w.r.t. the **shared** weight **$W_{hh}$** must sum contributions through **every** path back through time:
 
 $$\frac{\partial \mathcal{L}_t}{\partial W_{hh}} = \sum_{k=1}^{t}\frac{\partial \mathcal{L}_t}{\partial h_t}\left(\prod_{j=k+1}^{t}\frac{\partial h_j}{\partial h_{j-1}}\right)\frac{\partial h_k}{\partial W_{hh}}$$
 
