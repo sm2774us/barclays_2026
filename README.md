@@ -2329,7 +2329,7 @@ When to prefer        Long sequences, ample compute       Latency-sensitive prod
 
 $$\tilde a_j = \frac{m_j}{1-p}\, a_j, \qquad m_j \sim \text{Bernoulli}(1-p)$$
 
-**Say it out loud:** *"The **$1/(1-p)$** scaling is 'inverted dropout' — it rescales the surviving activations at **train** time so that the **expected** activation matches what it would be at test time with no dropout at all, meaning inference requires zero changes to the forward pass."* Mechanistically, dropout prevents co-adaptation: a unit can't rely on any specific set of other units always being present, which is mathematically equivalent to training an implicit ensemble of **$2^h$** thinned sub-networks that share weights, averaged at test time.
+**Say it out loud:** **"The $1/(1-p)$ scaling is 'inverted dropout' — it rescales the surviving activations at train time so that the expected activation matches what it would be at test time with no dropout at all, meaning inference requires zero changes to the forward pass."** Mechanistically, dropout prevents co-adaptation: a unit can't rely on any specific set of other units always being present, which is mathematically equivalent to training an implicit ensemble of **$2^h$** thinned sub-networks that share weights, averaged at test time.
 
 **Batch Normalization.** For a mini-batch $\mathcal{B}=\{z_1,\dots,z_m\}$ of pre-activations for one unit:
 
