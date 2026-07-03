@@ -907,7 +907,7 @@ $$S(\beta) = (y-X\beta)^\top(y-X\beta) = y^\top y - 2\beta^\top X^\top y + \beta
 
 Take the gradient and set to zero:
 
-$$\frac{\partial S}{\partial \beta} = -2X^\top y + 2X^\top X\beta = 0 \;\;\Rightarrow\;\; X^\top X\,\hat\beta = X^\top y \;\;\Rightarrow\;\; \hat\beta = (X^\top X)^{-1}X^\top y$$
+$$\frac{\partial S}{\partial \beta} = -2X^\top y + 2X^\top X\beta = 0 \quad\Rightarrow \quad X^\top X\,\hat\beta = X^\top y \quad \Rightarrow \quad \hat\beta = (X^\top X)^{-1}X^\top y$$
 
 **Line-by-line:** the first term $-2X^\top y$ is the derivative of the linear cross-term $-2\beta^\top X^\top y$ with respect to $\beta$ (a standard $\partial(a^\top\beta)/\partial\beta = a$ rule, doubled by the scalar out front); the second term comes from $\partial(\beta^\top A \beta)/\partial\beta = 2A\beta$ for symmetric $A = X^\top X$. Setting the gradient to zero gives the **normal equations**; because $S(\beta)$ is convex (Hessian $2X^\top X \succeq 0$), this stationary point is the global minimum, and it's unique whenever $X^\top X$ is invertible (i.e., $X$ has full column rank — no perfect multicollinearity).
 
@@ -1002,7 +1002,7 @@ if __name__ == "__main__":
 
 $$S_{\text{ridge}}(\beta) = (y-X\beta)^\top(y-X\beta) + \lambda\beta^\top\beta$$
 
-$$\frac{\partial S_{\text{ridge}}}{\partial\beta} = -2X^\top y + 2X^\top X\beta + 2\lambda\beta = 0 \;\;\Rightarrow\;\; \hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1}X^\top y$$
+$$\frac{\partial S_{\text{ridge}}}{\partial\beta} = -2X^\top y + 2X^\top X\beta + 2\lambda\beta = 0 \quad \Rightarrow \quad \hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1}X^\top y$$
 
 **Say it out loud:** **"Adding $\lambda I$ to $X^\top X$ before inverting guarantees invertibility even when $X$ is rank-deficient or near-collinear — this is literally 'ridge' because you're adding a ridge along the diagonal — and it shrinks every coefficient toward zero, trading a little bias for a large reduction in variance whenever predictors are correlated (which financial factors always are)."**
 
@@ -1566,7 +1566,7 @@ $$\sigma_t^2 = \omega + \alpha\, \varepsilon_{t-1}^2 + \beta\, \sigma_{t-1}^2, \
 
 **Line-by-line:** $\omega>0$ is a floor (long-run variance component), $\alpha \varepsilon_{t-1}^2$ says "yesterday's squared surprise raises today's variance" (the ARCH term — reactive/shock component), $\beta \sigma_{t-1}^2$ says "yesterday's variance level persists into today" (the GARCH term — memory/persistence component). Unconditional (long-run) variance is found by setting $\sigma_t^2=\sigma_{t-1}^2=\bar\sigma^2$ and $\mathbb{E}[\varepsilon_{t-1}^2]=\bar\sigma^2$:
 
-$$\bar\sigma^2 = \omega + (\alpha+\beta)\bar\sigma^2 \;\;\Rightarrow\;\; \bar\sigma^2 = \frac{\omega}{1-\alpha-\beta}$$
+$$\bar\sigma^2 = \omega + (\alpha+\beta)\bar\sigma^2 \quad \Rightarrow \quad \bar\sigma^2 = \frac{\omega}{1-\alpha-\beta}$$
 
 which requires $\alpha+\beta<1$ for stationarity — **the persistence parameter** $\alpha+\beta$ determines the half-life of a volatility shock: $\text{half-life} = \frac{\ln(0.5)}{\ln(\alpha+\beta)}$.
 
