@@ -1004,7 +1004,7 @@ $$S_{\text{ridge}}(\beta) = (y-X\beta)^\top(y-X\beta) + \lambda\beta^\top\beta$$
 
 $$\frac{\partial S_{\text{ridge}}}{\partial\beta} = -2X^\top y + 2X^\top X\beta + 2\lambda\beta = 0 \;\;\Rightarrow\;\; \hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1}X^\top y$$
 
-**Say it out loud:** *"Adding $\lambda I$ to $X^\top X$ before inverting guarantees invertibility even when $X$ is rank-deficient or near-collinear — this is literally 'ridge' because you're adding a ridge along the diagonal — and it shrinks every coefficient toward zero, trading a little bias for a large reduction in variance whenever predictors are correlated (which financial factors always are)."*
+**Say it out loud:** **"Adding $\lambda I$ to $X^\top X$ before inverting guarantees invertibility even when $X$ is rank-deficient or near-collinear — this is literally 'ridge' because you're adding a ridge along the diagonal — and it shrinks every coefficient toward zero, trading a little bias for a large reduction in variance whenever predictors are correlated (which financial factors always are)."**
 
 **Lasso — no closed form, subgradient condition.** The $\ell_1$ penalty $\lambda\lVert\beta\rVert_1$ is non-differentiable at 0. The KKT/subgradient stationarity condition for coordinate $j$:
 
