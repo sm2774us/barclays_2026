@@ -688,7 +688,7 @@ $$\text{Faithfulness} = \frac{|\{\text{claims in answer supported by context}\}|
 
 $$\text{Context Precision} = \frac{1}{\big|\{\text{relevant chunks retrieved}\}\big|}\sum_{k}\text{Precision@}k \cdot \mathbb{1}[\text{relevant}_k]$$
 
-$$\text{Answer Relevance} = \frac{1}{N}\sum_{i=1}^{N}\cos\big(E(q),\, E(q_i')\big)$$
+$$\text{Answer Relevance} = \frac{1}{N}\sum_{i=1}^{N}\cos\big(E(q), E(q_i')\big)$$
 
 where $q_i'$ are LLM-generated "reverse questions" from the answer — **if the answer is truly relevant, an LLM asked to reconstruct the question from it should land close to the real query in embedding space.**
 
