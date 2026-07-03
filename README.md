@@ -2477,7 +2477,7 @@ if __name__ == "__main__":
 
 $$\min_{\theta,\phi}\ \mathbb{E}_x\big[\lVert x - g_\phi(f_\theta(x))\rVert_2^2\big]$$
 
-**Relationship to PCA.** For a **linear** encoder/decoder with no nonlinearity and squared-error loss, the optimal solution spans the same subspace as the top-$k$ principal components of $X$ (this can be shown via the Eckart–Young theorem: the best rank-$k$ approximation of $X$ in Frobenius norm is exactly its truncated SVD). A nonlinear autoencoder generalizes this to a **nonlinear manifold** approximation — it can capture curved lower-dimensional structure (e.g., a nonlinear relationship across the financing curve/term structure) that linear PCA cannot.
+**Relationship to PCA.** **For a linear encoder/decoder with no nonlinearity and squared-error loss, the optimal solution spans the same subspace as the top-$k$ principal components of $X$ (this can be shown via the Eckart–Young theorem: the best rank-$k$ approximation of $X$ in Frobenius norm is exactly its truncated SVD). A nonlinear autoencoder generalizes this to a nonlinear manifold approximation — it can capture curved lower-dimensional structure (e.g., a nonlinear relationship across the financing curve/term structure) that linear PCA cannot.**
 
 **Anomaly detection.** Train the autoencoder only on "normal" regime data; at inference, compute the reconstruction error:
 
