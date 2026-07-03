@@ -466,7 +466,7 @@ Full fine-tuning updates weight matrix $W_0 \in \mathbb{R}^{d\times k}$ directly
 
 LoRA's hypothesis: the *update* $\Delta W$ needed to adapt a pretrained model to a new task has **low intrinsic rank** $r \ll \min(d,k)$. So constrain:
 
-$$\Delta W = BA, \quad B \in \mathbb{R}^{d\times r},\; A \in \mathbb{R}^{r\times k}, \quad r \ll \min(d,k)$$
+$$\Delta W = BA, \quad B \in \mathbb{R}^{d\times r}, \quad A \in \mathbb{R}^{r\times k}, \quad r \ll \min(d,k)$$
 
 Forward pass becomes:
 
