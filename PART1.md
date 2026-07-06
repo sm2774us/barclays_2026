@@ -270,8 +270,8 @@ A NumPy array is contiguous (row-major, C order): iterating `arr[i]` sequentiall
 ```
 CONTIGUOUS (NumPy)                    SCATTERED (Python list of float objects)
 ┌───┬───┬───┬───┬───┬───┐             ┌───┐     ┌───┐         ┌───┐
-│1.0│2.0│3.0│4.0│5.0│6.0│  1 cache    │ptr│────▶│1.0│  ptr────▶│2.0│  ...
-└───┴───┴───┴───┴───┴───┘  line = 8   └───┘     └───┘  (heap,  └───┘
+│1.0│2.0│3.0│4.0│5.0│6.0│  1 cache    │ptr│───▶│1.0│  ptr───▶│2.0│  ...
+└───┴───┴───┴───┴───┴───┘  line = 8   └───┘     └───┘  (heap, └───┘
  stride = 8 bytes           doubles    scattered across the heap; each deref = cache miss)
 ```
 
@@ -457,13 +457,13 @@ $$
 $$
 
 ```
-┌───────────┐   ┌────────────┐   ┌───────────┐   ┌──────────┐   ┌────────────┐
-│  Tick      │──▶│  Feature   │──▶│  Model    │──▶│  Position│──▶│  Execution │
+┌────────────┐   ┌────────────┐   ┌───────────┐   ┌──────────┐   ┌────────────┐
+│  Tick      │─▶│  Feature   │──▶│  Model    │─▶│  Position│──▶│  Execution │
 │  Ingestion │   │  Pipeline  │   │  f_theta  │   │  Sizing  │   │  / OMS     │
-│  (schema-  │   │  (point-in-│   │  (versioned,│  │  kappa   │   │  (child   │
-│  validated)│   │  time only)│   │  A/B'd)   │   │  (vol-   │   │  orders,  │
-│            │   │            │   │            │   │  targeted)│  │  TCA loop)│
-└───────────┘   └────────────┘   └───────────┘   └──────────┘   └────────────┘
+│  (schema-  │   │  (point-in-│   │(versioned,│   │  kappa   │   │  (child    │
+│  validated)│   │  time only)│   │  A/B'd)   │   │  (vol-   │   │  orders,   │
+│            │   │            │   │           │   │ targeted)│   │  TCA loop) │
+└────────────┘   └────────────┘   └───────────┘   └──────────┘   └────────────┘
       │               │                │               │              │
       ▼               ▼                ▼               ▼              ▼
   Kafka/ZeroMQ    Feature store    Model registry   Risk limits    Fill events
@@ -1080,11 +1080,11 @@ $$
 - **LLM-as-judge reliability:** using an LLM to grade another LLM's output introduces its own bias (position bias, verbosity bias — judges tend to prefer longer answers). Mitigate with: (1) randomizing answer order when comparing two outputs, (2) using a stronger/different model family as judge than the one being evaluated, (3) calibrating the judge against a small human-labeled gold set and reporting judge-human agreement (Cohen's $\kappa$) as a confidence qualifier on the whole eval.
 
 ```
-             ┌────────────┐        ┌────────────┐
-  Query ────▶│  Retrieval  │       │ Generation │
-             │  Precision/ │       │ Faithfulness│
-             │  Recall     │       │ Relevance  │
-             └─────┬──────┘        └──────┬─────┘
+             ┌─────────────┐        ┌─────────────┐
+  Query ────▶│  Retrieval  │        │ Generation  │
+             │  Precision/ │        │ Faithfulness│
+             │  Recall     │        │ Relevance   │
+             └─────┬───────┘        └──────┬──────┘
                    │                       │
                    ▼                       ▼
             "Did we find the        "Did the model only
@@ -1299,7 +1299,7 @@ Term sheet text
       │
       ▼
 ┌──────────────┐     ┌───────────────┐     ┌─────────────────┐
-│ Pass 1:      │────▶│ Pass 2:       │────▶│ Schema          │
+│ Pass 1:      │────▶│ Pass 2:       │───▶│ Schema          │
 │ free-text    │     │ grammar-      │     │ validation +    │
 │ reasoning    │     │ constrained   │     │ faithfulness    │
 │ (CoT)        │     │ JSON decode   │     │ check (Q6)      │

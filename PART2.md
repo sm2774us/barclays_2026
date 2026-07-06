@@ -93,8 +93,8 @@ $$
 where $L$ is the lag operator ($Ly_t=y_{t-1}$). The $d$-th difference $(1-L)^d y_t$ removes a unit root of order $d$ (from ADF, above) to achieve stationarity before applying the stationary ARMA structure. **Box-Jenkins methodology**: (1) difference until ADF rejects $H_0$; (2) use ACF/PACF plots to identify candidate $(p,q)$ — an AR($p$) process has a PACF that cuts off after lag $p$ and an ACF that decays geometrically; an MA($q$) is the mirror image; (3) fit via MLE, validate residuals are white noise (Ljung-Box test) before use.
 
 ```
-Non-stationary (unit root, phi=1)        Stationary (mean-reverting, phi=0.6)
-  │      ╱‾╲                               │  ╱╲    ╱╲
+Non-stationary (unit root, phi=1)         Stationary (mean-reverting, phi=0.6)
+  │      ╱‾╲                                │  ╱╲    ╱╲
   │    ╱‾   ╲  ╱‾╲                          │ ╱  ╲  ╱  ╲    oscillates around
   │  ╱‾       ╲╱   ╲    wanders forever,    │╱────╲╱────╲── a fixed mean;
   │╱                ╲   variance grows      │                variance bounded
@@ -335,9 +335,9 @@ with a backpointer $\psi_t(j) = \arg\max_i[\delta_{t-1}(i)A_{ij}]$ tracked at ea
    Regime 1 (calm)      transition A_12         Regime 2 (stressed)
    ┌──────────┐   ────────────────────▶   ┌──────────┐
    │ mu1, s1  │                            │ mu2, s2  │
-   └────┬─────┘   ◀────────────────────    └────┬─────┘
-        │              transition A_21           │
-        ▼                                          ▼
+   └────┬─────┘   ◀────────────────────   └────┬─────┘
+        │              transition A_21          │
+        ▼                                       ▼
    emits x_t ~ N(mu1,s1)               emits x_t ~ N(mu2,s2)
    (e.g. tight financing spreads)      (e.g. wide, volatile spreads)
 ```
@@ -1220,8 +1220,8 @@ The KL term regularizes the latent space to be smooth and prior-like (typically 
 
 ```
 Input x (d-dim) ──▶ Encoder f_θ ──▶ bottleneck z (k-dim, k<<d) ──▶ Decoder g_φ ──▶ x̂ (d-dim)
-                                                                                    │
-                                          anomaly score = ||x − x̂||²  ◀────────────┘
+                                                                                     │
+                                          anomaly score = ||x − x̂||²  ◀─────────────┘
                                           (large for patterns unlike the training distribution)
 ```
 
@@ -1248,12 +1248,12 @@ where `Feasibility` reflects data readiness (does the point-in-time feature pipe
 
 ```
 Phase 0 (Weeks 1-4): Shared platform spine
-  ┌──────────────┐  ┌───────────────┐  ┌──────────────┐  ┌────────────┐
+  ┌───────────────┐  ┌────────────────┐  ┌──────────────┐  ┌────────────┐
   │ Feature store │  │ Model registry │  │ Eval harness │  │ Monitoring │
   │ (point-in-time│  │ (champion/     │  │ (DSR gate,   │  │ (drift,    │
   │  schema, Q1/  │  │  challenger,   │  │  RAGAS for   │  │  decay,    │
   │  Q30)         │  │  Q3)           │  │  GenAI, Q6)  │  │  Q1)       │
-  └──────────────┘  └───────────────┘  └──────────────┘  └────────────┘
+  └───────────────┘  └────────────────┘  └──────────────┘  └────────────┘
                               │  every subsequent model plugs into this spine
 Phase 1 (Months 1-3): 2-3 quick wins that stress-test the spine
   → e.g., a structured-extraction GenAI tool (Q5/Q8) + a regression-based
@@ -1328,11 +1328,11 @@ $$
 **Why this is the right lens for the interview specifically:** the JD explicitly frames this as a "start-up mindset" role reporting to a small greenfield team but expected to "shape the strategic direction of AI adoption across Markets" — the interviewer (an MD who co-founded a systematic trading firm) is very likely probing whether the candidate thinks in terms of reusable systems (per this answer) or one-off point solutions, since the latter doesn't scale to "50+ problem statements" with a 10-15 person engineering team.
 
 ```
-                    ┌─────────────────────────────┐
+                    ┌──────────────────────────────┐
                     │   SHARED TEMPLATE CORE       │
                     │  Contract · Model classes ·  │
                     │  Eval gates · Registry API   │
-                    └──────────────┬──────────────┘
+                    └──────────────┬───────────────┘
           ┌───────────┬────────────┼────────────┬───────────┐
           ▼           ▼            ▼            ▼           ▼
      Equities/D1   Financing      FX          Risk      Futures/PDS
