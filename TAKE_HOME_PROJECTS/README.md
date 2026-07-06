@@ -542,34 +542,15 @@ apologize for.
                                   └───────────────────────────────────────┘
 ```
 
-**The refusal gate, derived — why raw cosine similarity and not the RRF score.** RRF scores are
-**rank-based**, not magnitude-based (§3.9) — on a 3-document toy corpus, even a spurious single-term
-match will receive a non-trivial RRF score simply by virtue of being *some* document's best available
-rank. This means RRF alone cannot distinguish "genuinely relevant, strong match" from "best of a bad lot"
-— exactly the distinction the refusal behavior needs. `max_dense_similarity` instead directly reports the
-raw cosine similarity (bounded and 0 for genuinely no lexical overlap), giving a magnitude-meaningful
-signal for the floor check:
+**The refusal gate, derived — why raw cosine similarity and not the RRF score.** RRF scores are **rank-based**, not magnitude-based (§3.9) — on a 3-document toy corpus, even a spurious single-term match will receive a non-trivial RRF score simply by virtue of being *some* document's best available rank. This means RRF alone cannot distinguish "genuinely relevant, strong match" from "best of a bad lot" — exactly the distinction the refusal behavior needs. `max_dense_similarity` instead directly reports the raw cosine similarity (bounded and 0 for genuinely no lexical overlap), giving a magnitude-meaningful signal for the floor check:
 
-$$
+```math
 \text{is\_refusal} = \mathbb{1}\big[\max_i \cos(\vec q, \vec d_i) < \text{floor}\big], \qquad \text{floor}=0.12 \text{ (tunable per corpus)}
-$$
+```
 
-**Say it out loud, anticipating the obvious follow-up "how did you pick 0.12":** *"This threshold should
-be calibrated empirically against a labeled set of in-scope vs. out-of-scope queries, exactly the same
-way the Neyman-Pearson threshold in P3 is calibrated against labeled data rather than asserted — 0.12 is
-a reasonable default for a small, topically-narrow corpus like this reference implementation's 3-document
-demo, but I would not ship it unchanged against the real policy-doc corpus without first running the
-recall@k and refusal-precision evaluation described in the take-home brief's required deliverable #4."*
+**Say it out loud, anticipating the obvious follow-up "how did you pick 0.12":** *"This threshold should be calibrated empirically against a labeled set of in-scope vs. out-of-scope queries, exactly the same way the Neyman-Pearson threshold in P3 is calibrated against labeled data rather than asserted — 0.12 is a reasonable default for a small, topically-narrow corpus like this reference implementation's 3-document demo, but I would not ship it unchanged against the real policy-doc corpus without first running the recall@k and refusal-precision evaluation described in the take-home brief's required deliverable #4."*
 
-**Faithfulness proxy vs. true LLM-as-judge faithfulness — an honest limitation, stated explicitly.** The
-shipped `faithfulness_proxy` (Jaccard token overlap between answer and retrieved context) is a
-**necessary-but-not-sufficient** sanity check: an answer can have high token overlap with its context and
-still misstate a number (e.g., citing the right clause but transposing "8.5%" to "5.8%" — every token
-still overlaps). **Say it out loud:** *"This proxy is intentionally deterministic and model-free so it
-can run in CI on every commit without an API dependency or cost — it is a lower bound, not a replacement,
-for a live LLM-as-judge faithfulness score (per Q6 of the technical interview prep — decomposing the
-answer into atomic claims and checking each against context), which is the production-grade evaluation
-this module is designed to be swapped in for without changing the retrieval or refusal contract at all."*
+**Faithfulness proxy vs. true LLM-as-judge faithfulness — an honest limitation, stated explicitly.** The shipped `faithfulness_proxy` (Jaccard token overlap between answer and retrieved context) is a **necessary-but-not-sufficient** sanity check: an answer can have high token overlap with its context and still misstate a number (e.g., citing the right clause but transposing "8.5%" to "5.8%" — every token still overlaps). **Say it out loud:** *"This proxy is intentionally deterministic and model-free so it can run in CI on every commit without an API dependency or cost — it is a lower bound, not a replacement, for a live LLM-as-judge faithfulness score (per Q6 of the technical interview prep — decomposing the answer into atomic claims and checking each against context), which is the production-grade evaluation this module is designed to be swapped in for without changing the retrieval or refusal contract at all."*
 
 ### 4.6. Cross-Project Production Standards (Referenced Throughout §4 and PRESENTATION_TALKING_POINTS.md)
 
