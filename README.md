@@ -90,20 +90,21 @@ This question set was calibrated against publicly documented interview experienc
 ### 🏗️ TAKE HOME PROJECTS
 - **P1 · Securities-Lending Fee & Rebate-Rate Forecasting**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-1-securities-lending-fee--rebate-rate-forecasting)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p1--securities-lending-fee--rebate-rate-forecasting)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#41-p1--securities-lending-fee-forecasting-full-system-architecture)**
 - **P2 · Client Margin & Haircut Optimization**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-2-client-margin--haircut-optimization)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p2--client-margin--haircut-optimization)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#42-p2--client-margin--haircut-optimization-full-system-architecture)**
 - **P3 · Cross-Asset Funding-Spread Anomaly Detection**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-3-cross-asset-funding-spread-anomaly-detection)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p3--cross-asset-funding-spread-anomaly-detection)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#43-p3--cross-asset-funding-spread-anomaly-detection-full-system-architecture)**
 - **P4 · Prime Balance & Utilization Forecasting (Deep Learning)**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-4-prime-balance--utilization-forecasting-deep-learning)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p4--prime-balance--utilization-forecasting-deep-learning)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#44-p4--prime-balance-forecasting-full-system-architecture)**
 - **P5 · RAG Financing-Desk Copilot (GenAI / LLM)**
   - **[PROBLEM STATEMENT](./TAKE_HOME_PROJECTS/PROBLEMS.md#take-home-5-rag-financing-desk-copilot-genai)**
-  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#p5--rag-financing-desk-copilot-genai--llm)**
+  - **[SOLUTION](./TAKE_HOME_PROJECTS/README.md#45-p5--rag-financing-desk-copilot-full-system-architecture)**
 
+### 🏗️ Reference Sheet
 - **[Quick-Reference Equation Sheet](#quick-reference-equation-sheet)**
 
 [🔝 Back to Top](#table-of-contents)
@@ -3873,4 +3874,4 @@ Bayesian post.: mu_1 = tau_1^2 * (mu_0/tau_0^2 + X'y/sigma^2),
 
 *Last updated: July 2026 · Shaikat Majumdar · Barclays AI / ML Modeler — Liquid Financing — Technical Round Prep*
 
-[↩️ Back to README.md](../README.md)
+[🔝 Back to Top](#table-of-contents)
