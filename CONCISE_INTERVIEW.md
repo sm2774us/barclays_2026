@@ -527,7 +527,7 @@ $$W = W_0 + \Delta W, \qquad \Delta W = BA, \quad B \in \mathbb{R}^{d \times r},
 
 $$h = W_0 x + \Delta W x = W_0 x + BAx$$
 
-**Say it out loud:** **"$W_0$ stays frozen entirely. I only train $A$ and $B$, two small matrices whose product approximates the ideal weight update, at rank $r$ — often 8, 16, or 64, versus a weight matrix that might be thousands wide. That collapses the number of trainable parameters by orders of magnitude, typically well under 1% of the base model, which means I can fine-tune on a single GPU and store many task-specific adapters — one for financing-doc summarization, one for repo-desk Q&A — as small files layered on top of one shared frozen base model."**
+**Say it out loud: " $W_0$ stays frozen entirely. I only train $A$ and $B$, two small matrices whose product approximates the ideal weight update, at rank $r$ — often 8, 16, or 64, versus a weight matrix that might be thousands wide. That collapses the number of trainable parameters by orders of magnitude, typically well under 1% of the base model, which means I can fine-tune on a single GPU and store many task-specific adapters — one for financing-doc summarization, one for repo-desk Q&A — as small files layered on top of one shared frozen base model. "**
 
 **QLoRA adds quantization on top:**
 
