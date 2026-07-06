@@ -306,7 +306,9 @@ GIL-bound multithread   No parallel CPU use     multiprocessing / Numba nogil / 
 
 ### The Numba `nogil` Pattern for a Hot Path
 
-$$\text{EWMA}_t = \lambda \cdot x_t + (1-\lambda)\cdot \text{EWMA}_{t-1}$$
+$$
+\text{EWMA}_t = \lambda \cdot x_t + (1-\lambda)\cdot \text{EWMA}_{t-1}
+$$
 
 **Say it out loud:** *"This recursion has a true sequential data dependency — you can't vectorize it away entirely — so the right tool is a compiled, GIL-releasing loop, not a Python for-loop."*
 
