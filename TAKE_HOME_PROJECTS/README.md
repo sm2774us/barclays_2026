@@ -412,8 +412,8 @@ $$
 LR = -2\left[(250-3)\ln(0.99) + 3\ln(0.01) - \big((247)\ln(0.988)+3\ln(0.012)\big)\right]
 $$
 
-Computing: $247\ln(0.99)=-2.483$, $3\ln(0.01)=-13.816$, sum $=-16.30$ (null log-likelihood). Alternative:
-$247\ln(0.988)=-2.981$, $3\ln(0.012)=-13.32$, sum$=-16.30$ (nearly identical — as expected, since 1.2% is
+Computing: $247\ln(0.99)=-2.483$, $3\ln(0.01)=-13.816$, $text{sum}=-16.30$ (null log-likelihood). Alternative:
+$247\ln(0.988)=-2.981$, $3\ln(0.012)=-13.32$, $text{sum}=-16.30$ (nearly identical — as expected, since 1.2% is
 very close to the 1% target). $LR \approx 0.06$, $p\text{-value} \approx 0.81$ — **fails to reject**,
 meaning 3 breaches out of 250 is entirely consistent with a well-calibrated 99% VaR model. **Say it out
 loud:** *"3 breaches against a 1% target on 250 days is well within statistical noise — I'd only start
