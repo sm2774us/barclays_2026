@@ -1286,10 +1286,12 @@ Model selection is a constrained optimization over (accuracy, latency, cost, dat
 Structured extraction is a constrained decoding problem: we want $p_\theta(\hat{y} \mid x)$ to place its mass on the schema-valid space $\mathcal{Y}_{\text{schema}} \subset \mathcal{Y}$, not on the full space of natural-language strings. Two complementary levers:
 
 1. **Prompt-level constraint (soft):** provide the JSON schema explicitly, with a system prompt that forbids any output outside the fenced JSON, plus 2–3 few-shot examples showing the exact failure modes to avoid (e.g., a term sheet with an ambiguous rate that should map to `null`, not a hallucinated number) — few-shot examples do more work than instructions alone because they demonstrate the *decision boundary*, not just the format.
-2. **Decoding-level constraint (hard):** use grammar-constrained / JSON-mode decoding, which masks the logits at each step to only allow tokens consistent with the target JSON schema's grammar — formally, at each decoding step $t$, the sampling distribution is renormalized over the allowed-token set $\mathcal{V}_t \subset \mathcal{V}$:
+2. **Decoding-level constraint (hard):** use grammar-constrained / JSON-mode decoding, which masks the logits at each step to only allow tokens consistent with the target JSON schema's grammar — formally, at each decoding step $t$, the sampling distribution is renormalized over the allowed-token set $\mathcal{V}_t \subset \mathcal{V}$ :
+
 $$
 p(\hat{y}_t \mid \hat{y}_{<t}, x) = \frac{\exp(z_t) \cdot \mathbb{1}[\hat{y}_t \in \mathcal{V}_t]}{\sum_{v \in \mathcal{V}_t} \exp(z_v)}
 $$
+
 This *guarantees* schema-valid output syntactically, but does **not** guarantee semantic correctness — the model can still emit a syntactically-valid but factually-wrong rate. That's why extraction pipelines still need the faithfulness check from Q6 layered on top.
 
 **Chain-of-thought vs. direct extraction:** for a genuinely ambiguous clause (e.g., a rate defined by cross-reference to another schedule), forcing direct JSON output without reasoning space measurably increases error rate — the fix is a two-pass pattern: pass 1 emits free-text reasoning ("the rate is defined in Schedule A, which specifies SOFR + spread..."), pass 2 (a separate, cheap call) extracts the final JSON from pass 1's reasoning. This avoids polluting the schema-constrained output with reasoning tokens while still getting the accuracy benefit of "thinking before answering."
