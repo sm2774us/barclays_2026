@@ -1682,9 +1682,11 @@ $$SE_{\text{HAC}} \approx SE_{\text{naive}}\sqrt{\frac{1+\rho}{1-\rho}} = 0.10\s
 
 ### Durbin-Watson — The Quick Diagnostic Before Reaching for Newey-West
 
-$$DW = \frac{\sum_{t=2}^n(\hat\varepsilon_t-\hat\varepsilon_{t-1})^2}{\sum_{t=1}^n\hat\varepsilon_t^2}$$
+$$
+DW = \frac{\sum_{t=2}^n(\hat\varepsilon_t-\hat\varepsilon_{t-1})^2}{\sum_{t=1}^n\hat\varepsilon_t^2}
+$$
 
-**Line-by-line:** expand the numerator: $\sum(\hat\varepsilon_t-\hat\varepsilon_{t-1})^2 = \sum\hat\varepsilon_t^2 + \sum\hat\varepsilon_{t-1}^2 - 2\sum\hat\varepsilon_t\hat\varepsilon_{t-1} \approx 2\sum\hat\varepsilon_t^2(1-\hat\rho)$ for large $n$, where $\hat\rho$ is the lag-1 sample autocorrelation of residuals. So $DW\approx 2(1-\hat\rho)$ — **say it out loud:** **"$DW\approx 2$ means no autocorrelation ($\hat\rho\approx0$); $DW$ near 0 means strong positive autocorrelation ($\hat\rho\to1$); $DW$ near 4 means strong negative autocorrelation ($\hat\rho\to-1$). It's a fast, single-number triage before deciding whether the full Newey-West machinery (or a GLS/Cochrane-Orcutt re-specification) is warranted."**
+**Line-by-line:** expand the numerator: $\sum(\hat\varepsilon_t-\hat\varepsilon_{t-1})^2 = \sum\hat\varepsilon_t^2 + \sum\hat\varepsilon_{t-1}^2 - 2\sum\hat\varepsilon_t\hat\varepsilon_{t-1} \approx 2\sum\hat\varepsilon_t^2(1-\hat\rho)$ for large $n$, where $\hat\rho$ is the lag-1 sample autocorrelation of residuals. So $DW \approx 2(1-\hat\rho)$ — **say it out loud:** **" $DW \approx 2$ means no autocorrelation ($\hat\rho\approx0$); $DW$ near 0 means strong positive autocorrelation ($\hat\rho\to1$); $DW$ near 4 means strong negative autocorrelation ($\hat\rho\to-1$). It's a fast, single-number triage before deciding whether the full Newey-West machinery (or a GLS/Cochrane-Orcutt re-specification) is warranted. "**
 
 ### GLS as the Alternative — Regaining Efficiency, Not Just Correcting Inference
 
