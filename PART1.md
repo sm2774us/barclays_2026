@@ -56,22 +56,22 @@ A research idea is worth nothing until it survives four independent falsificatio
 
 ```
 ┌────────────┐   ┌────────────┐   ┌──────────────┐   ┌───────────┐   ┌────────────┐
-│ Hypothesis │──▶│  In-Sample │──▶│  CPCV / OOS  │──▶│  Shadow/   │──▶│ Live, sized│
-│ (economic  │   │  fit +     │   │  Deflated    │   │  Paper     │   │ w/ kill-   │
-│  rationale)│   │  sanity    │   │  Sharpe test │   │  (TCA vs   │   │ switch &   │
-│            │   │  checks    │   │  H0: DSR≤0   │   │  model)    │   │ decay      │
+│ Hypothesis │──▶│  In-Sample │─▶│  CPCV / OOS  │─▶│  Shadow/  │──▶│ Live, sized│
+│ (economic  │   │  fit +     │   │  Deflated    │   │  Paper    │   │ w/ kill-   │
+│  rationale)│   │  sanity    │   │  Sharpe test │   │  (TCA vs  │   │ switch &   │
+│            │   │  checks    │   │  H0: DSR≤0   │   │  model)   │   │ decay      │
 └────────────┘   └────────────┘   └──────────────┘   └───────────┘   │ monitor    │
-                                                                       └────────────┘
+                                                                     └────────────┘
 ```
 
 The **Deflated Sharpe Ratio (DSR)** gate corrects for multiple-testing bias when $N$ signal variants were tried:
 
 $$
-\widehat{SR}^{*} = \sigma_{\widehat{SR}} \left[ (1-\gamma)\,\Phi^{-1}\!\left(1-\frac{1}{N}\right) + \gamma\,\Phi^{-1}\!\left(1-\frac{1}{Ne}\right)\right], \qquad
-\text{DSR} = \Phi\!\left(\frac{(\widehat{SR}-\widehat{SR}^{*})\sqrt{T-1}}{\sqrt{1-\gamma_3\widehat{SR}+\frac{\gamma_4-1}{4}\widehat{SR}^2}}\right)
+\widehat{SR}^{\*} = \sigma_{\widehat{SR}} \left[ (1-\gamma)\,\Phi^{-1}\!\left(1-\frac{1}{N}\right) + \gamma\,\Phi^{-1}\!\left(1-\frac{1}{Ne}\right)\right], \qquad
+\text{DSR} = \Phi\!\left(\frac{(\widehat{SR}-\widehat{SR}^{\*})\sqrt{T-1}}{\sqrt{1-\gamma_3\widehat{SR}+\frac{\gamma_4-1}{4}\widehat{SR}^2}}\right)
 $$
 
-- $\widehat{SR}^{*}$ is the expected **maximum** Sharpe achievable by pure luck across $N$ independent trials, from extreme-value theory for the maximum of $N$ correlated Gaussians; $\gamma \approx 0.5772$ is the Euler–Mascheroni constant used in the asymptotic approximation to $E[\max]$.
+- $\widehat{SR}^{\*}$ is the expected **maximum** Sharpe achievable by pure luck across $N$ independent trials, from extreme-value theory for the maximum of $N$ correlated Gaussians; $\gamma \approx 0.5772$ is the Euler–Mascheroni constant used in the asymptotic approximation to $E[\max]$.
 - $\gamma_3, \gamma_4$ (skew, kurtosis) inflate the denominator's variance for negatively-skewed, fat-tailed strategies — exactly the profile of carry/financing-spread books — which is *why* naive Sharpe overstates confidence for that return shape.
 - Promote to shadow only if $\text{DSR} > 0.95$: the observed Sharpe must beat the *best-of-N* null, not zero.
 
@@ -1236,7 +1236,7 @@ if __name__ == "__main__":
 Model selection is a constrained optimization over (accuracy, latency, cost, data-residency, context length) — treat it as picking a point on a Pareto frontier rather than a single "best" model:
 
 $$
-\text{Model}^{*} = \arg\max_{m \in \mathcal{M}} \; U(m) \quad \text{s.t.} \quad \text{latency}(m) \le L,\ \ \text{cost}(m) \le B,\ \ \text{data\_residency}(m) \in \text{Approved}
+\text{Model}^{\*} = \arg\max_{m \in \mathcal{M}} \; U(m) \quad \text{s.t.} \quad \text{latency}(m) \le L,\ \ \text{cost}(m) \le B,\ \ \text{data\_residency}(m) \in \text{Approved}
 $$
 
 ```
@@ -1730,7 +1730,7 @@ $$
 $$
 This is now a simple quadratic in each $w_j$ independently. Setting $\partial \text{Obj}/\partial w_j = G_j + (H_j+\lambda)w_j = 0$:
 $$
-w_j^{*} = -\frac{G_j}{H_j+\lambda}, \qquad \text{Obj}^{*} = -\tfrac12\sum_{j=1}^T \frac{G_j^2}{H_j+\lambda} + \gamma T
+w_j^{\*} = -\frac{G_j}{H_j+\lambda}, \qquad \text{Obj}^{\*} = -\tfrac12\sum_{j=1}^T \frac{G_j^2}{H_j+\lambda} + \gamma T
 $$
 **Split gain** — the reduction in $\text{Obj}^*$ from splitting one leaf into left/right:
 $$

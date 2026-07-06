@@ -115,7 +115,7 @@ SYSTEM DESIGN / STRATEGY          Q28–Q30     High      "Build AI/ML capabilit
 
 | # | Concept | Core Equation |
 |---|---|---|
-| Q1 | Deflated Sharpe Ratio | $\text{DSR}=\Phi\!\left(\frac{(\widehat{SR}-\widehat{SR}^{*})\sqrt{T-1}}{\sqrt{1-\gamma_3\widehat{SR}+\frac{\gamma_4-1}{4}\widehat{SR}^2}}\right)$ |
+| Q1 | Deflated Sharpe Ratio | $\text{DSR}=\Phi\!\left(\frac{(\widehat{SR}-\widehat{SR}^{\*})\sqrt{T-1}}{\sqrt{1-\gamma_3\widehat{SR}+\frac{\gamma_4-1}{4}\widehat{SR}^2}}\right)$ |
 | Q3 | Vol-targeted sizing | $w_t = s_t\cdot\frac{\sigma^*}{\hat\sigma_t}\cdot\frac{1}{\sqrt{n_{\text{corr}}}}$ |
 | Q4 | LoRA update | $\Delta W = BA,\ B\in\mathbb{R}^{d\times r}, A\in\mathbb{R}^{r\times k}$ |
 | Q5 | Cosine similarity | $\text{sim}(q,d)=\frac{q\cdot d}{\lVert q\rVert\lVert d\rVert}$ |
