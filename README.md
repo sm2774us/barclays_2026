@@ -2278,11 +2278,11 @@ $$\ln(\sigma_t^2) = \omega + \beta\ln(\sigma_{t-1}^2) + \alpha\left(\frac{|\vare
 
 ### Worked Numerical Example — Multi-Step-Ahead GARCH Volatility Forecast
 
-Suppose a fitted GARCH(1,1) has $\omega=0.02$, $\alpha=0.10$, $\beta=0.85$ (persistence $\alpha+\beta=0.95$, long-run variance $\bar\sigma^2 = 0.02/(1-0.95)=0.40$), and today's conditional variance is $\sigma_t^2=0.60$ (currently elevated above the long-run level — a stressed day). The $h$-step-ahead forecast, derived by repeatedly substituting the recursion forward and taking conditional expectation ($\mathbb{E}_t[\varepsilon_{t+j}^2]=\sigma_{t+j}^2$ for the realized future variance):
+Suppose a fitted GARCH(1,1) has $\omega=0.02$, $\alpha=0.10$, $\beta=0.85$ (persistence $\alpha+\beta=0.95$, long-run variance $\bar\sigma^2 = 0.02/(1-0.95)=0.40$), and today's conditional variance is $\sigma_t^2=0.60$ (currently elevated above the long-run level — a stressed day). The $h$-step-ahead forecast, derived by repeatedly substituting the recursion forward and taking conditional expectation ( $\mathbb{E}_t[\varepsilon_{t+j}^2]=\sigma_{t+j}^2$ for the realized future variance ):
 
 $$\mathbb{E}_t[\sigma_{t+h}^2] = \bar\sigma^2 + (\alpha+\beta)^{h-1}\big(\sigma_{t+1}^2-\bar\sigma^2\big)$$
 
-**Line-by-line derivation:** start from $\sigma_{t+1}^2 = \omega+\alpha\varepsilon_t^2+\beta\sigma_t^2$ (known at time $t$). For $h=2$: $\mathbb{E}_t[\sigma_{t+2}^2] = \omega + (\alpha+\beta)\sigma_{t+1}^2 = \bar\sigma^2(1-\alpha-\beta) + (\alpha+\beta)\sigma_{t+1}^2$ — rearranging, $=\bar\sigma^2 + (\alpha+\beta)(\sigma_{t+1}^2-\bar\sigma^2)$, confirming the formula at $h=2$ directly, and induction on $h$ extends it forward using the same substitution at each step (each additional step multiplies the "distance from long-run variance" by another factor of the persistence $\alpha+\beta$).
+**Line-by-line derivation:** start from $\sigma_{t+1}^2 = \omega+\alpha\varepsilon_t^2+\beta\sigma_t^2$ (known at time $t$). For $h=2$ : $\mathbb{E}_t[\sigma_{t+2}^2] = \omega + (\alpha+\beta)\sigma_{t+1}^2 = \bar\sigma^2(1-\alpha-\beta) + (\alpha+\beta)\sigma_{t+1}^2$ — rearranging, $=\bar\sigma^2 + (\alpha+\beta)(\sigma_{t+1}^2-\bar\sigma^2)$ , confirming the formula at $h=2$ directly, and induction on $h$ extends it forward using the same substitution at each step (each additional step multiplies the "distance from long-run variance" by another factor of the persistence $\alpha+\beta$).
 
 Plugging in numbers: $\sigma_{t+1}^2 = 0.02+0.10\varepsilon_t^2+0.85(0.60)$; assume $\varepsilon_t^2\approx\sigma_t^2=0.60$ (typical realized shock near its conditional expectation) giving $\sigma_{t+1}^2\approx0.02+0.06+0.51=0.59$. Then for $h=10$ days ahead:
 
