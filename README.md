@@ -1061,7 +1061,7 @@ CLAIM 3: "desk head who approved this rate was Jane Smith" → Check against ret
 If the retrieved context supports Claims 1 and 2 verbatim but contains **no mention** of any approver named Jane Smith, then
 
 ```math
-\text{claims\_supported}=2$, $\text{claims\_total}=3
+\text{claims\_supported}=2, \quad \text{claims\_total}=3
 ```
 
 , and:
