@@ -829,7 +829,7 @@ LoRA trainable params: 65,536  |  Full fine-tune params: 16,777,216  |  Reductio
 RAG factorizes the generation distribution over a retrieved context set $C = \{c_1, \dots, c_k\}$:
 
 $$
-p(y \mid x) = \sum_{c \in \mathcal{C}} p_\eta(c \mid x)\, p_\theta(y \mid x, c) \approx p_\theta\!\left(y \,\middle|\, x, \operatorname*{top\text{-}k}_{c \in \mathcal{C}} \; \text{sim}(q(x), e(c))\right)
+p(y \mid x) = \sum_{c \in \mathcal{C}} p_\eta(c \mid x)\, p_\theta(y \mid x, c) \approx p_\theta\!\left(y \,\middle|\, x, \mathop{\text{top-k}}\limits_{c \in \mathcal{C}} \; \text{sim}(q(x), e(c))\right)
 $$
 
 where $q(\cdot)$, $e(\cdot)$ are query/document embedding functions and similarity is cosine:
