@@ -839,14 +839,14 @@ $$
 $$
 
 ```
- Term sheets, repo docs,      ┌──────────┐    ┌───────────┐    ┌───────────┐
- research notes (PDF/MD) ────▶│ Chunker  │──▶│ Embedder  │───▶│ Vector DB │
+ Term sheets, repo docs,      ┌──────────┐    ┌────────────┐    ┌───────────┐
+ research notes (PDF/MD) ────▶│ Chunker  │──▶│ Embedder   │─▶│ Vector DB │
                               │ (semantic,│   │ (financial-│   │ (HNSW /  │
                               │  ~512 tok,│   │  domain    │   │  IVF-PQ) │
                               │  overlap) │   │  fine-tuned│   │           │
                               └──────────┘    │  encoder)  │    └─────┬─────┘
-                                              └───────────┘          │
-  User query ──▶ Query embed ──▶ Top-k retrieve ◀────────────────────┘
+                                              └────────────┘          │
+  User query ──▶ Query embed ──▶ Top-k retrieve ◀───────────────────┘
                         │
                         ▼
                  ┌─────────────┐    ┌────────────┐    ┌───────────────┐
