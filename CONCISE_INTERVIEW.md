@@ -431,7 +431,7 @@ $$F_m(x) = F_{m-1}(x) + \eta \cdot h_m(x), \qquad h_m = \arg\min_h \sum_i L\!\le
 
 **SHAP for model-risk-grade explainability:**
 
-$$\phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|!\,(|N|-|S|-1)!}{|N|!}\Big[f(S \cup \{i\}) - f(S)\Big]$$
+$$\phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! \quad (|N|-|S|-1)!}{|N|!}\Big[f(S \cup \{i\}) - f(S)\Big]$$
 
 **Say it out loud:** *"SHAP values are Shapley values from cooperative game theory applied to features — each feature's contribution is its average marginal impact across every possible ordering of features being 'added' to the prediction. That's exactly what a model validation team wants: a mathematically fair, additive decomposition of 'why did the model output this number,' feature by feature, for every single prediction — not just a global feature-importance ranking."*
 
@@ -643,7 +643,7 @@ def build_lora_model(
 
 **The core retrieval math — cosine similarity in embedding space:**
 
-$$\text{sim}(q, d) = \frac{\mathbf{e}_q \cdot \mathbf{e}_d}{\|\mathbf{e}_q\|\,\|\mathbf{e}_d\|}$$
+$$\text{sim}(q, d) = \frac{\mathbf{e}_q \cdot \mathbf{e}_d}{\|\mathbf{e}_q\| \quad \|\mathbf{e}_d\|}$$
 
 **Say it out loud:** *"Both the query and every document chunk get mapped into the same embedding space, and I retrieve the chunks whose vectors are most cosine-similar to the query vector. The two failure modes I actively guard against are bad chunking — splitting a haircut table across two chunks so neither has the full context — and pure dense retrieval missing exact-term matches, like a specific ISIN or clause number, which is why I always pair dense retrieval with a sparse BM25 pass in a hybrid search, then re-rank the union with a cross-encoder before it ever reaches the LLM."*
 
