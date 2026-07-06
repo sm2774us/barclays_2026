@@ -1277,7 +1277,7 @@ $$
 \theta^{\*},\phi^{\*} = \arg\min_{\theta,\phi} \; \frac{1}{n}\sum_{i=1}^n \lVert x_i - g_\phi(f_\theta(x_i))\rVert_2^2
 $$
 
-The bottleneck $k \ll d$ forces the network to learn a **compressed, lossy representation** that captures the dominant modes of variation in "normal" training data — this is a nonlinear generalization of PCA (in fact, a linear-activation autoencoder with squared-error loss provably converges to the same subspace spanned by PCA's top-$k$ principal components, though not necessarily the same orthonormal basis).
+The bottleneck $k \ll d$ forces the network to learn a **compressed, lossy representation** that captures the dominant modes of variation in "normal" training data — this is a nonlinear generalization of PCA (in fact, a linear-activation autoencoder with squared-error loss provably converges to the same subspace spanned by PCA's top-`k` principal components, though not necessarily the same orthonormal basis).
 
 **Anomaly detection mechanism:** train the autoencoder exclusively (or predominantly) on *normal* trading patterns. For a new observation $x$, the **reconstruction error** $\lVert x - g_\phi(f_\theta(x))\rVert_2^2$ is the anomaly score: a genuinely novel pattern that doesn't resemble anything in the training distribution cannot be well-compressed-and-reconstructed by a bottleneck trained only on normal patterns, so its reconstruction error is structurally larger. Set a threshold $\tau$ (e.g., the 99th percentile of reconstruction error on a held-out normal validation set) and flag $x$ as anomalous if error $>\tau$.
 
@@ -1289,7 +1289,7 @@ $$
 \mathcal{L}_{\text{ELBO}} = \underbrace{E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]}_{\text{reconstruction term}} - \underbrace{D_{KL}\big(q_\phi(z\mid x)\,\|\,p(z)\big)}_{\text{regularizes latent space toward prior}}
 $$
 
-The KL term regularizes the latent space to be smooth and prior-like (typically $p(z)=\mathcal{N}(0,I)$), which gives a well-calibrated **log-likelihood-based** anomaly score $-\log p_\theta(x)$ (approximated via the ELBO) rather than a raw, less-interpretable reconstruction distance.
+The KL term regularizes the latent space to be smooth and prior-like ( typically $p(z)=\mathcal{N}(0,I)$ ), which gives a well-calibrated **log-likelihood-based** anomaly score $-\log p_\theta(x)$ (approximated via the ELBO) rather than a raw, less-interpretable reconstruction distance.
 
 ```
 Input x (d-dim) ──▶ Encoder f_θ ──▶ bottleneck z (k-dim, k<<d) ──▶ Decoder g_φ ──▶ x̂ (d-dim)
