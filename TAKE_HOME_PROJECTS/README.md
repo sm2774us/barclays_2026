@@ -473,13 +473,7 @@ $$
 \text{Cost}(\tau) = c_{FN}\cdot n_{\text{pos}}\cdot(1-\text{Recall}(\tau)) + c_{FP}\cdot \text{FP}(\tau)
 $$
 
-where $FP(\tau)$ is recovered algebraically from the precision-recall curve via
-$FP = TP\cdot(1/\text{Precision} - 1)$ (since $\text{Precision}=TP/(TP+FP)$). **Say it out loud:** *"With
-$c_{FN}=5, c_{FP}=1$ in the reference implementation, missing a genuine funding-stress event is treated
-as five times costlier than a false alarm — a ratio I'd calibrate with the desk directly (e.g., against
-the realized carry cost of an un-hedged dislocation vs. the analyst-hours cost of chasing a false alarm),
-not leave as an arbitrary default; the threshold-selection *methodology* being explicit and re-calibratable
-is exactly what Take-Home 3's brief asks for ('not an arbitrary cutoff')."*
+where $FP(\tau)$ is recovered algebraically from the precision-recall curve via $FP = TP\cdot(1/\text{Precision} - 1)$ ( since $\text{Precision}=TP/(TP+FP)$ ). **Say it out loud:** **"With $c_{FN}=5, c_{FP}=1$ in the reference implementation, missing a genuine funding-stress event is treated as five times costlier than a false alarm — a ratio I'd calibrate with the desk directly (e.g., against the realized carry cost of an un-hedged dislocation vs. the analyst-hours cost of chasing a false alarm), not leave as an arbitrary default; the threshold-selection methodology being explicit and re-calibratable is exactly what Take-Home 3's brief asks for ('not an arbitrary cutoff')."**
 
 ### 4.4. P4 — Prime Balance Forecasting: Full System Architecture
 
