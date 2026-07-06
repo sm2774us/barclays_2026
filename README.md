@@ -1056,9 +1056,17 @@ CLAIM 2: "tenor is 30 days"                                → Check against ret
 CLAIM 3: "desk head who approved this rate was Jane Smith" → Check against retrieved context
 ```
 
-If the retrieved context supports Claims 1 and 2 verbatim but contains **no mention** of any approver named Jane Smith, then $\text{claims\_supported}=2$, $\text{claims\_total}=3$, and:
+If the retrieved context supports Claims 1 and 2 verbatim but contains **no mention** of any approver named Jane Smith, then
 
-$$\text{Faithfulness} = \frac{2}{3} = 0.667$$
+```math
+\text{claims\_supported}=2$, $\text{claims\_total}=3
+```
+
+, and:
+
+```math
+\text{Faithfulness} = \frac{2}{3} = 0.667
+```
 
 **Say it out loud:** *"A faithfulness score of 0.667 flags a specific, actionable problem: Claim 3 is a hallucination — the model fabricated an approver name that wasn't in any retrieved document, likely because 'Jane Smith' is a plausible-sounding name pattern from its pretraining distribution rather than an actual fact from our corpus. This is exactly the failure mode that matters most in a regulated environment — a plausible-sounding but fabricated attribution — and it's invisible to metrics that only measure 'did the answer sound relevant,' which is why faithfulness must be measured separately from relevance."*
 
