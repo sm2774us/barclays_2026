@@ -628,7 +628,7 @@ $$
 \frac{\partial\mathcal{L}}{\partial W^{(2)}} = \delta^{(2)} (a^{(1)})^\top, \qquad \frac{\partial\mathcal{L}}{\partial b^{(2)}} = \delta^{(2)}
 $$
 
-**Step 3 — backpropagate the error to layer 1** (chain rule through $z^{(2)} = W^{(2)}a^{(1)}+b^{(2)}$, then through $a^{(1)}=\sigma(z^{(1)})$):
+**Step 3 — backpropagate the error to layer 1** (chain rule through $z^{(2)} = W^{(2)}a^{(1)}+b^{(2)}$, then through $a^{(1)}=\sigma(z^{(1)})$ ):
 
 $$
 \delta^{(1)} \equiv \frac{\partial\mathcal{L}}{\partial z^{(1)}} = \left[(W^{(2)})^\top \delta^{(2)}\right] \odot \sigma'(z^{(1)})
