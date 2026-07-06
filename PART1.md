@@ -839,21 +839,21 @@ $$
 $$
 
 ```
- Term sheets, repo docs,      ┌──────────┐    ┌────────────┐    ┌───────────┐
- research notes (PDF/MD) ────▶│ Chunker  │──▶│ Embedder   │─▶│ Vector DB │
-                              │ (semantic,│   │ (financial-│   │ (HNSW /  │
-                              │  ~512 tok,│   │  domain    │   │  IVF-PQ) │
+ Term sheets, repo docs,      ┌───────────┐   ┌────────────┐   ┌───────────┐
+ research notes (PDF/MD) ────▶│ Chunker   │──▶│ Embedder   │──▶│ Vector DB │
+                              │ (semantic,│   │ (financial-│   │ (HNSW /   │
+                              │  ~512 tok,│   │  domain    │   │  IVF-PQ)  │
                               │  overlap) │   │  fine-tuned│   │           │
-                              └──────────┘    │  encoder)  │    └─────┬─────┘
-                                              └────────────┘          │
-  User query ──▶ Query embed ──▶ Top-k retrieve ◀───────────────────┘
+                              └───────────┘   │  encoder)  │   └─────┬─────┘
+                                              └────────────┘         │
+  User query ──▶ Query embed ──▶ Top-k retrieve ◀────────────────────┘
                         │
                         ▼
-                 ┌─────────────┐    ┌────────────┐    ┌───────────────┐
+                 ┌─────────────┐    ┌────────────┐    ┌────────────────┐
                  │ Re-ranker   │───▶│ Context    │───▶│ LLM generation │──▶ Answer
                  │ (cross-     │    │ assembly + │    │ (Claude, w/    │    + citations
                  │  encoder)   │    │ dedup      │    │  system prompt)│
-                 └─────────────┘    └────────────┘    └───────────────┘
+                 └─────────────┘    └────────────┘    └────────────────┘
 ```
 
 **Why re-ranking matters mathematically:** bi-encoder retrieval (embed query and doc independently, then dot-product) is $O(1)$ per doc at query time but loses cross-attention between query and document tokens. A **cross-encoder** re-ranker scores $(q, d_i)$ jointly through a transformer, $\text{score}(q,d_i) = f_\theta([q;d_i])$, which is $O(k)$ forward passes but far more accurate — the standard pattern is: bi-encoder retrieves top-100 cheaply, cross-encoder re-ranks to top-5 for the context window, trading a small amount of latency for a large precision gain (recall@100 from the cheap stage upper-bounds what re-ranking can recover).
