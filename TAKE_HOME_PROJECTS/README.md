@@ -507,9 +507,9 @@ architecture should exploit that asymmetry rather than forcing the model to infe
 internally computes exactly the $z_t, r_t, \tilde h_t$ gates from Q24 of the interview prep document —
 worth being able to write out cold if asked "what does GRUCell actually compute internally"):
 
-$$
+```math
 z_t = \sigma\big(W_z[h_{t-1}, c_t] + b_z\big), \quad r_t = \sigma\big(W_r[h_{t-1}, c_t]+b_r\big), \quad \tilde h_t = \tanh\big(W[r_t\odot h_{t-1}, c_t]+b\big), \quad h_t = (1-z_t)h_{t-1} + z_t\tilde h_t
-$$
+```
 
 where $c_t$ = calendar embedding at decoder step $t$. **The honest baseline-discipline result** (already
 reported in §3.8) is the single most important talking point for this project: the GRU does **not** win
