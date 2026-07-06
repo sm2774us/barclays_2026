@@ -503,9 +503,13 @@ because we have *perfect future information* about the calendar (unlike the bala
 architecture should exploit that asymmetry rather than forcing the model to infer it indirectly.
 
 **GRU update equations, restated for what this specific architecture computes at each decoder step**
-(the concatenated input here is $[h_{t-1}, \text{calendar\_emb}_t]$, fed through a `GRUCell`, which
-internally computes exactly the $z_t, r_t, \tilde h_t$ gates from Q24 of the interview prep document —
-worth being able to write out cold if asked "what does GRUCell actually compute internally"):
+(the concatenated input here is: 
+
+```math
+[h_{t-1}, \text{calendar\_emb}_t]
+```
+
+, fed through a `GRUCell`, which internally computes exactly the $z_t, r_t, \tilde h_t$ gates from Q24 of the interview prep document — worth being able to write out cold if asked "what does GRUCell actually compute internally"):
 
 ```math
 z_t = \sigma\big(W_z[h_{t-1}, c_t] + b_z\big), \quad r_t = \sigma\big(W_r[h_{t-1}, c_t]+b_r\big), \quad \tilde h_t = \tanh\big(W[r_t\odot h_{t-1}, c_t]+b\big), \quad h_t = (1-z_t)h_{t-1} + z_t\tilde h_t
