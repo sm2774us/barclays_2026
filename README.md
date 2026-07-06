@@ -1435,7 +1435,7 @@ $$X^\top y = \begin{pmatrix}\sum y_i\\ \sum x_i y_i\end{pmatrix} = \begin{pmatri
 Invert the $2\times2$ matrix using:
 
 $$
-\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1} = \frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$, with determinant $4\cdot6 - 2\cdot2 = 20
+\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1} = \frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}, \quad \text{with determinant} \quad 4\cdot6 - 2\cdot2 = 20
 $$
 
 :
