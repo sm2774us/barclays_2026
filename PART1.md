@@ -1350,9 +1350,11 @@ $$
 **Unbiasedness:** $E[\hat\beta \mid X] = E[(X^\top X)^{-1}X^\top y \mid X] = (X^\top X)^{-1}X^\top E[X\beta+\varepsilon\mid X] = \beta + (X^\top X)^{-1}X^\top E[\varepsilon\mid X] = \beta$, using $E[\varepsilon\mid X]=0$.
 
 **Best (minimum variance among linear unbiased estimators):** let $\tilde\beta = Cy$ be *any* other linear unbiased estimator, $C = (X^\top X)^{-1}X^\top + D$ for some $D$. Unbiasedness of $\tilde\beta$ requires $DX = 0$ (substitute and require the $\beta$ coefficient to be identity and the $\varepsilon$ term to vanish in expectation for all $\beta$). Then:
+
 $$
 \text{Var}(\tilde\beta\mid X) = \sigma^2 CC^\top = \sigma^2\left[(X^\top X)^{-1} + DD^\top\right]
 $$
+
 (cross terms vanish because $DX=0 \Rightarrow D X (X^\top X)^{-1} = 0$). Since $DD^\top$ is positive semi-definite, $\text{Var}(\tilde\beta\mid X) - \text{Var}(\hat\beta\mid X) = \sigma^2 DD^\top \succeq 0$ — OLS has weakly the smallest variance in the class, with equality iff $D=0$, i.e., $\tilde\beta = \hat\beta$.
 
 ```
