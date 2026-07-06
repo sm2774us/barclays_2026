@@ -1071,6 +1071,26 @@ STATIC vs DYNAMIC HAIRCUT FRAMEWORK
 
 **Answer for Rishi:** *"This is where model risk discipline matters most in the whole JD — a haircut model is directly capital- and risk-limit-relevant, so anything I ship here needs full SR 11-7 style documentation, backtesting against realized liquidation outcomes, and a conservative fallback if the model's confidence is low. I would never let a black-box deep learning haircut model go live without a simpler, auditable model running in shadow mode alongside it for at least one full market cycle."*
 
+### SR 11-7
+**SR 11-7** was a foundational set of supervisory guidance issued by the Federal Reserve and the OCC in 2011, establishing strict "Model Risk Management" (MRM) standards for banks. It defined models broadly as quantitative methods converting input data into numerical estimates to ensure accountability, independent validation, and risk control.
+
+The guidance was built on three core pillars: 
+
+- **Model Development, Implementation, and Use:** Ensuring theoretical soundness and accurate design. 
+- **Independent Validation:** Requiring teams separate from the model developers to independently test and challenge the model. 
+- **Governance and Controls:** Ensuring oversight, ongoing monitoring, and documentation. 
+
+### The Shift to SR 26-2
+Because **SR 11-7** was written for traditional quantitative models (like credit or pricing scorecards), its static, reproducibility-based framework struggled to govern modern, dynamic, and probabilistic systems. In April 2026, U.S. banking regulators (the Fed, OCC, and FDIC) officially replaced SR 11-7 with updated guidance: **SR 26-2**. **SR 26-2** modernizes model risk management by: 
+
+- Creating a narrower, stricter definition of what constitutes a model. 
+- Explicitly excluding generative and agentic AI from standard model validation scopes. 
+- Implementing a new $\\$30$ billion asset threshold for applicability.
+
+### SR 11-7 vs SR 26-2
+
+![SR_11-7_vs_SR_26-2.png](./SR_11-7_vs_SR_26-2.png)
+
 [🔝 Back to Top](#table-of-contents)
 
 ---
