@@ -2181,7 +2181,7 @@ $$\text{AIC}(p) = \ln(\hat\sigma^2_p) + \frac{2(p+k)}{n}, \qquad \text{BIC}(p) =
 
 ### Seasonal ARIMA — Why Financing Curves Often Need the "S" in SARIMA
 
-Repo and financing markets exhibit strong **calendar-driven seasonality** — month-end and quarter-end balance-sheet constraints reliably widen GC repo spreads on specific, predictable days (window dressing). A plain $ARIMA(p,d,q)$ cannot capture this without an enormous lag order; $SARIMA(p,d,q) \times(P,D,Q)_s$ adds a **second, seasonal** difference/AR/MA structure at lag $s$ (e.g., $s=21$ trading days for a monthly cycle):
+Repo and financing markets exhibit strong **calendar-driven seasonality** — month-end and quarter-end balance-sheet constraints reliably widen GC repo spreads on specific, predictable days (window dressing). A plain ARIMA($p,d,q$) cannot capture this without an enormous lag order; SARIMA($p,d,q$)$\times (P,D,Q)_s$ adds a **second, seasonal** difference/AR/MA structure at lag $s$ (e.g., $s=21$ trading days for a monthly cycle):
 
 $$\Phi(L^s)(1-L^s)^D\phi(L)(1-L)^d y_t = \Theta(L^s)\theta(L)\varepsilon_t$$
 
