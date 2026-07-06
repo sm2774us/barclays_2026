@@ -486,7 +486,7 @@ $$\tilde{C}_t = \tanh(W_C[h_{t-1}, x_t]) \quad\text{(candidate cell state)}$$
 $$C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t \quad\text{(cell state update)}$$
 $$o_t = \sigma(W_o[h_{t-1}, x_t]), \quad h_t = o_t \odot \tanh(C_t)$$
 
-**Say it out loud:** *"The cell state $C_t$ is an additive highway — information flows through it via addition, not repeated multiplication, so gradients can flow back many steps without vanishing, as long as the forget gate $f_t$ stays close to 1 for information that should persist. GRU simplifies this to two gates instead of three by merging the cell and hidden state, which trains faster with often comparable accuracy on moderate-length sequences — my default for financing time series under ~100 timesteps, reserving full LSTM or attention-based models for longer lookbacks."*
+**Say it out loud:** **"The cell state $C_t$ is an additive highway — information flows through it via addition, not repeated multiplication, so gradients can flow back many steps without vanishing, as long as the forget gate $f_t$ stays close to 1 for information that should persist. GRU simplifies this to two gates instead of three by merging the cell and hidden state, which trains faster with often comparable accuracy on moderate-length sequences — my default for financing time series under ~100 timesteps, reserving full LSTM or attention-based models for longer lookbacks."**
 
 ```
 GATE FLOW — LSTM CELL
@@ -527,7 +527,7 @@ $$W = W_0 + \Delta W, \qquad \Delta W = BA, \quad B \in \mathbb{R}^{d \times r},
 
 $$h = W_0 x + \Delta W x = W_0 x + BAx$$
 
-**Say it out loud:** *"$W_0$ stays frozen entirely. I only train $A$ and $B$, two small matrices whose product approximates the ideal weight update, at rank $r$ — often 8, 16, or 64, versus a weight matrix that might be thousands wide. That collapses the number of trainable parameters by orders of magnitude, typically well under 1% of the base model, which means I can fine-tune on a single GPU and store many task-specific adapters — one for financing-doc summarization, one for repo-desk Q&A — as small files layered on top of one shared frozen base model."*
+**Say it out loud:** **"$W_0$ stays frozen entirely. I only train $A$ and $B$, two small matrices whose product approximates the ideal weight update, at rank $r$ — often 8, 16, or 64, versus a weight matrix that might be thousands wide. That collapses the number of trainable parameters by orders of magnitude, typically well under 1% of the base model, which means I can fine-tune on a single GPU and store many task-specific adapters — one for financing-doc summarization, one for repo-desk Q&A — as small files layered on top of one shared frozen base model."**
 
 **QLoRA adds quantization on top:**
 
@@ -951,7 +951,7 @@ $$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t, \qquad v_t = \beta_2 v_{t-1} + (1-\be
 
 $$\hat{m}_t = \frac{m_t}{1-\beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}, \qquad \theta_t = \theta_{t-1} - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}$$
 
-**Say it out loud:** *"Adam keeps a running estimate of both the mean and the variance of the gradient — momentum from the mean, and an adaptive per-parameter learning rate from the variance, so parameters with noisy or sparse gradients get bigger effective steps and parameters with consistently large gradients get damped. The bias-correction terms $\hat{m}_t, \hat{v}_t$ fix the fact that both estimates start at zero and would otherwise be biased toward zero in early steps."*
+**Say it out loud:** **"Adam keeps a running estimate of both the mean and the variance of the gradient — momentum from the mean, and an adaptive per-parameter learning rate from the variance, so parameters with noisy or sparse gradients get bigger effective steps and parameters with consistently large gradients get damped. The bias-correction terms $\hat{m}_t, \hat{v}_t$ fix the fact that both estimates start at zero and would otherwise be biased toward zero in early steps."**
 
 **Regularization — the critical concern for small financial datasets:**
 
