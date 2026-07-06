@@ -401,9 +401,9 @@ the LASSO layer already captured, making the two-layer decomposition meaningless
 understand "how much of this client's margin is coming from the auditable linear layer vs. the black-box
 add-on." Fitting on the residual **forces** an orthogonal decomposition by construction:
 
-$$
+```math
 \text{Shortfall}_{\text{total}} = \underbrace{\sum_{i} h_i \cdot |q_i| \cdot p_i}_{\text{linear\_im (fully auditable)}} + \underbrace{g_\theta(\text{portfolio features})}_{\text{correlation\_addon (GBM on residual)}}
-$$
+```
 
 **Kupiec test, worked with actual numbers from the codebase's demo.** With `target_rate=0.01` and a
 250-day window, if `n_breaches=3`: $\hat p = 3/250 = 0.012$.
