@@ -85,6 +85,13 @@ DOMAIN        D1 – D5      7 min          Do they actually understand Financin
 **Open with the intuition:**
 > "Traders don't care about my architecture — they care about latency, explainability, and whether it's right more often than they are. My job is translating 'why gradient boosting beats a transformer here' into 'why this won't blow up your P&L and won't take 200ms when you need an answer in 5.'"
 
+**Previous experience:**
+> "I was asked whether we should use an LLM to summarize overnight cross-asset funding and macro liquidity commentary for our morning trading huddle, versus a templated NLG system.
+> I laid out three axes for the business: **accuracy risk** — an LLM can hallucinate a number, a templated system cannot; **latency** — sub-second matters at 6:45am, LLM inference doesn't guarantee that without careful engineering; and **maintenance cost** — templates need a rules engineer, LLMs need prompt/eval iteration.
+> I recommended a hybrid architecture: deterministic templates pull hard numbers (repo rates, basis spreads, volume metrics) from the data warehouse, and an LLM only handles the prose synthesis layer, constrained by RAG grounding so it can't invent a rate that isn't in the retrieved context. That let the desk get natural-language color without exposing the firm to hallucinated numbers in a document traders act on.
+> The meta-skill is knowing GenAI is a language-and-reasoning layer, not a numerical-guarantee layer — and structuring the system so each component only does what it's provably good at."
+
+
 **Structured answer:**
 > "I was asked whether we should use an LLM to summarize overnight financing-cost commentary for the morning trader huddle, versus a templated NLG system. I laid out three axes for the business: **accuracy risk** — an LLM can hallucinate a number, a templated system cannot; **latency** — sub-second matters at 6:45am, LLM inference doesn't guarantee that without careful engineering; **maintenance cost** — templates need a rules engineer, LLMs need prompt/eval iteration. I recommended a hybrid: deterministic templates pull hard numbers (rates, spreads, volumes) from the data warehouse, and an LLM only handles the *prose synthesis* layer, constrained by RAG grounding so it can't invent a rate that isn't in the retrieved context. That let the desk get natural-language color without exposing the firm to hallucinated numbers in a document traders act on. The meta-skill is knowing GenAI is a language-and-reasoning layer, not a numerical-guarantee layer — and structuring the system so each component only does what it's provably good at."
 
@@ -119,7 +126,11 @@ LANGUAGE            │  Fine-tuned / prompted LLM   │        │  LLM + RAG g
 > "Fifty problem statements is a portfolio, not a to-do list. I run it like one: expected P&L or risk-reduction impact on one axis, engineering/data cost on the other, and I make the frontier visible so business stakeholders argue about priorities with numbers, not politics."
 
 **Structured answer:**
-> "In a prior role I inherited a backlog of 30+ candidate ML use cases across three trading desks. I built a simple 2x2 — impact estimate (bps saved, hours of analyst time recovered, or risk events prevented) against implementation cost (data readiness, model complexity, integration surface) — and scored every item with the relevant desk head in a 30-minute working session. That collapsed 30 items to 4 that made the quarter. The two things I insist on: first, a scoring rubric everyone can see, so 'my project' politics can't dominate; second, revisiting the ranking every 6-8 weeks because data availability and business priorities both shift. For 50 identified statements with 10 already prioritized here, I'd want to understand the scoring Rishi's team already used, validate it against what's shipped versus stalled, and slot in as someone who executes the top of that list fast rather than re-litigating it."
+> "At my last seat in the systematic macro pod, I inherited a research backlog of 30+ candidate ML features, alternative data feeds, and execution signals across our trading books.
+> I built a simple 2x2 framework — **expected impact** (basis points of alpha captured, implementation shortfall mitigated, or tail-risk events prevented) against **implementation cost** (tick-data readiness, feature engineering complexity, and production integration surface) — and scored every item with the respective book runners in a focused working session. That collapsed 30 theoretical research ideas down to the 4 high-conviction strategies that actually made the quarter's production pipeline.
+> The two things I insist on: first, an objective, quantitative scoring rubric everyone can see, so 'my strategy' politics can't dominate the research queue; second, re-evaluating the ranking every 6–8 weeks because market regimes, data availability, and business priorities all shift.
+> For the 50 identified statements with 10 already prioritized here, I’d want to understand the scoring Rishi’s team used, validate it against what’s successfully shipped versus what's stalled in research, and slot in as someone who executes the top of that high-impact list fast rather than re-litigating it."
+
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -145,7 +156,10 @@ LANGUAGE            │  Fine-tuned / prompted LLM   │        │  LLM + RAG g
 > "Every model fails eventually — the difference between a good and bad modeler is whether the failure is caught by your monitoring or by a client complaint. I want to talk about a failure I caught, and what changed afterward, because that's the model-risk maturity a bank actually wants to hear."
 
 **Structured answer:**
-> "A time-series forecasting model I owned for short-term funding cost had a silent regime-break during a liquidity event — the training distribution simply didn't contain a scenario like it, and the point forecast stayed confidently wrong for two days before my drift monitor on residual autocorrelation flagged it. **What I did:** froze the model to a fallback heuristic (last-observed-value plus a widened band) within an hour of the alert, ran a root-cause with the desk, and rebuilt the loss function to include a regime-classification gate — the model now checks whether current market conditions resemble its training distribution before trusting its own point estimate, and defers to a conservative interval otherwise. **What changed structurally:** I pushed for out-of-distribution detection to be a standing requirement for any model I ship, not an afterthought — measured via Mahalanobis distance on the input feature vector against the training covariance. That's the discipline I'd bring to Liquid Financing: assume the tail event is coming, build the model to know when it doesn't know."
+> "A time-series forecasting model I owned for cross-asset short-term basis spreads had a silent regime-break during an overnight liquidity event — the training distribution simply didn't contain a scenario like it, and the point forecast stayed confidently wrong for two days before my drift monitor on residual autocorrelation flagged it.
+> **What I did:** I froze the model and shifted to a fallback heuristic (last-observed-value plus a widened volatility band) within an hour of the alert, ran a root-cause analysis with our book runners, and rebuilt the loss function to include an explicit regime-classification gate. The model now checks whether current market conditions resemble its training distribution before trusting its own point estimate, and defers to a conservative interval otherwise.
+> **What changed structurally:** I pushed for out-of-distribution detection to be a standing production requirement for any model I ship, not an afterthought — measured via Mahalanobis distance on the live input feature vector against the training covariance matrix.
+> That's the exact quantitative discipline I'd bring to Liquid Financing: assume the tail event is coming, and build the model to know when it doesn't know."
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -404,6 +418,8 @@ def build_repo_spread_model(l1_ratio_grid: list[float] | None = None) -> Pipelin
 
 ## T3 · Tree-Based Models vs Neural Nets — Explainability Under Model Risk
 
+**[Detailed Answer](./DETAILED_ANSWERS/T3/README.md)**
+
 **Open with the intuition:**
 > "On tabular financial data with a few hundred to a few thousand features, gradient-boosted trees usually beat neural nets on accuracy *and* give me a native path to explainability via SHAP. Neural nets earn their place when the data has spatial or sequential structure trees can't exploit — images, text, time-ordered sequences — or when the dataset is large enough that representation learning beats hand-engineered features."
 
@@ -448,6 +464,8 @@ WHEN TREES BEAT NETS (AND VICE VERSA) — TABULAR FINANCING DATA
 ---
 
 ## T4 · RNN, LSTM, GRU — Mechanics and When Recurrence Still Wins
+
+**[Detailed Answer](./DETAILED_ANSWERS/T4/README.md)**
 
 **Open with the intuition:**
 > "A vanilla RNN has a memory problem — it tries to compress everything it has seen into one hidden state, and each new timestep overwrites part of what came before, so gradients from ten steps back vanish before they can teach the network anything. LSTM and GRU fix that with gates — learned valves that decide what to keep, what to forget, and what to write."
@@ -497,6 +515,8 @@ GATE FLOW — LSTM CELL
 ---
 
 ## T5 · Fine-Tuning LLMs — Full FT vs LoRA vs QLoRA
+
+**[Detailed Answer](./DETAILED_ANSWERS/T5/README.md)**
 
 **Open with the intuition:**
 > "Full fine-tuning updates every weight in a multi-billion parameter model — that's enormous GPU memory and a real risk of catastrophic forgetting. LoRA's insight is that the *change* you need to make to adapt a model to a new task is low-rank — it lives in a small subspace — so instead of updating the full weight matrix, you learn a small correction and leave the original weights frozen."
@@ -587,6 +607,8 @@ def build_lora_model(
 ---
 
 ## T6 · RAG Architecture for Financing Desk Knowledge
+
+**[Detailed Answer](./DETAILED_ANSWERS/T6/README.md)**
 
 **Open with the intuition:**
 > "An LLM's weights are frozen at training time — it doesn't know this quarter's ISDA amendment or yesterday's rate move. RAG's whole idea is: don't ask the model to memorize the world, give it a search engine and let it read the relevant page before it answers. That turns hallucination risk into a retrieval-quality problem, which is much easier to test and fix."
@@ -716,6 +738,8 @@ class HybridRetriever:
 
 ## T7 · Agentic AI — ReAct, Tool Use, Multi-Agent Orchestration
 
+**[Detailed Answer](./DETAILED_ANSWERS/T7/README.md)**
+
 **Open with the intuition:**
 > "A chatbot answers a question. An agent decides what to do — it can look something up, call a tool, check its own work, and only then answer. On a financing desk, the useful version of this isn't 'autonomous trading,' it's an agent that can pull live GC rates, check a counterparty's utilization against a limit, and draft a recommendation for a human to approve — with hard guardrails around anything that touches risk or execution."
 
@@ -818,6 +842,8 @@ class GuardedAgent:
 
 ## T8 · Model Evaluation — Classical Metrics vs LLM Evaluation
 
+**[Detailed Answer](./DETAILED_ANSWERS/T8/README.md)**
+
 **Open with the intuition:**
 > "Evaluating a regression model is easy — you have ground truth, you compute an error. Evaluating an LLM's output is hard because for most useful tasks there's no single correct answer, just better and worse ones. That's why LLM evaluation has had to invent a whole new toolkit."
 
@@ -864,6 +890,8 @@ EVALUATION STACK FOR A FINANCING-DESK RAG/GENAI SYSTEM
 
 ## T9 · Prompt Engineering and Inference Optimization on BMC Servers
 
+**[Detailed Answer](./DETAILED_ANSWERS/T9/README.md)**
+
 **Open with the intuition:**
 > "Prompt engineering is the cheapest lever you have before touching weights at all — it's the difference between an LLM guessing at your task and an LLM being told exactly what 'good' looks like. Inference optimization is the separate, equally important problem of making that good output arrive fast enough and cheap enough to run at desk scale."
 
@@ -907,6 +935,8 @@ INFERENCE OPTIMIZATION STACK — BMC SERVER DEPLOYMENT
 ---
 
 ## T10 · Deep Learning Fundamentals — Backprop, Optimizers, Regularization
+
+**[Detailed Answer](./DETAILED_ANSWERS/T10/README.md)**
 
 **Open with the intuition:**
 > "Backpropagation is just the chain rule applied systematically through a computational graph, so every weight learns exactly how much it's responsible for the final error. Optimizers decide how big a step to take once you know that direction. Regularization stops the network from just memorizing the training set — which is the single biggest risk on the small, noisy datasets typical of financing desks."
