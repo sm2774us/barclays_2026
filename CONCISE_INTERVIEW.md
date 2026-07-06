@@ -643,7 +643,7 @@ def build_lora_model(
 
 **The core retrieval math — cosine similarity in embedding space:**
 
-$$\text{sim}(q, d) = \frac{\mathbf{e}_q \cdot \mathbf{e}_d}{\|\mathbf{e}_q\| \quad \|\mathbf{e}_d\|}$$
+$$\text{sim}(q, d) = \frac{\mathbf{e}_q \cdot \mathbf{e}_d}{\|\mathbf{e}_q\| \|\mathbf{e}_d\|}$$
 
 **Say it out loud:** *"Both the query and every document chunk get mapped into the same embedding space, and I retrieve the chunks whose vectors are most cosine-similar to the query vector. The two failure modes I actively guard against are bad chunking — splitting a haircut table across two chunks so neither has the full context — and pure dense retrieval missing exact-term matches, like a specific ISIN or clause number, which is why I always pair dense retrieval with a sparse BM25 pass in a hybrid search, then re-rank the union with a cross-encoder before it ever reaches the LLM."*
 
