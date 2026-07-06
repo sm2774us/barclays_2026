@@ -44,9 +44,7 @@
 > ensembles, time series, deep sequence models, and Gen AI/RAG — each tied to a specific financing
 > P&L or risk lever, each with a validation and model-risk plan, not just a notebook."
 
-This single sentence does three things a Barclays panel is listening for: (1) shows you read the JD
-closely, (2) signals production-mindedness over "Kaggle-leaderboard" mindset, (3) sets up a
-five-beat structure so the panel can steer time toward what they care about most.
+This single sentence does three things a Barclays panel is listening for: (1) shows you read the JD closely, (2) signals production-mindedness over "Kaggle-leaderboard" mindset, (3) sets up a five-beat structure so the panel can steer time toward what they care about most.
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -56,57 +54,30 @@ five-beat structure so the panel can steer time toward what they care about most
 
 ### P1 — Sec-Lending Fee Forecasting
 - **Lead with the P&L hook:** "This directly prices new loans and flags re-pricing triggers before a squeeze."
-- **Key technical point to volunteer:** the *non-linear threshold* at ~90% utilization — explain why
-  Elastic Net alone can't express it and trees can. This shows you understand *when* to reach for
-  which technique, not just that you know the names.
-- **Anticipate the pushback:** "Why not just LSTM everything?" → Answer: model complexity must be earned;
-  a tree ensemble on tabular utilization features beats a sequence model here because the signal is
-  cross-sectional, not deeply sequential — reserve DL for P4 where it's actually justified.
+- **Key technical point to volunteer:** the *non-linear threshold* at ~90% utilization — explain why Elastic Net alone can't express it and trees can. This shows you understand *when* to reach for which technique, not just that you know the names.
+- **Anticipate the pushback:** "Why not just LSTM everything?" → Answer: model complexity must be earned; a tree ensemble on tabular utilization features beats a sequence model here because the signal is cross-sectional, not deeply sequential — reserve DL for P4 where it's actually justified.
 - **Numbers to have ready:** weighted MAPE, directional hit-rate on 25bps+ fee changes, walk-forward not K-fold.
 
 ### P2 — Client Margin & Haircut Optimization
-- **Lead with the risk hook:** "Every bps of over-margin is client attrition; every bps of under-margin
-  is unhedged tail loss — this is a credit-risk objective wrapped in a regression problem."
-- **Key technical point:** the GBM add-on isn't replacing the linear haircut, it's modeling the
-  *shortfall residual* — the correlation-breakdown effect that rules-based grids miss in stress.
-  This nuance (residual modeling vs. replacing the base model) reads as senior.
-- **Anticipate the pushback:** "How do you keep this auditable?" → LASSO coefficient sign review +
-  floor/cap clipping to the rules-based grid + Kupiec/Christoffersen backtests. Have these three
-  words ready: **Kupiec, Christoffersen, floor/cap**.
+- **Lead with the risk hook:** "Every bps of over-margin is client attrition; every bps of under-margin is unhedged tail loss — this is a credit-risk objective wrapped in a regression problem."
+- **Key technical point:** the GBM add-on isn't replacing the linear haircut, it's modeling the *shortfall residual* — the correlation-breakdown effect that rules-based grids miss in stress. This nuance (residual modeling vs. replacing the base model) reads as senior.
+- **Anticipate the pushback:** "How do you keep this auditable?" → LASSO coefficient sign review + floor/cap clipping to the rules-based grid + Kupiec/Christoffersen backtests. Have these three words ready: **Kupiec, Christoffersen, floor/cap**.
 
 ### P3 — Funding-Spread Anomaly Detection
-- **Lead with the surveillance hook:** "The tail risk isn't a bad forecast, it's not noticing a
-  dislocation until it's already cost money."
-- **Key technical point:** why Mahalanobis *and* Isolation Forest, not just one — MCD-robustified
-  Mahalanobis assumes elliptical structure; Isolation Forest is the non-parametric cross-check for
-  regime-dependent non-Gaussianity. Naming the *reason for redundancy* is a strong QR-panel signal.
-- **This is your GenAI bridge project:** the NLP fusion term is a natural segue into P5 — use it to
-  transition ("...and that same text-classification idea is what P5 generalizes into a full copilot").
+- **Lead with the surveillance hook:** "The tail risk isn't a bad forecast, it's not noticing a dislocation until it's already cost money."
+- **Key technical point:** why Mahalanobis *and* Isolation Forest, not just one — MCD-robustified Mahalanobis assumes elliptical structure; Isolation Forest is the non-parametric cross-check for regime-dependent non-Gaussianity. Naming the *reason for redundancy* is a strong QR-panel signal.
+- **This is your GenAI bridge project:** the NLP fusion term is a natural segue into P5 — use it to transition ("...and that same text-classification idea is what P5 generalizes into a full copilot").
 
 ### P4 — Prime Balance Forecasting (Deep Learning)
-- **Lead with the capacity-planning hook:** "Balance sheet is the scarcest resource here — Treasury
-  needs a forward view for RWA/LCR planning."
-- **Key technical point — this is your strongest "I don't over-engineer" moment:** state explicitly
-  that the GRU has to beat a tuned LightGBM baseline on walk-forward MAPE *before* you'd argue for
-  the added production complexity of a PyTorch serving path. This single sentence answers the
-  unspoken panel question "does this candidate reach for deep learning because it's exciting or
-  because it's justified?"
-- **Key technical point #2:** the explicit calendar embedding for quarter-end window-dressing — a
-  *known* seasonal effect should be given to the model as a feature, not left for it to rediscover.
-  This is a model-risk-friendly design choice; say so explicitly.
+- **Lead with the capacity-planning hook:** "Balance sheet is the scarcest resource here — Treasury needs a forward view for RWA/LCR planning."
+- **Key technical point — this is your strongest "I don't over-engineer" moment:** state explicitly that the GRU has to beat a tuned LightGBM baseline on walk-forward MAPE *before* you'd argue for the added production complexity of a PyTorch serving path. This single sentence answers the unspoken panel question "does this candidate reach for deep learning because it's exciting or because it's justified?"
+- **Key technical point #2:** the explicit calendar embedding for quarter-end window-dressing — a *known* seasonal effect should be given to the model as a feature, not left for it to rediscover. This is a model-risk-friendly design choice; say so explicitly.
 
 ### P5 — RAG Financing-Desk Copilot (GenAI)
-- **Lead with the JD-alignment hook:** "This directly answers the fine-tuning / prompt engineering /
-  RAG / inference infrastructure line in the JD."
-- **Key technical point:** the fine-tune vs. prompt-engineer trade-off table — walk through it live,
-  don't just show it. State the staged rollout plan (prompt+RAG first to build eval harness and
-  collect logs, fine-tune the narrow sub-tasks once ≥5k labeled queries exist).
-- **Key technical point #2:** faithfulness metric and the explicit refusal behavior
-  (`INSUFFICIENT_EVIDENCE`) — a Barclays QR panel will push hard on hallucination risk in a
-  regulated environment; having a concrete, named metric and a designed refusal path pre-empts that.
-- **BMC servers line from the JD:** mention the on-prem/BMC routing for non-public queries vs.
-  external frontier API for public-market-context — shows you read the JD's infrastructure line, not
-  just the modeling lines.
+- **Lead with the JD-alignment hook:** "This directly answers the fine-tuning / prompt engineering / RAG / inference infrastructure line in the JD."
+- **Key technical point:** the fine-tune vs. prompt-engineer trade-off table — walk through it live, don't just show it. State the staged rollout plan (prompt+RAG first to build eval harness and collect logs, fine-tune the narrow sub-tasks once ≥5k labeled queries exist).
+- **Key technical point #2:** faithfulness metric and the explicit refusal behavior (`INSUFFICIENT_EVIDENCE`) — a Barclays QR panel will push hard on hallucination risk in a regulated environment; having a concrete, named metric and a designed refusal path pre-empts that.
+- **BMC servers line from the JD:** mention the on-prem/BMC routing for non-public queries vs. external frontier API for public-market-context — shows you read the JD's infrastructure line, not just the modeling lines.
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -163,98 +134,45 @@ MINUTE    SEGMENT                                    NOTES
 
 **Whiteboard sequence:**
 
-1. Write the Elastic Net objective: $\hat\beta = \arg\min_\beta \frac{1}{2n}\lVert y-X\beta\rVert_2^2 + \lambda(\alpha\lVert\beta\rVert_1 + \frac{1-\alpha}{2}\lVert\beta\rVert_2^2)$.
-2. Say: "This is fundamentally a **linear-in-parameters** model — no matter how I regularize $\beta$, the
-   prediction surface $X\beta$ is a hyperplane. A kink at utilization=0.9 requires the prediction
-   function's *slope* to change discontinuously at that point — a single linear model cannot do that
-   without an engineered feature."
-3. Point to `util_squared_over_90 = max(utilization - 0.9, 0)^2` in the feature list — "I *did* engineer
-   a hinge feature to partially address this — this is a spline-basis trick, essentially a manual
-   piecewise-linear-plus-quadratic basis expansion. It helps, but it commits me to a specific functional
-   form (quadratic above the knot) chosen in advance."
-4. Contrast with the tree: "A single decision-tree split at utilization≈0.9 gets the discontinuity for
-   free, with zero functional-form assumption — and LightGBM's iterative boosting refines the shape above
-   and below the knot separately, additively. That's the concrete 'why trees here' answer, not just
-   'trees are more flexible' as a vague appeal."
-5. Close the loop: "The NNLS blend is exactly the mechanism that lets the *data itself* decide, per fold,
-   how much to trust each functional form — which is a more defensible design than me hand-picking one."
+1. Write the Elastic Net objective: 
+
+$$
+\hat\beta = \arg\min_\beta \frac{1}{2n}\lVert y-X\beta\rVert_2^2 + \lambda(\alpha\lVert\beta\rVert_1 + \frac{1-\alpha}{2}\lVert\beta\rVert_2^2)
+$$
+
+2. Say: "This is fundamentally a **linear-in-parameters** model — no matter how I regularize $\beta$, the prediction surface $X\beta$ is a hyperplane. A kink at utilization=0.9 requires the prediction function's *slope* to change discontinuously at that point — a single linear model cannot do that without an engineered feature."
+
+3. Point to `util_squared_over_90 = max(utilization - 0.9, 0)^2` in the feature list — "I *did* engineer a hinge feature to partially address this — this is a spline-basis trick, essentially a manual piecewise-linear-plus-quadratic basis expansion. It helps, but it commits me to a specific functional form (quadratic above the knot) chosen in advance."
+
+4. Contrast with the tree: "A single decision-tree split at utilization≈0.9 gets the discontinuity for free, with zero functional-form assumption — and LightGBM's iterative boosting refines the shape above and below the knot separately, additively. That's the concrete 'why trees here' answer, not just 'trees are more flexible' as a vague appeal."
+
+5. Close the loop: "The NNLS blend is exactly the mechanism that lets the *data itself* decide, per fold, how much to trust each functional form — which is a more defensible design than me hand-picking one."
 
 ### 5.2 P1 Deep-Dive — "Derive the pinball loss and tell me why q=0.9 penalizes under-prediction 9x more."
 
 $$\rho_q(y,\hat y) = \begin{cases} q(y-\hat y) & y \geq \hat y \\ (1-q)(\hat y - y) & y < \hat y\end{cases} = \max\big(q(y-\hat y),\ (q-1)(y-\hat y)\big)$$
 
-Say: "At $q=0.9$: if I under-predict ($y>\hat y$), the penalty is $0.9\times(\text{error})$; if I
-over-predict ($y<\hat y$), the penalty is $0.1\times(\text{error})$ — a 9:1 ratio, exactly $q/(1-q)$.
-This asymmetry is *why* minimizing expected pinball loss at $q$ yields the true $q$-th conditional
-quantile as the population minimizer — differentiate $\mathbb{E}[\rho_q(y,\hat y)]$ with respect to
-$\hat y$ and set to zero: $-q\cdot P(y\geq\hat y) + (1-q)\cdot P(y<\hat y) = 0 \Rightarrow P(y<\hat y)=q$
-— that's the definition of the $q$-th quantile. This is the one-line proof I'd write if asked to justify
-why pinball loss targets a quantile rather than a mean."
+Say: "At $q=0.9$: if I under-predict ($y>\hat y$), the penalty is $0.9\times(\text{error})$; if I over-predict ($y<\hat y$), the penalty is $0.1\times(\text{error})$ — a 9:1 ratio, exactly $q/(1-q)$. This asymmetry is *why* minimizing expected pinball loss at $q$ yields the true $q$-th conditional quantile as the population minimizer — differentiate $\mathbb{E}[\rho_q(y,\hat y)]$ with respect to $\hat y$ and set to zero: $-q\cdot P(y\geq\hat y) + (1-q)\cdot P(y<\hat y) = 0 \Rightarrow P(y<\hat y)=q$ — that's the definition of the $q$-th quantile. This is the one-line proof I'd write if asked to justify why pinball loss targets a quantile rather than a mean."
 
 ### 5.3 P2 Deep-Dive — "Prove the Kupiec LR statistic is asymptotically chi-squared(1)."
 
-Say: "This follows directly from Wilks' theorem — under $H_0$ (the true breach probability equals the
-target rate $p$), the log-likelihood ratio $-2\ln(L_0/L_1)$ between a *restricted* model (probability
-fixed at $p$) and the *unrestricted* MLE ($\hat p = x/n$) converges in distribution to $\chi^2_{df}$,
-where $df$ is the number of restrictions — here exactly 1 (we've restricted one free parameter, the
-breach probability, to a fixed value). I wouldn't re-derive Wilks' theorem from scratch on a whiteboard,
-but I'd want to be able to name it and state the degrees-of-freedom logic, because 'it just is chi-squared,
-trust me' is a weak answer to a QR panel that will have this exact theorem in their own toolkit."
+Say: "This follows directly from Wilks' theorem — under $H_0$ (the true breach probability equals the target rate $p$), the log-likelihood ratio $-2\ln(L_0/L_1)$ between a *restricted* model (probability fixed at $p$) and the *unrestricted* MLE ($\hat p = x/n$) converges in distribution to $\chi^2_{df}$, where $df$ is the number of restrictions — here exactly 1 (we've restricted one free parameter, the breach probability, to a fixed value). I wouldn't re-derive Wilks' theorem from scratch on a whiteboard, but I'd want to be able to name it and state the degrees-of-freedom logic, because 'it just is chi-squared, trust me' is a weak answer to a QR panel that will have this exact theorem in their own toolkit."
 
 ### 5.4 P2 Deep-Dive — "Why not just estimate the full covariance matrix and do proper mean-variance VaR?"
 
-Say: "For a large collateral universe, the full covariance matrix has $O(k^2)$ free parameters — with,
-say, 500 distinct asset buckets, that's ~125,000 parameters to estimate from a comparatively short
-historical window, which is a severe curse-of-dimensionality problem: the sample covariance matrix becomes
-poorly conditioned or singular long before you have enough data to estimate it reliably (this is precisely
-the same $X^\top X$ ill-conditioning problem that motivates Ridge/Elastic Net in the regression context —
-covariance estimation has an exactly analogous shrinkage literature, e.g. Ledoit-Wolf shrinkage). The
-two-layer design sidesteps this: the linear per-asset layer only needs $O(k)$ parameters (one haircut per
-asset, from *univariate* features), and the correlation/concentration structure is captured *implicitly*
-through a much lower-dimensional set of portfolio-level summary features (concentration, sector exposure)
-rather than the full $k\times k$ covariance matrix — a deliberate dimensionality reduction that trades a
-small amount of theoretical completeness for a model that's actually estimable and auditable at the
-portfolio sizes this desk deals with."
+Say: "For a large collateral universe, the full covariance matrix has $O(k^2)$ free parameters — with, say, 500 distinct asset buckets, that's ~125,000 parameters to estimate from a comparatively short historical window, which is a severe curse-of-dimensionality problem: the sample covariance matrix becomes poorly conditioned or singular long before you have enough data to estimate it reliably (this is precisely the same $X^\top X$ ill-conditioning problem that motivates Ridge/Elastic Net in the regression context — covariance estimation has an exactly analogous shrinkage literature, e.g. Ledoit-Wolf shrinkage). The two-layer design sidesteps this: the linear per-asset layer only needs $O(k)$ parameters (one haircut per asset, from *univariate* features), and the correlation/concentration structure is captured *implicitly* through a much lower-dimensional set of portfolio-level summary features (concentration, sector exposure) rather than the full $k\times k$ covariance matrix — a deliberate dimensionality reduction that trades a small amount of theoretical completeness for a model that's actually estimable and auditable at the portfolio sizes this desk deals with."
 
 ### 5.5 P3 Deep-Dive — "Derive why MCD uses the subset with smallest covariance determinant."
 
-Say: "The determinant of a covariance matrix is proportional to the squared volume of the confidence
-ellipsoid it defines — $\det(\Sigma) \propto (\text{generalized variance})$. If I have contaminating
-outliers in my sample, the subset that includes them will have inflated variance in whatever direction
-the outliers pull, and hence a larger determinant, than a 'clean' subset. MCD's insight is to explicitly
-search over subsets of size $h$ (typically 50-75% of $n$) and pick the one with the *smallest* determinant
-— that's the tightest, most internally-consistent cluster of points, which by construction is the subset
-least likely to include the true outliers. It's a combinatorial search in principle, made tractable by the
-FAST-MCD algorithm's iterative 'concentration steps' (swap points in/out and re-check the determinant),
-which is what scikit-learn's `MinCovDet` actually runs under the hood rather than brute-force enumeration."
+Say: "The determinant of a covariance matrix is proportional to the squared volume of the confidence ellipsoid it defines — $\det(\Sigma) \propto (\text{generalized variance})$. If I have contaminating outliers in my sample, the subset that includes them will have inflated variance in whatever direction the outliers pull, and hence a larger determinant, than a 'clean' subset. MCD's insight is to explicitly search over subsets of size $h$ (typically 50-75% of $n$) and pick the one with the *smallest* determinant — that's the tightest, most internally-consistent cluster of points, which by construction is the subset least likely to include the true outliers. It's a combinatorial search in principle, made tractable by the FAST-MCD algorithm's iterative 'concentration steps' (swap points in/out and re-check the determinant), which is what scikit-learn's `MinCovDet` actually runs under the hood rather than brute-force enumeration."
 
 ### 5.6 P4 Deep-Dive — "If I asked you to add attention to this GRU, where would it go and why?"
 
-Say: "Right now the decoder's hidden state $h_t$ has to compress the *entire* 60-day encoder history into
-a single fixed-size vector $h_n$ passed once at the start of decoding — this is the classic
-encoder-decoder bottleneck. I'd add an attention layer (per Q26 of my interview prep) that lets each
-decoder step compute a fresh, query-specific weighted combination over *all* encoder hidden states, not
-just the final one: $\text{context}_t = \sum_s \alpha_{ts} h_s^{\text{enc}}$, with $\alpha_{ts}$ computed
-via scaled dot-product attention between the decoder's current state and every encoder step. Concretely,
-this would let the model directly attend back to, say, the *previous* quarter-end 60 trading days ago
-without that information having to survive being compressed through 60 sequential GRU updates — I'd only
-add this complexity, though, after confirming (same baseline discipline as the GRU vs. LightGBM comparison)
-that it measurably improves walk-forward pinball loss over the simpler encoder-decoder, since attention
-roughly doubles the parameter count and inference latency for what may be a modest gain on a series this
-short."
+Say: "Right now the decoder's hidden state $h_t$ has to compress the *entire* 60-day encoder history into a single fixed-size vector $h_n$ passed once at the start of decoding — this is the classic encoder-decoder bottleneck. I'd add an attention layer (per Q26 of my interview prep) that lets each decoder step compute a fresh, query-specific weighted combination over *all* encoder hidden states, not just the final one: $\text{context}_t = \sum_s \alpha_{ts} h_s^{\text{enc}}$, with $\alpha_{ts}$ computed via scaled dot-product attention between the decoder's current state and every encoder step. Concretely, this would let the model directly attend back to, say, the *previous* quarter-end 60 trading days ago without that information having to survive being compressed through 60 sequential GRU updates — I'd only add this complexity, though, after confirming (same baseline discipline as the GRU vs. LightGBM comparison) that it measurably improves walk-forward pinball loss over the simpler encoder-decoder, since attention roughly doubles the parameter count and inference latency for what may be a modest gain on a series this short."
 
 ### 5.7 P5 Deep-Dive — "Formally, why is RRF better than min-max normalizing BM25 and cosine scores and averaging?"
 
-Say: "Min-max normalization assumes the *distribution* of scores in the current query's result set is
-representative of the scale you should calibrate against — but BM25 scores for a query with many rare,
-highly-discriminative terms can be an order of magnitude larger than for a query with only common terms,
-and that variation has nothing to do with genuine relevance differences. If I min-max normalize per-query,
-I'm implicitly assuming the *best* match for every query deserves the same normalized score of 1.0,
-regardless of how strong that match actually is in absolute terms — this can make a weak best-match look
-identical to a strong one after normalization. RRF sidesteps this entirely by using **only ordinal rank
-information**, which is invariant to whatever arbitrary scale each ranker happens to produce — it's a
-non-parametric fusion method in the same sense that Isolation Forest (P3) is a non-parametric anomaly
-detector: no distributional assumption to get wrong."
+Say: "Min-max normalization assumes the *distribution* of scores in the current query's result set is representative of the scale you should calibrate against — but BM25 scores for a query with many rare, highly-discriminative terms can be an order of magnitude larger than for a query with only common terms, and that variation has nothing to do with genuine relevance differences. If I min-max normalize per-query, I'm implicitly assuming the *best* match for every query deserves the same normalized score of 1.0, regardless of how strong that match actually is in absolute terms — this can make a weak best-match look identical to a strong one after normalization. RRF sidesteps this entirely by using **only ordinal rank information**, which is invariant to whatever arbitrary scale each ranker happens to produce — it's a non-parametric fusion method in the same sense that Isolation Forest (P3) is a non-parametric anomaly detector: no distributional assumption to get wrong."
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -265,9 +183,7 @@ detector: no distributional assumption to get wrong."
 > reuse it across the roadmap. P4 and P5 are quarter-two builds once that harness and the model-risk
 > pack template exist. I'd rather ship two things well than five things as prototypes."
 
-This closes on **sequencing and judgment**, which is what separates a VP-level hire from a strong
-individual contributor in the panel's eyes — the JD says "the roadmap is built, what's needed is
-someone to execute it," and this line directly answers that.
+This closes on **sequencing and judgment**, which is what separates a VP-level hire from a strong individual contributor in the panel's eyes — the JD says "the roadmap is built, what's needed is someone to execute it," and this line directly answers that.
 
 [🔝 Back to Top](#table-of-contents)
 
@@ -344,10 +260,7 @@ Business/strategic                  "Which of these 5 would you build first if  
 
 ---
 
-*Companion documents: `README.md` §3.10–3.11 (full per-project architecture diagrams, extended
-derivations, and JD-requirement mapping table), `LIQUID_FINANCING_TAKEHOME.md` (full technical writeup),
-`Liquid_Financing_Takehome.ipynb` (executable demo notebook), `dissertation.tex` / `dissertation.pdf`
-(extended research-presentation format).*
+*Companion documents: `README.md` §3.10–3.11 (full per-project architecture diagrams, extended derivations, and JD-requirement mapping table), `LIQUID_FINANCING_TAKEHOME.md` (full technical writeup), `Liquid_Financing_Takehome.ipynb` (executable demo notebook), `dissertation.tex` / `dissertation.pdf` (extended research-presentation format).*
 
 [🔝 Back to Top](#table-of-contents)
 
