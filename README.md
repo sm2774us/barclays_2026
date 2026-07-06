@@ -2957,7 +2957,7 @@ $$\text{GELU}(z) = z\cdot\Phi(z), \qquad \text{SiLU}(z) = z\cdot\sigma(z)$$
 
 **Recurrence:** $h_t = \tanh(W_{hh}h_{t-1} + W_{xh}x_t + b_h)$, output $\hat y_t = W_{hy}h_t$.
 
-**BPTT derivation.** The total loss is $\mathcal{L}=\sum_t \mathcal{L}_t$. Because $h_t$ depends on $h_{t-1}$ which depends on $h_{t-2}$, etc., the gradient w.r.t. the **shared** weight $W_{hh}$ must sum contributions through **every** path back through time:
+**BPTT derivation.** The total loss is $\mathcal{L}=\sum_t \mathcal{L}_t$ . Because $h_t$ depends on $h_{t-1}$ which depends on $h_{t-2}$, etc., the gradient w.r.t. the **shared** weight $W_{hh}$ must sum contributions through **every** path back through time:
 
 $$\frac{\partial \mathcal{L}_t}{\partial W_{hh}} = \sum_{k=1}^{t}\frac{\partial \mathcal{L}_t}{\partial h_t}\left(\prod_{j=k+1}^{t}\frac{\partial h_j}{\partial h_{j-1}}\right)\frac{\partial h_k}{\partial W_{hh}}$$
 
@@ -3076,7 +3076,7 @@ $$\tilde C_t = \tanh(W_C[h_{t-1},x_t]+b_C) \quad\text{(candidate cell content)}$
 $$C_t = f_t \odot C_{t-1} + i_t \odot \tilde C_t \quad\text{(cell state update — the key equation)}$$
 $$o_t = \sigma(W_o[h_{t-1},x_t]+b_o), \qquad h_t = o_t \odot \tanh(C_t)$$
 
-**Why this solves vanishing gradients — derive $\partial C_t/\partial C_{t-1}$ properly.** Apply the product rule to $C_t = f_t\odot C_{t-1} + i_t\odot\tilde C_t$, treating $f_t, i_t, \tilde C_t$ as themselves functions of $h_{t-1}$ (hence, indirectly, of $C_{t-1}$ via $h_{t-1}=o_{t-1}\odot\tanh(C_{t-1})$):
+**Why this solves vanishing gradients — derive $\partial C_t/\partial C_{t-1}$ properly.** Apply the product rule to $C_t = f_t\odot C_{t-1} + i_t\odot\tilde C_t$, treating $f_t, i_t, \tilde C_t$ as themselves functions of $h_{t-1}$ ( hence, indirectly, of $C_{t-1}$ via $h_{t-1}=o_{t-1}\odot\tanh(C_{t-1})$ ):
 
 $$\frac{\partial C_t}{\partial C_{t-1}} = \underbrace{f_t}_{\text{direct path}} + \underbrace{\left(C_{t-1}\odot\frac{\partial f_t}{\partial h_{t-1}} + \tilde C_t\odot\frac{\partial i_t}{\partial h_{t-1}} + i_t\odot\frac{\partial\tilde C_t}{\partial h_{t-1}}\right)\odot\frac{\partial h_{t-1}}{\partial C_{t-1}}}_{\text{indirect paths, through the gates}}$$
 
