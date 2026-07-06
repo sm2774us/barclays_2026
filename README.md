@@ -61,8 +61,8 @@ SYSTEM DESIGN / STRATEGY          Q28–Q30     High      "Build AI/ML capabilit
 
 ### 🌳 TREE-BASED MODELS
 - [Q12 · Decision Trees — Entropy, Gini & Information Gain](./PART1.md#q12--decision-trees--entropy-gini--information-gain)
-- [Q13 · Random Forest vs. Gradient Boosting — XGBoost 2nd-Order Taylor Expansion](./PART1.md#q13--random-forest-vs-gradient-boosting--xgboost-2nd-order-taylor-expansi./PART1.mdon)
-- [Q14 · Feature Importance & SHAP Values](#q14--feature-importance--shap-values)
+- [Q13 · Random Forest vs. Gradient Boosting — XGBoost 2nd-Order Taylor Expansion](./PART1.md#q13--random-forest-vs-gradient-boosting--xgboost-2nd-order-taylor-expansion)
+- [Q14 · Feature Importance & SHAP Values](./PART1.md#q14--feature-importance--shap-values)
 
 ### ⏱️ TIME SERIES & FORECASTING
 - [Q15 · Stationarity, ADF Test & ARIMA](./PART2.md#q15--stationarity-adf-test--arima)
@@ -82,9 +82,9 @@ SYSTEM DESIGN / STRATEGY          Q28–Q30     High      "Build AI/ML capabilit
 - [Q27 · Autoencoders for Dimensionality Reduction & Anomaly Detection](./PART2.md#q27--autoencoders-for-dimensionality-reduction--anomaly-detection)
 
 ### 🏗️ SYSTEM DESIGN & STRATEGY
-- [Q28 · Design an End-to-End Alpha/Pricing Signal Pipeline](./PART2.md#q28--design-an-end-to-end-alphapricing-signal-pipeline)
-- [Q29 · Bayesian Inference for Regime-Adaptive Position Sizing](./PART2.md#q29--bayesian-inference-for-regime-adaptive-position-sizing)
-- [Q30 · Building an AI/ML Capability From Zero — the Greenfield Roadmap](./PART2.md#q30--building-an-aiml-capability-from-zero--the-greenfield-roadmap)
+- [Q28 · Building an AI/ML Capability From Scratch — Platform Architecture](#q28--building-an-aiml-capability-from-scratch--platform-architecture)
+- [Q29 · Model Risk, Governance & Explainability for a Regulated Bank](./PART2.md#q29--model-risk-governance--explainability-for-a-regulated-bank)
+- [Q30 · Templatizing AI/ML Solutions Across Business Lines](./PART2.md#q30--templatizing-aiml-solutions-across-business-lines)
 
 ### 🏗️ TAKE HOME PROJECTS
 - **P1 · Securities-Lending Fee & Rebate-Rate Forecasting**
