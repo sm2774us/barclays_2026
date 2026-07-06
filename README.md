@@ -1227,7 +1227,7 @@ $$\mathbb{E}[\text{Value}] = P(\text{correct})\cdot V_{\text{correct}} - P(\text
 
 **Line-by-line:** $V_{\text{correct}}$ is the business value of a correct answer (e.g., time saved by a trader not manually reading a term sheet); $C_{\text{error}}$ is the cost of an *incorrect* answer, which for a term-sheet extraction feeding into a trade booking system could be a real financial loss — this term is why financing/trading use cases justify paying for a more accurate (often more expensive) model, whereas a low-stakes internal FAQ bot does not; $\text{Cost}_{\text{inference}}$ scales with model size and token count; $\lambda$ is how much the business cares about latency (near-zero for async batch jobs like nightly report synthesis, large for a trader-facing chat interface with real-time expectations).
 
-**Say it out loud:** *"I don't have a favorite model — I have a routing function. For a structured extraction feeding into a booking system, $C_{\text{error}}$ is high, so I pay for the more accurate/larger model despite the cost. For a high-volume internal classification microservice, $C_{\text{error}}$ per single miss is low and volume is high, so a fine-tuned small model wins on the cost term alone. This framework is what I'd propose the team formalize into an actual routing layer rather than hard-coding model choice per use case."*
+**Say it out loud:** **"I don't have a favorite model — I have a routing function. For a structured extraction feeding into a booking system, $C_{\text{error}}$ is high, so I pay for the more accurate/larger model despite the cost. For a high-volume internal classification microservice, $C_{\text{error}}$ per single miss is low and volume is high, so a fine-tuned small model wins on the cost term alone. This framework is what I'd propose the team formalize into an actual routing layer rather than hard-coding model choice per use case."**
 
 ### A Concrete Routing Architecture
 
@@ -1432,15 +1432,25 @@ Compute $X^\top y$:
 
 $$X^\top y = \begin{pmatrix}\sum y_i\\ \sum x_i y_i\end{pmatrix} = \begin{pmatrix}0.5+1.0+2.5+3.0\\ (-1)(0.5)+(0)(1.0)+(1)(2.5)+(2)(3.0)\end{pmatrix} = \begin{pmatrix}7.0\\ 8.0\end{pmatrix}$$
 
-Invert the $2\times2$ matrix using $\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1} = \frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$, with determinant $4\cdot6 - 2\cdot2 = 20$:
+Invert the $2\times2$ matrix using:
 
-$$(X^\top X)^{-1} = \frac{1}{20}\begin{pmatrix}6 & -2\\ -2 & 4\end{pmatrix}$$
+$$
+\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1} = \frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$, with determinant $4\cdot6 - 2\cdot2 = 20
+$$
+
+:
+
+$$
+(X^\top X)^{-1} = \frac{1}{20}\begin{pmatrix}6 & -2\\ -2 & 4\end{pmatrix}
+$$
 
 Finally:
 
-$$\hat\beta = (X^\top X)^{-1}X^\top y = \frac{1}{20}\begin{pmatrix}6 & -2\\ -2 & 4\end{pmatrix}\begin{pmatrix}7.0\\ 8.0\end{pmatrix} = \frac{1}{20}\begin{pmatrix}6(7.0)-2(8.0)\\ -2(7.0)+4(8.0)\end{pmatrix} = \frac{1}{20}\begin{pmatrix}26\\ 18\end{pmatrix} = \begin{pmatrix}1.3\\ 0.9\end{pmatrix}$$
+$$
+\hat\beta = (X^\top X)^{-1}X^\top y = \frac{1}{20}\begin{pmatrix}6 & -2\\ -2 & 4\end{pmatrix}\begin{pmatrix}7.0\\ 8.0\end{pmatrix} = \frac{1}{20}\begin{pmatrix}6(7.0)-2(8.0)\\ -2(7.0)+4(8.0)\end{pmatrix} = \frac{1}{20}\begin{pmatrix}26\\ 18\end{pmatrix} = \begin{pmatrix}1.3\\ 0.9\end{pmatrix}
+$$
 
-**Say it out loud:** *"The fitted model is $\hat y = 1.3 + 0.9x$ — an intercept of 1.3 and a slope of 0.9 per unit of the rate-differential factor. I'd sanity-check this by eye: at $x=-1$, predicted $\hat y = 1.3-0.9=0.4$ against observed $0.5$; at $x=2$, predicted $\hat y=1.3+1.8=3.1$ against observed $3.0$ — small, plausible residuals, consistent with a good linear fit, without needing to run any code to build that intuition."* This hand-computation is exactly the kind of check I'd do at a whiteboard if asked to derive OLS live.
+**Say it out loud:** **"The fitted model is $\hat y = 1.3 + 0.9x$ — an intercept of 1.3 and a slope of 0.9 per unit of the rate-differential factor. I'd sanity-check this by eye: at $x=-1$, predicted $\hat y = 1.3-0.9=0.4$ against observed $0.5$; at $x=2$, predicted $\hat y=1.3+1.8=3.1$ against observed $3.0$ — small, plausible residuals, consistent with a good linear fit, without needing to run any code to build that intuition."** This hand-computation is exactly the kind of check I'd do at a whiteboard if asked to derive OLS live.
 
 ### R-squared, Derived — What It Actually Measures
 
@@ -1450,7 +1460,7 @@ $$R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}, \qquad SS_{\text{res}}=\sum
 
 ### Why This Question Escalates — The Likely Interview Follow-Up
 
-After deriving OLS, expect an immediate follow-up: *"What if $X^\top X$ is singular?"* — this is deliberately baited to test whether you jump straight to Ridge (Q10) or first understand *why* it's singular (perfect multicollinearity — one regressor is an exact linear combination of others, e.g., including both a rate level and its lag plus their exact difference as three separate regressors) and whether the fix should be **structural** (drop the redundant regressor — it carries zero unique information) versus **statistical** (Ridge, when the near-singularity is a matter of degree — correlated but not perfectly collinear factors, which is the much more common real-world case in financial factor panels).
+After deriving OLS, expect an immediate follow-up: **"What if $X^\top X$ is singular?"** — this is deliberately baited to test whether you jump straight to Ridge (Q10) or first understand *why* it's singular (perfect multicollinearity — one regressor is an exact linear combination of others, e.g., including both a rate level and its lag plus their exact difference as three separate regressors) and whether the fix should be **structural** (drop the redundant regressor — it carries zero unique information) versus **statistical** (Ridge, when the near-singularity is a matter of degree — correlated but not perfectly collinear factors, which is the much more common real-world case in financial factor panels).
 
 ```python
 """OLS estimator with closed-form solution and diagnostic residual plot."""
