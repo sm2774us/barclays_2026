@@ -170,7 +170,7 @@ short, defensible feature list — and an **L2 penalty** that shrinks correlated
 other rather than letting one arbitrarily dominate. Mathematically:
 
 $$
-\hat\beta = \arg\min_\beta \left\{ \frac{1}{2n}\lVert y - X\beta \rVert_2^2 + \lambda\Big(\alpha \lVert \beta \rVert_1 + \tfrac{1-\alpha}{2}\lVert \beta \rVert_2^2\Big) \right\}
+\hat\beta = \arg\min_\beta \lbrace \frac{1}{2n}\lVert y - X\beta \rVert_2^2 + \lambda\Big(\alpha \lVert \beta \rVert_1 + \tfrac{1-\alpha}{2}\lVert \beta \rVert_2^2\Big) \rbrace
 $$
 
 where $\alpha \in [0,1]$ (the "l1\_ratio") interpolates between pure LASSO ($\alpha=1$) and pure Ridge
