@@ -1638,7 +1638,7 @@ $$
 \hat{S} = \hat\Gamma_0 + \sum_{\ell=1}^{L} w_\ell \left(\hat\Gamma_\ell + \hat\Gamma_\ell^\top\right), \qquad w_\ell = 1 - \frac{\ell}{L+1}
 $$
 
-where $\hat\Gamma_\ell = \frac{1}{n}\sum_{t=\ell+1}^{n} \hat\varepsilon_t \hat\varepsilon_{t-\ell}\, x_t x_{t-\ell}^\top$ is the sample lag-$\ell$ autocovariance of the score contributions.
+where $\hat\Gamma_\ell = \frac{1}{n}\sum_{t=\ell+1}^{n} \hat\varepsilon_t \hat\varepsilon_{t-\ell}\, x_t x_{t-\ell}^\top$ is the sample $lag-\ell$ autocovariance of the score contributions.
 
 - $\hat\Gamma_0 = \frac{1}{n}\sum_t \hat\varepsilon_t^2 x_tx_t^\top$ is the White heteroskedasticity-consistent term alone (lag 0).
 - The **Bartlett weights** $w_\ell$ linearly taper from 1 at lag 1 to 0 at lag $L+1$ — this tapering is what guarantees $\hat S$ is positive semi-definite (an un-tapered truncated sum is not guaranteed PSD, which would produce nonsensical negative "variances").
