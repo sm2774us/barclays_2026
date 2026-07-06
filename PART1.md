@@ -1324,16 +1324,21 @@ Term sheet text
 Model: $y = X\beta + \varepsilon$, $y\in\mathbb{R}^n$, $X\in\mathbb{R}^{n\times k}$, $\varepsilon$ with $E[\varepsilon\mid X]=0$, $\text{Var}(\varepsilon\mid X)=\sigma^2 I_n$.
 
 **Step 1 — objective.** Minimize the residual sum of squares:
+
 $$
 S(\beta) = (y - X\beta)^\top(y - X\beta) = y^\top y - 2\beta^\top X^\top y + \beta^\top X^\top X \beta
 $$
-(Line-by-line: expand $(y-X\beta)^\top(y-X\beta) = y^\top y - y^\top X\beta - \beta^\top X^\top y + \beta^\top X^\top X\beta$; since $y^\top X\beta$ is a scalar, it equals its own transpose $\beta^\top X^\top y$, so the two middle terms combine into $-2\beta^\top X^\top y$.)
+
+( Line-by-line: expand $(y-X\beta)^\top(y-X\beta) = y^\top y - y^\top X\beta - \beta^\top X^\top y + \beta^\top X^\top X\beta$ ; since $y^\top X\beta$ is a scalar, it equals its own transpose $\beta^\top X^\top y$ , so the two middle terms combine into $-2\beta^\top X^\top y$ . )
 
 **Step 2 — first-order condition.** Differentiate w.r.t. $\beta$ using $\nabla_\beta(\beta^\top X^\top y) = X^\top y$ and $\nabla_\beta(\beta^\top X^\top X\beta) = 2X^\top X\beta$ (since $X^\top X$ is symmetric):
+
 $$
 \frac{\partial S}{\partial \beta} = -2X^\top y + 2X^\top X\beta = 0 \;\;\Longrightarrow\;\; X^\top X \beta = X^\top y
 $$
+
 These are the **normal equations**. If $X^\top X$ is invertible (full column rank $k$, i.e., no perfect multicollinearity):
+
 $$
 \hat\beta = (X^\top X)^{-1} X^\top y
 $$
