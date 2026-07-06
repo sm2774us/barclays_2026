@@ -76,13 +76,17 @@ A time series $\{y_t\}$ is **weakly (covariance) stationary** if $E[y_t]=\mu$ (c
 ### Augmented Dickey-Fuller (ADF) test, derived
 
 Start from an AR(1): $y_t = \phi y_{t-1} + \varepsilon_t$. Stationarity requires $|\phi|<1$. Subtract $y_{t-1}$ from both sides:
+
 $$
 \Delta y_t = (\phi - 1) y_{t-1} + \varepsilon_t = \gamma y_{t-1} + \varepsilon_t, \qquad \gamma = \phi - 1
 $$
+
 $H_0: \gamma = 0$ (i.e., $\phi=1$, a **unit root**, non-stationary random walk) vs. $H_1: \gamma < 0$ (stationary, mean-reverting). The **augmented** version adds lagged differences to absorb higher-order autocorrelation and an optional trend term:
+
 $$
 \Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^{p}\delta_i \Delta y_{t-i} + e_t
 $$
+
 Crucially, under $H_0$ the test statistic $t_\gamma = \hat\gamma/\text{SE}(\hat\gamma)$ does **not** follow a standard $t$-distribution — under a unit root, $y_{t-1}$ is itself non-stationary, so the usual CLT-based asymptotics don't apply; Dickey and Fuller derived the correct (left-skewed) asymptotic distribution by simulation, which is why ADF critical values (e.g., $-3.43$ at 1%) are more negative than standard normal/t critical values.
 
 ### ARIMA(p,d,q)
@@ -90,6 +94,7 @@ Crucially, under $H_0$ the test statistic $t_\gamma = \hat\gamma/\text{SE}(\hat\
 $$
 \underbrace{\left(1-\sum_{i=1}^p \phi_i L^i\right)}_{\text{AR}(p)} (1-L)^d y_t = \underbrace{\left(1+\sum_{j=1}^q \theta_j L^j\right)}_{\text{MA}(q)}\varepsilon_t
 $$
+
 where $L$ is the lag operator ($Ly_t=y_{t-1}$). The $d$-th difference $(1-L)^d y_t$ removes a unit root of order $d$ (from ADF, above) to achieve stationarity before applying the stationary ARMA structure. **Box-Jenkins methodology**: (1) difference until ADF rejects $H_0$; (2) use ACF/PACF plots to identify candidate $(p,q)$ — an AR($p$) process has a PACF that cuts off after lag $p$ and an ACF that decays geometrically; an MA($q$) is the mirror image; (3) fit via MLE, validate residuals are white noise (Ljung-Box test) before use.
 
 ```
@@ -115,27 +120,35 @@ Non-stationary (unit root, phi=1)         Stationary (mean-reverting, phi=0.6)
 ### GARCH(1,1), derived
 
 Financial returns exhibit **volatility clustering** (large moves follow large moves) — the unconditional variance is constant, but the *conditional* variance evolves. Model the return as $\varepsilon_t = \sigma_t z_t$, $z_t \sim \text{i.i.d.}(0,1)$, with:
+
 $$
 \sigma_t^2 = \omega + \alpha\varepsilon_{t-1}^2 + \beta\sigma_{t-1}^2, \qquad \omega>0,\ \alpha,\beta\ge0
 $$
+
 **Interpretation of each term:** $\omega$ is a baseline variance floor; $\alpha\varepsilon_{t-1}^2$ is the **ARCH effect** — yesterday's squared shock directly raises today's variance (a large move, regardless of sign, signals more turbulence); $\beta\sigma_{t-1}^2$ is **persistence** — variance itself is autocorrelated, so a high-vol regime tends to stay high for a while, not snap back instantly.
 
 **Unconditional variance** (stationarity condition): take expectations of both sides, using $E[\varepsilon_{t-1}^2]=E[\sigma_{t-1}^2]=\bar\sigma^2$ in steady state:
+
 $$
 \bar\sigma^2 = \omega + \alpha\bar\sigma^2 + \beta\bar\sigma^2 \;\Longrightarrow\; \bar\sigma^2 = \frac{\omega}{1-\alpha-\beta}, \quad \text{requires } \alpha+\beta<1
 $$
+
 **Half-life of a volatility shock** — how long until a shock's effect on variance decays to half its impact — comes from recursively substituting $\sigma_{t-1}^2$ forward: the persistence parameter $\alpha+\beta$ plays the role of an AR(1) coefficient for the variance process itself, so:
+
 $$
 \text{half-life} = \frac{\ln(0.5)}{\ln(\alpha+\beta)}
 $$
+
 (Derivation: after $k$ periods, a unit shock's contribution scales by $(\alpha+\beta)^k$; set $(\alpha+\beta)^k = 0.5$ and solve for $k = \ln(0.5)/\ln(\alpha+\beta)$.)
 
 ### EGARCH — why it exists
 
 GARCH(1,1) is symmetric: a $-2\%$ and $+2\%$ shock raise $\sigma_t^2$ identically (both enter as $\varepsilon_{t-1}^2$). Empirically, equity and credit/financing markets show a **leverage effect** — negative shocks raise future volatility *more* than equal-magnitude positive shocks (a funding-stress event spikes vol more than an equal-sized rally dampens it). Nelson's EGARCH models the *log*-variance to (a) guarantee positivity without parameter constraints and (b) allow asymmetry:
+
 $$
 \ln(\sigma_t^2) = \omega + \beta\ln(\sigma_{t-1}^2) + \alpha\left(\frac{|\varepsilon_{t-1}|}{\sigma_{t-1}} - E\left[\frac{|\varepsilon_{t-1}|}{\sigma_{t-1}}\right]\right) + \gamma\frac{\varepsilon_{t-1}}{\sigma_{t-1}}
 $$
+
 - Modeling $\ln(\sigma_t^2)$ instead of $\sigma_t^2$ directly means $\sigma_t^2 = \exp(\cdot) > 0$ **always holds**, with no need to constrain $\omega,\alpha,\beta \ge 0$ as in vanilla GARCH.
 - The $\gamma\cdot(\varepsilon_{t-1}/\sigma_{t-1})$ term is the asymmetry ("leverage") term: for standardized normal innovations, $E[|z|] = \sqrt{2/\pi}$, so the term in parentheses is the "size" effect (magnitude of the shock relative to expectation) while $\gamma z_{t-1}$ is the pure "sign" effect — a negative $\gamma$ means negative shocks ($z_{t-1}<0$) push log-variance up *more* than positive shocks of the same magnitude.
 
@@ -309,10 +322,13 @@ Volatility half-life: 16.08 periods
 An HMM assumes observed data $x_{1:T}$ (e.g., financing-spread returns) are emitted from a **latent** Markov chain of regimes $z_{1:T}\in\{1,\dots,K\}$ (e.g., "calm," "stressed"), with transition matrix $A_{ij}=P(z_t=j\mid z_{t-1}=i)$ and emission densities $b_j(x_t) = P(x_t \mid z_t = j)$ (typically Gaussian per regime, parameterized by $\mu_j,\sigma_j^2$).
 
 **Forward algorithm** — computing $P(x_{1:T})$ efficiently via dynamic programming rather than summing over all $K^T$ regime paths:
+
 $$
 \alpha_t(j) = P(x_{1:t}, z_t=j) = b_j(x_t)\sum_{i=1}^K \alpha_{t-1}(i) A_{ij}, \qquad \alpha_1(j) = \pi_j b_j(x_1)
 $$
+
 **Backward algorithm** (symmetric, run in reverse):
+
 $$
 \beta_t(i) = P(x_{t+1:T}\mid z_t=i) = \sum_{j=1}^K A_{ij} b_j(x_{t+1})\beta_{t+1}(j), \qquad \beta_T(i)=1
 $$
@@ -320,15 +336,19 @@ $$
 **Baum-Welch (EM for HMMs)** — since $z_t$ is unobserved, maximize the expected complete-data log-likelihood:
 - **E-step:** compute posterior regime probabilities $\gamma_t(j) = P(z_t=j\mid x_{1:T}) = \frac{\alpha_t(j)\beta_t(j)}{\sum_k \alpha_t(k)\beta_t(k)}$ and pairwise posteriors $\xi_t(i,j) = P(z_t=i,z_{t+1}=j\mid x_{1:T}) \propto \alpha_t(i)A_{ij}b_j(x_{t+1})\beta_{t+1}(j)$.
 - **M-step:** re-estimate parameters as expected counts:
+
 $$
 \hat{A}_{ij} = \frac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}, \qquad \hat\mu_j = \frac{\sum_t \gamma_t(j)x_t}{\sum_t\gamma_t(j)}, \qquad \hat\sigma_j^2 = \frac{\sum_t\gamma_t(j)(x_t-\hat\mu_j)^2}{\sum_t\gamma_t(j)}
 $$
+
 Each EM iteration provably does not decrease the log-likelihood (standard EM monotonicity via Jensen's inequality on the ELBO), converging to a local optimum — practically requiring multiple random restarts.
 
 **Viterbi algorithm** — the *single most likely regime path* (not the marginal per-timestep posterior $\gamma_t$), via the same DP recursion but with $\max$ replacing $\sum$:
+
 $$
 \delta_t(j) = \max_{z_{1:t-1}} P(z_{1:t-1}, z_t=j, x_{1:t}) = b_j(x_t)\max_i\left[\delta_{t-1}(i) A_{ij}\right]
 $$
+
 with a backpointer $\psi_t(j) = \arg\max_i[\delta_{t-1}(i)A_{ij}]$ tracked at each step to reconstruct the optimal path by backtracking from $\arg\max_j \delta_T(j)$.
 
 ```
@@ -530,27 +550,35 @@ CPCV (N=6 groups, k=2 test groups per combination — purge + embargo shown):
 ### First principles
 
 The Kalman filter is the optimal (minimum-MSE, linear) recursive estimator for a linear-Gaussian state-space model:
+
 $$
 \text{State (unobserved):}\quad \beta_t = \beta_{t-1} + w_t, \quad w_t \sim N(0, Q)
 $$
+
 $$
 \text{Observation:}\quad y_t = x_t \beta_t + v_t, \quad v_t \sim N(0, R)
 $$
+
 Here $\beta_t$ (e.g., a hedge ratio or financing spread level) is allowed to drift as a random walk (process noise $Q$), and we only observe it indirectly through a noisy linear measurement (observation noise $R$).
 
 **Predict step** (propagate belief forward before seeing $y_t$):
+
 $$
 \beta_{t\mid t-1} = \beta_{t-1\mid t-1}, \qquad P_{t\mid t-1} = P_{t-1\mid t-1} + Q
 $$
+
 (Since the state transition is a pure random walk, the mean prediction doesn't change, but uncertainty $P$ grows by $Q$ — this is the mathematical statement of "I'm less sure the longer I go without new data.")
 
 **Update step** (incorporate the new observation $y_t$): define the innovation (prediction error) $e_t = y_t - x_t\beta_{t\mid t-1}$ and innovation variance $S_t = x_t^2 P_{t\mid t-1} + R$. The **Kalman gain**:
+
 $$
 K_t = \frac{P_{t\mid t-1}\, x_t}{S_t} = \frac{P_{t\mid t-1}\,x_t}{x_t^2 P_{t\mid t-1}+R}
 $$
+
 $$
 \beta_{t\mid t} = \beta_{t\mid t-1} + K_t\, e_t, \qquad P_{t\mid t} = (1 - K_t x_t)\,P_{t\mid t-1}
 $$
+
 **Derivation intuition for $K_t$:** it's the precision-weighted share of the innovation to trust — when observation noise $R$ is small relative to prediction uncertainty $P_{t|t-1}$, $K_t \to 1/x_t$ and the filter almost fully trusts the new observation; when $R$ is large (noisy measurement), $K_t \to 0$ and the filter mostly ignores the new data point and trusts its prior belief. This is provably the **optimal linear** combination of prior and observation in a minimum-variance sense (a direct consequence of the projection theorem for Gaussian conditionals — the same orthogonality principle underlying OLS in Q9, applied recursively).
 
 **Why this beats a rolling-window OLS hedge ratio:** a rolling window (e.g., 60-day OLS beta) implicitly assumes the true $\beta$ is constant *within* the window and then discontinuously drops old data at the window edge — this both lags true regime changes and creates artificial jumps when an old, stale observation rolls out of the window. The Kalman filter's exponentially-weighted, continuously-updated belief adapts smoothly and its adaptation speed is explicitly controlled by the ratio $Q/R$ (the "trust the drift vs. trust the fit" tuning knob) rather than an arbitrary window length.
@@ -577,31 +605,39 @@ $$
 ### Forward pass
 
 For input $x\in\mathbb{R}^{d}$, layer 1 weights $W^{(1)}\in\mathbb{R}^{h\times d}$, bias $b^{(1)}\in\mathbb{R}^h$, activation $\sigma$, layer 2 weights $W^{(2)}\in\mathbb{R}^{c\times h}$:
+
 $$
 z^{(1)} = W^{(1)}x + b^{(1)}, \qquad a^{(1)} = \sigma(z^{(1)}), \qquad z^{(2)} = W^{(2)}a^{(1)} + b^{(2)}, \qquad \hat y = \text{softmax}(z^{(2)})
 $$
+
 Loss (cross-entropy against one-hot true label $y$): $\mathcal{L} = -\sum_c y_c \log\hat y_c$.
 
 ### Backpropagation, derived term by term
 
 **Step 1 — output layer gradient.** For softmax + cross-entropy specifically, the combined gradient simplifies beautifully:
+
 $$
 \delta^{(2)} \equiv \frac{\partial \mathcal{L}}{\partial z^{(2)}} = \hat y - y
 $$
+
 (Derivation: $\partial\mathcal{L}/\partial \hat y_c = -y_c/\hat y_c$; $\partial \hat y_c/\partial z^{(2)}_k = \hat y_c(\mathbb{1}[c=k]-\hat y_k)$ [softmax Jacobian]; chain rule and sum over $c$ collapses to $\hat y_k - y_k$ — the $\hat y_c$ terms cancel algebraically, which is *why* softmax+cross-entropy is used together rather than, e.g., softmax+MSE.)
 
 **Step 2 — layer 2 weight/bias gradients** (outer product, from $z^{(2)}=W^{(2)}a^{(1)}+b^{(2)}$):
+
 $$
 \frac{\partial\mathcal{L}}{\partial W^{(2)}} = \delta^{(2)} (a^{(1)})^\top, \qquad \frac{\partial\mathcal{L}}{\partial b^{(2)}} = \delta^{(2)}
 $$
 
 **Step 3 — backpropagate the error to layer 1** (chain rule through $z^{(2)} = W^{(2)}a^{(1)}+b^{(2)}$, then through $a^{(1)}=\sigma(z^{(1)})$):
+
 $$
 \delta^{(1)} \equiv \frac{\partial\mathcal{L}}{\partial z^{(1)}} = \left[(W^{(2)})^\top \delta^{(2)}\right] \odot \sigma'(z^{(1)})
 $$
+
 This is the central backprop equation: the error is **transposed-propagated** backward through $W^{(2)}$ (using its transpose because we're now asking "how does an upstream unit's output affect downstream error," which is the adjoint of "how does downstream weight affect output"), then **gated** element-wise by the local derivative of the activation at that unit — a unit that was saturated ($\sigma'\approx 0$) receives almost no error signal regardless of how wrong the output was, which is precisely the vanishing-gradient mechanism (Q21).
 
 **Step 4 — layer 1 weight/bias gradients:**
+
 $$
 \frac{\partial\mathcal{L}}{\partial W^{(1)}} = \delta^{(1)} x^\top, \qquad \frac{\partial\mathcal{L}}{\partial b^{(1)}} = \delta^{(1)}
 $$
@@ -799,9 +835,11 @@ Initial loss: 0.9707  |  Final loss: 0.0207
 ### First principles
 
 From Q20's Step 3, gradients backpropagate as a *product* over layers:
+
 $$
 \frac{\partial\mathcal{L}}{\partial W^{(1)}} \propto \prod_{\ell=2}^{L} \left[(W^{(\ell)})^\top \, \sigma'(z^{(\ell)})\right]
 $$
+
 For sigmoid, $\sigma'(z) = \sigma(z)(1-\sigma(z))$, which is **maximized at $z=0$ with value $0.25$** and decays toward 0 as $|z|$ grows (saturation). In a deep network with $L$ layers, even if every $\sigma'(z^{(\ell)}) \approx 0.25$ optimistically, the product of $L$ such terms is $0.25^L$ — for $L=10$, that's $\approx 10^{-6}$: the gradient reaching early layers is vanishingly small, so early layers essentially stop learning. Tanh has the same qualitative issue (max derivative 1.0, but still saturates to 0 at the tails).
 
 **ReLU** $\sigma(z)=\max(0,z)$ has $\sigma'(z) = \mathbb{1}[z>0]$ — either exactly 1 (no shrinkage) or exactly 0 (dead), never a fractional value in between that compounds multiplicatively toward zero across layers. This is *why* ReLU-family activations enabled meaningfully deeper networks to train via plain SGD: gradients that survive at all pass through at full strength rather than attenuating geometrically.
@@ -838,18 +876,23 @@ sigma'(z)        ReLU: exactly 1 for z>0, exactly 0 for z<0 (no attenuation when
 $$
 h_t = \tanh(W_{hh}h_{t-1} + W_{xh}x_t + b_h), \qquad \hat y_t = \text{softmax}(W_{hy}h_t + b_y)
 $$
+
 Total loss over a sequence of length $T$: $\mathcal{L} = \sum_{t=1}^T \mathcal{L}_t$.
 
 ### Backpropagation Through Time (BPTT), derived
 
 Because $h_t$ depends on $h_{t-1}$, which depends on $h_{t-2}$, etc., the gradient of the loss at time $t$ with respect to $W_{hh}$ must sum contributions through *every* earlier timestep the hidden state passed through:
+
 $$
 \frac{\partial \mathcal{L}_t}{\partial W_{hh}} = \sum_{k=1}^{t} \frac{\partial \mathcal{L}_t}{\partial h_t}\left(\prod_{j=k+1}^{t}\frac{\partial h_j}{\partial h_{j-1}}\right)\frac{\partial h_k}{\partial W_{hh}}
 $$
+
 The critical term is the **product of Jacobians** $\prod_{j=k+1}^{t} \partial h_j/\partial h_{j-1}$. From the recursion, $\partial h_j/\partial h_{j-1} = \text{diag}(1-\tanh^2(z_j))\, W_{hh}$, so:
+
 $$
 \left\lVert\prod_{j=k+1}^{t}\frac{\partial h_j}{\partial h_{j-1}}\right\rVert \le \prod_{j=k+1}^t \left\lVert\text{diag}(1-\tanh^2(z_j))\right\rVert \, \lVert W_{hh}\rVert
 $$
+
 If the largest eigenvalue of $W_{hh}$ (scaled by the tanh-derivative bound $\le 1$) is $<1$, this product **shrinks geometrically** with $(t-k)$ — vanishing gradient, identical mechanism to Q21 but now compounding over *time steps* instead of *layers* (an RNN unrolled over $T$ steps is mathematically a $T$-layer feedforward network with **tied weights** $W_{hh}$ reused at every layer). If the largest eigenvalue is $>1$, the product **grows geometrically** — the **exploding gradient** problem, addressed practically by **gradient clipping**: $g \leftarrow g \cdot \min(1, \theta/\lVert g\rVert)$, rescaling the gradient vector to a maximum norm $\theta$ without changing its direction.
 
 ```
@@ -878,15 +921,19 @@ Unrolled RNN = "deep" feedforward net with TIED weights across time:
 $$
 f_t = \sigma(W_f[h_{t-1}, x_t] + b_f) \quad \text{(forget gate)}
 $$
+
 $$
 i_t = \sigma(W_i[h_{t-1}, x_t] + b_i) \quad \text{(input gate)}
 $$
+
 $$
 \tilde C_t = \tanh(W_C[h_{t-1}, x_t] + b_C) \quad \text{(candidate cell state)}
 $$
+
 $$
 C_t = f_t \odot C_{t-1} + i_t \odot \tilde C_t \quad \text{(cell state update — additive!)}
 $$
+
 $$
 o_t = \sigma(W_o[h_{t-1}, x_t] + b_o), \qquad h_t = o_t \odot \tanh(C_t) \quad \text{(output gate, hidden state)}
 $$
@@ -894,13 +941,17 @@ $$
 ### Why this fixes vanishing gradients — the "gradient highway"
 
 The critical structural difference from vanilla RNN (Q22) is that the cell-state recurrence $C_t = f_t\odot C_{t-1} + i_t\odot\tilde C_t$ is **additive**, not a repeated matrix multiplication. Differentiate:
+
 $$
 \frac{\partial C_t}{\partial C_{t-1}} = f_t + (\text{terms involving } \partial f_t/\partial C_{t-1},\ \partial i_t/\partial C_{t-1},\ \partial \tilde C_t/\partial C_{t-1})
 $$
+
 The dominant term is simply $f_t$ — a value in $(0,1)$ set by a learned gate, not a fixed matrix reused unchanged at every timestep. Crucially, the gradient of $\mathcal{L}$ with respect to $C_k$ (many steps back) is:
+
 $$
 \frac{\partial \mathcal{L}}{\partial C_k} \approx \frac{\partial \mathcal{L}}{\partial C_t}\prod_{j=k+1}^{t} f_j
 $$
+
 Unlike Q22's product of $\tanh'$-gated weight matrices (which is architecturally forced toward $<1$ or $>1$ and applies the *same* matrix every step), the forget gates $f_j$ are **learned, input-dependent, and can be pushed close to 1** for time steps where the network has learned "this information should persist" — if the network learns $f_j\approx 1$ across a long span, the product $\prod f_j$ stays close to 1 instead of decaying geometrically, giving gradients (and information) a nearly-uninterrupted path backward — the "constant error carousel" from the original LSTM paper (Hochreiter & Schmidhuber, 1997).
 
 **Gate-by-gate intuition:**
@@ -1091,6 +1142,7 @@ Mean forget gate value (bias-initialized near 'remember'): 0.7286
 $$
 z_t = \sigma(W_z[h_{t-1},x_t]) \quad\text{(update gate)}, \qquad r_t = \sigma(W_r[h_{t-1},x_t]) \quad\text{(reset gate)}
 $$
+
 $$
 \tilde h_t = \tanh\!\big(W[r_t\odot h_{t-1}, x_t]\big), \qquad h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t
 $$
@@ -1124,9 +1176,11 @@ GRU:   coupled z_t, (1-z_t)  →  h_t is a strict interpolation (must sum to 1)
 ### Dropout
 
 At training time, each unit's activation $a_j$ is zeroed with probability $p$ (kept with probability $1-p$), via an independent Bernoulli mask $m_j\sim\text{Bernoulli}(1-p)$:
+
 $$
 \tilde a_j = \frac{m_j}{1-p}\,a_j
 $$
+
 The $1/(1-p)$ rescaling is **inverted dropout**: it ensures $E[\tilde a_j] = \frac{E[m_j]}{1-p}a_j = \frac{(1-p)}{1-p}a_j = a_j$ — matching the expected activation at train and test time, so no rescaling is needed at inference (the network at test time simply uses all units at full strength, with the training-time expectation already matched).
 
 **Why it regularizes, from first principles:** dropout can be viewed as training an exponential ensemble of $2^n$ "thinned" sub-networks (one per possible mask), sharing weights, and test-time prediction with all units active approximates averaging over that whole ensemble (Hinton et al., 2014) — this is directly analogous to Random Forest's variance reduction via averaging many decorrelated predictors (Q13), except achieved *within a single network* by stochastically removing co-adaptation between units during training, rather than by training literally separate models.
@@ -1134,12 +1188,15 @@ The $1/(1-p)$ rescaling is **inverted dropout**: it ensures $E[\tilde a_j] = \fr
 ### Batch Normalization
 
 For a mini-batch $\mathcal{B}=\{z_1,\dots,z_m\}$ of pre-activations for one unit:
+
 $$
 \mu_\mathcal{B} = \frac{1}{m}\sum_{i=1}^m z_i, \qquad \sigma_\mathcal{B}^2 = \frac{1}{m}\sum_{i=1}^m (z_i-\mu_\mathcal{B})^2
 $$
+
 $$
 \hat z_i = \frac{z_i - \mu_\mathcal{B}}{\sqrt{\sigma_\mathcal{B}^2 + \epsilon}}, \qquad y_i = \gamma\hat z_i + \beta
 $$
+
 - Normalizing to zero mean/unit variance stabilizes the distribution of layer inputs across training iterations — reducing what the original paper called **internal covariate shift** (each layer's input distribution shifting as earlier layers' weights update, forcing later layers to continuously re-adapt).
 - The learned scale $\gamma$ and shift $\beta$ are essential: without them, forcing every pre-activation to exactly zero-mean/unit-variance would *restrict the representational capacity* of the layer (e.g., a sigmoid unit forced to zero-mean, unit-variance input is confined near its near-linear regime, losing the ability to saturate when saturation is actually useful) — $\gamma,\beta$ let the network learn to *undo* the normalization if that's optimal, so BatchNorm strictly adds capacity for free while providing better-conditioned optimization.
 - **Regularization side-effect**: because $\mu_\mathcal{B},\sigma_\mathcal{B}^2$ are computed per mini-batch (not the full dataset), each training example's normalized activation depends on which other examples happen to be in its batch — this injects a small amount of noise, similar in spirit (though not mechanism) to dropout's stochastic regularization.
@@ -1159,19 +1216,25 @@ $$
 ### First principles
 
 Given queries $Q\in\mathbb{R}^{n\times d_k}$, keys $K\in\mathbb{R}^{n\times d_k}$, values $V\in\mathbb{R}^{n\times d_v}$:
+
 $$
 \text{Attention}(Q,K,V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
 $$
+
 **Derivation of the scaling factor:** assume $Q,K$ entries are i.i.d. with mean 0, variance 1 (standard after layer norm/initialization). Each entry of the raw dot product $q\cdot k = \sum_{i=1}^{d_k} q_ik_i$ is a sum of $d_k$ independent zero-mean unit-variance terms, so:
+
 $$
 \text{Var}(q\cdot k) = \sum_{i=1}^{d_k}\text{Var}(q_ik_i) = d_k \cdot \text{Var}(q_i)\text{Var}(k_i) = d_k
 $$
+
 As $d_k$ grows, the raw dot products have growing variance, pushing softmax inputs to extreme magnitudes — softmax's gradient $\partial\text{softmax}_i/\partial z_j = \text{softmax}_i(\delta_{ij}-\text{softmax}_j)$ vanishes when its input is saturated at one extreme value (the distribution becomes nearly one-hot), which is exactly the vanishing-gradient mechanism from Q21 applied to the attention weights themselves. Dividing by $\sqrt{d_k}$ renormalizes the variance back to $\text{Var}(q\cdot k/\sqrt{d_k}) = d_k/d_k = 1$, keeping the softmax input in a well-conditioned range regardless of $d_k$.
 
 **Multi-head attention** runs $h$ independent attention computations in parallel on projected subspaces, then concatenates:
+
 $$
 \text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1,\dots,\text{head}_h)W^O, \quad \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
 $$
+
 Each head can specialize on different relational patterns (e.g., one head attending to short-lag lead/lag structure in a multi-tenor financing curve, another to longer-horizon macro-regime dependence) — this is directly analogous to Random Forest's decorrelation-via-random-subspaces intuition (Q13), except the "subspaces" ($W_i^Q,W_i^K,W_i^V$ projections) are learned rather than randomly sampled.
 
 **Why attention beats RNN/LSTM for some tasks:** attention computes pairwise relationships between *all* positions in $O(1)$ sequential steps (fully parallelizable, $O(n^2 d)$ compute but no sequential dependency), versus an RNN's inherently sequential $O(n)$ recurrence — this removes the vanishing-gradient-over-time problem (Q22) entirely for capturing long-range dependencies, since any two positions are connected by exactly one attention "hop" regardless of their distance in the sequence, rather than $|i-j|$ sequential recurrent steps.
@@ -1203,9 +1266,11 @@ Each head can specialize on different relational patterns (e.g., one head attend
 ### First principles
 
 An autoencoder learns an encoder $f_\theta: \mathbb{R}^d \to \mathbb{R}^k$ ($k\ll d$, the bottleneck) and decoder $g_\phi:\mathbb{R}^k\to\mathbb{R}^d$ by minimizing reconstruction error:
+
 $$
 \theta^*,\phi^* = \arg\min_{\theta,\phi} \; \frac{1}{n}\sum_{i=1}^n \lVert x_i - g_\phi(f_\theta(x_i))\rVert_2^2
 $$
+
 The bottleneck $k \ll d$ forces the network to learn a **compressed, lossy representation** that captures the dominant modes of variation in "normal" training data — this is a nonlinear generalization of PCA (in fact, a linear-activation autoencoder with squared-error loss provably converges to the same subspace spanned by PCA's top-$k$ principal components, though not necessarily the same orthonormal basis).
 
 **Anomaly detection mechanism:** train the autoencoder exclusively (or predominantly) on *normal* trading patterns. For a new observation $x$, the **reconstruction error** $\lVert x - g_\phi(f_\theta(x))\rVert_2^2$ is the anomaly score: a genuinely novel pattern that doesn't resemble anything in the training distribution cannot be well-compressed-and-reconstructed by a bottleneck trained only on normal patterns, so its reconstruction error is structurally larger. Set a threshold $\tau$ (e.g., the 99th percentile of reconstruction error on a held-out normal validation set) and flag $x$ as anomalous if error $>\tau$.
@@ -1213,9 +1278,11 @@ The bottleneck $k \ll d$ forces the network to learn a **compressed, lossy repre
 **Why not just use PCA reconstruction error directly?** PCA's reconstruction error is bounded by a linear subspace projection — it can only capture linear relationships among features. A trading pattern anomaly might be a nonlinear combination (e.g., "volume and price impact are individually normal, but their *joint, nonlinear* relationship is not") that a linear PCA reconstruction would miss but a nonlinear autoencoder (with nonlinear activations in encoder/decoder) can capture.
 
 **Variational Autoencoder (VAE) extension**, for a probabilistic anomaly score rather than a point reconstruction: encode to a distribution $q_\phi(z\mid x) = \mathcal{N}(\mu_\phi(x),\sigma_\phi^2(x))$ rather than a point, trained via the ELBO:
+
 $$
 \mathcal{L}_{\text{ELBO}} = \underbrace{E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]}_{\text{reconstruction term}} - \underbrace{D_{KL}\big(q_\phi(z\mid x)\,\|\,p(z)\big)}_{\text{regularizes latent space toward prior}}
 $$
+
 The KL term regularizes the latent space to be smooth and prior-like (typically $p(z)=\mathcal{N}(0,I)$), which gives a well-calibrated **log-likelihood-based** anomaly score $-\log p_\theta(x)$ (approximated via the ELBO) rather than a raw, less-interpretable reconstruction distance.
 
 ```

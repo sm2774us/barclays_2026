@@ -1383,13 +1383,17 @@ Geometric view: OLS is an orthogonal projection
 ### Ridge regression
 
 Penalize the $\ell_2$ norm of $\beta$:
+
 $$
 \hat\beta_{\text{ridge}} = \arg\min_\beta \; \lVert y-X\beta\rVert_2^2 + \lambda\lVert\beta\rVert_2^2
 $$
+
 Differentiating: $-2X^\top(y-X\beta) + 2\lambda\beta = 0 \Rightarrow (X^\top X + \lambda I)\beta = X^\top y$, so
+
 $$
 \hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1}X^\top y
 $$
+
 Adding $\lambda I$ makes the matrix invertible even when $X^\top X$ is singular/ill-conditioned (collinear regressors) — this is the practical reason Ridge is preferred over OLS whenever features are correlated, as financing-curve tenor buckets typically are.
 
 **Bias-variance decomposition:** Ridge's expected squared error decomposes as $\text{Bias}^2 + \text{Variance} + \sigma^2$. As $\lambda \to \infty$, $\hat\beta_{\text{ridge}} \to 0$: bias grows, but variance shrinks because $\text{Var}(\hat\beta_{\text{ridge}}) = \sigma^2(X^\top X+\lambda I)^{-1}X^\top X(X^\top X+\lambda I)^{-1}$, which is dominated by the $(X^\top X + \lambda I)^{-2}$ scaling — larger $\lambda$ shrinks variance faster than it grows bias in the regime where $X^\top X$ has small eigenvalues (collinearity), which is precisely when Ridge helps most.
@@ -1399,7 +1403,9 @@ Adding $\lambda I$ makes the matrix invertible even when $X^\top X$ is singular/
 $$
 \hat\beta_{\text{lasso}} = \arg\min_\beta \; \lVert y-X\beta\rVert_2^2 + \lambda\lVert\beta\rVert_1
 $$
+
 The $\ell_1$ penalty is not differentiable at $\beta_j=0$, so use **subgradient** KKT conditions. For each coordinate $j$ (holding others fixed, coordinate descent):
+
 $$
 -2x_j^\top(y - X\beta) + \lambda \cdot s_j = 0, \qquad s_j \in
 \begin{cases}
@@ -1407,10 +1413,13 @@ $$
 [-1, 1] & \beta_j = 0
 \end{cases}
 $$
+
 This yields the **soft-thresholding** update in coordinate descent:
+
 $$
 \hat\beta_j = S\!\left(\frac{x_j^\top r_{-j}}{\lVert x_j\rVert^2}, \frac{\lambda}{2\lVert x_j\rVert^2}\right), \quad S(z,\gamma)=\text{sign}(z)\max(|z|-\gamma, 0)
 $$
+
 where $r_{-j} = y - \sum_{k\neq j}x_k\beta_k$ is the partial residual. The key geometric reason Lasso zeros out coefficients while Ridge doesn't: the $\ell_1$ ball's corners lie on the coordinate axes, so the RSS contour is likely to first touch the constraint region exactly at a corner (a sparse solution); the $\ell_2$ ball is smooth, so the tangency point is generically off-axis.
 
 ```
@@ -1442,9 +1451,11 @@ Lasso (L1 ball: diamond, corners on axes)
 ### Elastic Net — why it exists
 
 Lasso has two known weaknesses: (1) with $p > n$ (more features than observations), Lasso selects at most $n$ variables; (2) among a group of highly correlated features, Lasso arbitrarily picks one and zeroes the rest, which is unstable (small data perturbations flip which one survives). Elastic Net convexly combines both penalties:
+
 $$
 \hat\beta_{\text{EN}} = \arg\min_\beta \; \lVert y-X\beta\rVert_2^2 + \lambda_1\lVert\beta\rVert_1 + \lambda_2\lVert\beta\rVert_2^2
 $$
+
 The $\ell_2$ term restores strict convexity (a unique, well-conditioned solution even when $X^\top X$ is singular) and empirically produces a "grouping effect" — correlated features receive similar coefficients rather than one winner-take-all — which matters directly for a financing curve where adjacent tenor buckets (3M, 6M repo rates) are highly correlated and should logically share explanatory weight rather than have the model arbitrarily favor one bucket.
 
 ### Feynman restatement
@@ -1611,18 +1622,22 @@ Estimated beta:  [0.668 0.    0.    0.    0.    0.   ]
 
 ### First principles
 
-OLS point estimates $\hat\beta = (X^\top X)^{-1}X^\top y$ remain **unbiased** under heteroskedasticity/autocorrelation (Gauss-Markov's unbiasedness proof, Q9, never used $\text{Var}(\varepsilon)=\sigma^2 I$). What breaks is the **standard-error formula**: the textbook $\text{Var}(\hat\beta)=\sigma^2(X^\top X)^{-1}$ assumed $\text{Var}(\varepsilon\mid X)=\sigma^2 I_n$. With a general covariance $\Omega = \text{Var}(\varepsilon\mid X)$:
+OLS point estimates $\hat\beta = (X^\top X)^{-1}X^\top y$ remain **unbiased** under heteroskedasticity/autocorrelation (Gauss-Markov's unbiasedness proof, Q9, never used $\text{Var}(\varepsilon)=\sigma^2 I$). What breaks is the **standard-error formula**: the textbook $\text{Var}(\hat\beta)=\sigma^2(X^\top X)^{-1}$ assumed $\text{Var}(\varepsilon\mid X)=\sigma^2 I_n$. With a general covariance $\Omega = \text{Var}(\varepsilon\mid X)$ :
+
 $$
 \text{Var}(\hat\beta\mid X) = (X^\top X)^{-1}X^\top \Omega X (X^\top X)^{-1}
 $$
+
 Using the wrong (homoskedastic) formula under time-series financial data — where volatility clusters (heteroskedastic) and residuals are serially correlated (e.g., a financing-spread model with a persistent macro regime factor) — typically **understates** true standard errors, leading to spuriously significant t-stats and overconfident model promotion at the $\mathcal{F}_2$ gate (Q1).
 
 ### Newey-West HAC estimator, derived
 
 Newey-West estimates the "sandwich" middle term $X^\top\Omega X$ directly from the data without assuming a parametric form for $\Omega$, using a **Bartlett-kernel-weighted** sum of autocovariances up to a maximum lag $L$ (the "HAC" — Heteroskedasticity and Autocorrelation Consistent — estimator):
+
 $$
 \hat{S} = \hat\Gamma_0 + \sum_{\ell=1}^{L} w_\ell \left(\hat\Gamma_\ell + \hat\Gamma_\ell^\top\right), \qquad w_\ell = 1 - \frac{\ell}{L+1}
 $$
+
 where $\hat\Gamma_\ell = \frac{1}{n}\sum_{t=\ell+1}^{n} \hat\varepsilon_t \hat\varepsilon_{t-\ell}\, x_t x_{t-\ell}^\top$ is the sample lag-$\ell$ autocovariance of the score contributions.
 
 - $\hat\Gamma_0 = \frac{1}{n}\sum_t \hat\varepsilon_t^2 x_tx_t^\top$ is the White heteroskedasticity-consistent term alone (lag 0).
@@ -1630,6 +1645,7 @@ where $\hat\Gamma_\ell = \frac{1}{n}\sum_{t=\ell+1}^{n} \hat\varepsilon_t \hat\v
 - $L$ (bandwidth) trades off bias (too small $L$ misses genuine longer-range autocorrelation) against variance (too large $L$ adds noisy, unreliable higher-lag terms); the standard rule-of-thumb is $L = \lfloor 4(n/100)^{2/9}\rfloor$ (Newey-West, 1994).
 
 The corrected variance estimator is then:
+
 $$
 \widehat{\text{Var}}_{\text{NW}}(\hat\beta) = n\,(X^\top X)^{-1} \hat S (X^\top X)^{-1}
 $$
@@ -1662,21 +1678,27 @@ Autocorrelation function of residuals — HAC vs. naive OLS SE
 A decision tree greedily partitions feature space to maximize class purity in child nodes. For a node with class distribution $p = (p_1, \dots, p_C)$:
 
 **Entropy** (Shannon information content):
+
 $$
 H(p) = -\sum_{c=1}^{C} p_c \log_2 p_c
 $$
+
 Derivation intuition: $-\log_2 p_c$ is the number of bits of "surprise" in observing class $c$ with probability $p_c$ (rare events are more surprising); $H(p)$ is the expectation of that surprise over the node's class distribution. $H$ is maximized at $p_c = 1/C \,\forall c$ (uniform, most impure) and $H=0$ at any $p_c=1$ (pure node).
 
 **Gini impurity** (expected misclassification rate if you assigned labels by sampling from $p$):
+
 $$
 G(p) = \sum_{c=1}^C p_c(1-p_c) = 1 - \sum_{c=1}^C p_c^2
 $$
+
 Derivation: probability of misclassifying a randomly drawn point using $p$ as both the true distribution and the labeling rule is $\sum_c p_c \cdot (1-p_c)$ — you're class $c$ with probability $p_c$, and get incorrectly relabeled with probability $1-p_c$.
 
 **Information Gain** (the split criterion): for a candidate split into left/right children with weights $w_L=n_L/n$, $w_R=n_R/n$:
+
 $$
 IG = H(\text{parent}) - \left[w_L H(\text{left}) + w_R H(\text{right})\right]
 $$
+
 The tree greedily picks the (feature, threshold) pair maximizing $IG$ (or the Gini-impurity-reduction analogue) at every node — this is a **local, greedy** optimization; it does not guarantee a globally optimal tree (that problem is NP-hard).
 
 **When they differ in practice:** both are strictly concave, symmetric, maximized at uniform $p$, zero at pure nodes — they almost always select the *same* splits. The practical difference is computational: Gini avoids the $\log$ evaluation (faster, hence `sklearn`'s and CART's default), while entropy is very slightly more sensitive to changes in a minority class's probability near purity (its derivative $-\log_2 p_c - 1/\ln 2$ diverges as $p_c \to 0$, vs. Gini's bounded derivative $1-2p_c$) — this occasionally matters for highly imbalanced financial event labels (e.g., rare financing-desk fails), where entropy's sharper penalty near $p\to0$ can produce marginally different splits on the minority class.
@@ -1706,45 +1728,61 @@ H(p), G(p) for binary p=(p, 1-p)
 ### Random Forest — variance reduction via bagging
 
 RF trains $B$ trees on bootstrap resamples with random feature subsampling at each split, then averages: $\hat f_{\text{RF}}(x) = \frac{1}{B}\sum_{b=1}^B T_b(x)$. If trees have variance $\sigma^2$ and pairwise correlation $\rho$:
+
 $$
 \text{Var}(\hat f_{\text{RF}}) = \rho\sigma^2 + \frac{1-\rho}{B}\sigma^2
 $$
+
 As $B\to\infty$ the second term vanishes, leaving $\rho\sigma^2$ — this is *why* RF randomly subsamples features per split (decorrelating trees, lowering $\rho$) rather than just bagging rows alone; lowering $\rho$ is the actual lever, not adding more trees past the point where $\frac{1-\rho}{B}\sigma^2$ is already negligible.
 
 ### Gradient Boosting — additive, sequential bias reduction
 
 GBM builds an additive model $F_M(x) = \sum_{m=1}^M \gamma_m h_m(x)$ where each new tree $h_m$ is fit to the **negative gradient** of the loss w.r.t. the current predictions (functional gradient descent):
+
 $$
 h_m = \arg\min_h \sum_i \left(-\frac{\partial \mathcal{L}(y_i, F_{m-1}(x_i))}{\partial F_{m-1}(x_i)} - h(x_i)\right)^2
 $$
+
 For squared-error loss this residual is literally $y_i - F_{m-1}(x_i)$ — "fit the next tree to the current mistakes." RF reduces *variance* by averaging independent-ish trees; GBM reduces *bias* by sequentially correcting the ensemble's residual errors — this is the core mathematical contrast.
 
 ### XGBoost — 2nd-order Taylor expansion, derived line by line
 
 XGBoost generalizes the boosting objective to use a **second-order** Taylor approximation of an arbitrary loss $\mathcal{L}$, plus an explicit regularization term $\Omega$ on tree complexity:
+
 $$
 \text{Obj}^{(m)} = \sum_i \mathcal{L}(y_i, F_{m-1}(x_i) + h_m(x_i)) + \Omega(h_m)
 $$
+
 Taylor-expand $\mathcal{L}$ around $F_{m-1}(x_i)$ to second order in $h_m(x_i)$:
+
 $$
 \mathcal{L}(y_i, F_{m-1}(x_i)+h_m(x_i)) \approx \mathcal{L}(y_i,F_{m-1}(x_i)) + g_i h_m(x_i) + \tfrac12 h_i h_m(x_i)^2
 $$
+
 where $g_i = \partial\mathcal{L}/\partial F_{m-1}(x_i)$ (gradient) and $h_i = \partial^2\mathcal{L}/\partial F_{m-1}(x_i)^2$ (Hessian). Dropping the constant term (doesn't affect optimization) and defining $\Omega(h_m) = \gamma T + \tfrac12\lambda\sum_{j=1}^T w_j^2$ ($T$ leaves, $w_j$ leaf weights):
+
 $$
 \text{Obj} \approx \sum_i \left[g_i h_m(x_i) + \tfrac12 h_i h_m(x_i)^2\right] + \gamma T + \tfrac12\lambda\sum_j w_j^2
 $$
+
 Grouping by leaf $j$ (all samples $i \in I_j$ landing in leaf $j$ share weight $w_j$), define $G_j=\sum_{i\in I_j}g_i$, $H_j=\sum_{i\in I_j}h_i$:
+
 $$
 \text{Obj} = \sum_{j=1}^T \left[G_j w_j + \tfrac12(H_j+\lambda)w_j^2\right] + \gamma T
 $$
+
 This is now a simple quadratic in each $w_j$ independently. Setting $\partial \text{Obj}/\partial w_j = G_j + (H_j+\lambda)w_j = 0$:
+
 $$
 w_j^{\*} = -\frac{G_j}{H_j+\lambda}, \qquad \text{Obj}^{\*} = -\tfrac12\sum_{j=1}^T \frac{G_j^2}{H_j+\lambda} + \gamma T
 $$
+
 **Split gain** — the reduction in $\text{Obj}^*$ from splitting one leaf into left/right:
+
 $$
 \text{Gain} = \tfrac12\left[\frac{G_L^2}{H_L+\lambda} + \frac{G_R^2}{H_R+\lambda} - \frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\right] - \gamma
 $$
+
 This is the exact analogue of Information Gain (Q12) but generalized to *any* twice-differentiable loss (not just classification entropy) and with an explicit complexity penalty $\gamma$ that prunes splits whose gain doesn't clear the cost of adding a leaf — this is why XGBoost naturally handles regression, ranking, and custom loss functions with the same split-finding machinery, and why it needs no separate post-hoc pruning step (the $-\gamma$ term does it inline).
 
 ```
@@ -1934,9 +1972,11 @@ Gain at best split:   158.0727
 ### First principles: Shapley values from cooperative game theory
 
 Treat the $|F|$ features as "players" in a cooperative game where the "payout" of a coalition $S \subseteq F$ is the model's prediction using only those features, $v(S)$. The **Shapley value** $\phi_i$ for feature $i$ is its fairly-attributed average marginal contribution across every possible order of "joining" the coalition:
+
 $$
 \phi_i = \sum_{S \subseteq F\setminus\{i\}} \frac{|S|!\,(|F|-|S|-1)!}{|F|!}\Big[v(S\cup\{i\}) - v(S)\Big]
 $$
+
 This is the *unique* attribution satisfying four fairness axioms simultaneously: **efficiency** ($\sum_i \phi_i = v(F) - v(\emptyset)$, contributions sum exactly to the total prediction), **symmetry** (identical features get identical credit), **dummy** (a feature that never changes the prediction in any coalition gets zero credit), and **additivity** (Shapley values of a sum of two games is the sum of their Shapley values).
 
 **Why this beats naive "feature importance" (e.g., XGBoost's default gain/split-count importance):** gain-based importance is *global* and *aggregated over training*, hiding sign and per-prediction direction — it can't answer "why did the model flag *this specific* financing spread as anomalous today." Shapley values are *local* (computed per prediction) and *signed* (positive/negative contribution), directly answering the PM's actual question.
