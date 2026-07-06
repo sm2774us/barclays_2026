@@ -1227,7 +1227,13 @@ $$
 \text{Var}(q\cdot k) = \sum_{i=1}^{d_k}\text{Var}(q_ik_i) = d_k \cdot \text{Var}(q_i)\text{Var}(k_i) = d_k
 $$
 
-As $d_k$ grows, the raw dot products have growing variance, pushing softmax inputs to extreme magnitudes — softmax's gradient $\partial\text{softmax}_i/\partial z_j = \text{softmax}_i(\delta_{ij}-\text{softmax}_j)$ vanishes when its input is saturated at one extreme value (the distribution becomes nearly one-hot), which is exactly the vanishing-gradient mechanism from Q21 applied to the attention weights themselves. Dividing by $\sqrt{d_k}$ renormalizes the variance back to $\text{Var}(q\cdot k/\sqrt{d_k}) = d_k/d_k = 1$, keeping the softmax input in a well-conditioned range regardless of $d_k$.
+As $d_k$ grows, the raw dot products have growing variance, pushing softmax inputs to extreme magnitudes — softmax's gradient:
+
+$$
+\partial\text{softmax}_i/\partial z_j = \text{softmax}_i(\delta_{ij}-\text{softmax}_j)
+$$
+
+vanishes when its input is saturated at one extreme value (the distribution becomes nearly one-hot), which is exactly the vanishing-gradient mechanism from Q21 applied to the attention weights themselves. Dividing by $\sqrt{d_k}$ renormalizes the variance back to $\text{Var}(q\cdot k/\sqrt{d_k}) = d_k/d_k = 1$, keeping the softmax input in a well-conditioned range regardless of $d_k$.
 
 **Multi-head attention** runs $h$ independent attention computations in parallel on projected subspaces, then concatenates:
 
