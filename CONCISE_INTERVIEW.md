@@ -1098,6 +1098,8 @@ Because **SR 11-7** was written for traditional quantitative models (like credit
 
 ## D4 · State of Research — Foundation Models for Markets & Time Series
 
+**[Detailed Answer](./DETAILED_ANSWERS/D4/README.md)**
+
 **Open with the intuition:**
 > "The frontier right now is asking whether the same transformer architecture that revolutionized language can be pretrained once on massive amounts of time-series data and then adapted cheaply to a new financial series, the same way GPT-style models get fine-tuned for a new task — instead of training a bespoke model from scratch for every single asset."
 
