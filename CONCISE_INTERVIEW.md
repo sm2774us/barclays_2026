@@ -358,11 +358,11 @@ class RegimeGatedForecaster:
 
 **The math:**
 
-$$\hat{\beta}_{\text{OLS}} = \arg\min_\beta \; \|y - X\beta\|_2^2$$
+$$\hat{\beta}_{\text{OLS}} = \arg\min_\beta \quad \|y - X\beta\|_2^2$$
 
-$$\hat{\beta}_{\text{LASSO}} = \arg\min_\beta \; \|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$
+$$\hat{\beta}_{\text{LASSO}} = \arg\min_\beta \quad \|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$
 
-$$\hat{\beta}_{\text{Elastic Net}} = \arg\min_\beta \; \|y - X\beta\|_2^2 + \lambda_1 \|\beta\|_1 + \lambda_2 \|\beta\|_2^2$$
+$$\hat{\beta}_{\text{Elastic Net}} = \arg\min_\beta \quad \|y - X\beta\|_2^2 + \lambda_1 \|\beta\|_1 + \lambda_2 \|\beta\|_2^2$$
 
 **Say it out loud:** *"LASSO's L1 penalty pushes weak coefficients exactly to zero — it does feature selection for you. That's powerful but dangerous with correlated features: LASSO will arbitrarily pick one of two correlated financing-rate drivers and zero out the other, which hurts interpretability when a risk committee asks 'why does the model care about repo GC but not collateral scarcity, when they're basically the same signal.' Elastic Net's L2 term fixes that — it tends to keep correlated features together, shrinking their coefficients as a group rather than arbitrarily choosing a winner. For a financing-rate model with 20-30 collinear macro and collateral features, Elastic Net is almost always my default over pure LASSO."*
 
@@ -523,7 +523,7 @@ GATE FLOW — LSTM CELL
 
 **The math:**
 
-$$W = W_0 + \Delta W, \qquad \Delta W = BA, \quad B \in \mathbb{R}^{d \times r}, \; A \in \mathbb{R}^{r \times k}, \; r \ll \min(d,k)$$
+$$W = W_0 + \Delta W, \qquad \Delta W = BA, \quad B \in \mathbb{R}^{d \times r}, \quad A \in \mathbb{R}^{r \times k}, \quad r \ll \min(d,k)$$
 
 $$h = W_0 x + \Delta W x = W_0 x + BAx$$
 
