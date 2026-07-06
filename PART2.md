@@ -1274,7 +1274,7 @@ Each head can specialize on different relational patterns (e.g., one head attend
 An autoencoder learns an encoder $f_\theta: \mathbb{R}^d \to \mathbb{R}^k$ ($k\ll d$, the bottleneck) and decoder $g_\phi:\mathbb{R}^k\to\mathbb{R}^d$ by minimizing reconstruction error:
 
 $$
-\theta^{*},\phi^{*} = \arg\min_{\theta,\phi} \; \frac{1}{n}\sum_{i=1}^n \lVert x_i - g_\phi(f_\theta(x_i))\rVert_2^2
+\theta^{\*},\phi^{\*} = \arg\min_{\theta,\phi} \; \frac{1}{n}\sum_{i=1}^n \lVert x_i - g_\phi(f_\theta(x_i))\rVert_2^2
 $$
 
 The bottleneck $k \ll d$ forces the network to learn a **compressed, lossy representation** that captures the dominant modes of variation in "normal" training data — this is a nonlinear generalization of PCA (in fact, a linear-activation autoencoder with squared-error loss provably converges to the same subspace spanned by PCA's top-$k$ principal components, though not necessarily the same orthonormal basis).
