@@ -1236,7 +1236,7 @@ if __name__ == "__main__":
 Model selection is a constrained optimization over (accuracy, latency, cost, data-residency, context length) — treat it as picking a point on a Pareto frontier rather than a single "best" model:
 
 ```math
-\text{Model}^{\*} = \arg\max_{m \in \mathcal{M}} \; U(m) \quad \text{s.t.} \quad \text{latency}(m) \le L,\ \ \text{cost}(m) \le B,\ \ \text{data\_residency}(m) \in \text{Approved}
+\text{Model}^{*} = \arg\max_{m \in \mathcal{M}} \; U(m) \quad \text{s.t.} \quad \text{latency}(m) \le L,\ \ \text{cost}(m) \le B,\ \ \text{data\_residency}(m) \in \text{Approved}
 ```
 
 ```
