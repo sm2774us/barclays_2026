@@ -67,11 +67,6 @@ docs/xml/
 # Docker
 .dockerignore
 
-# Plots (generated at runtime)
-plots/*.png
-plots/*.html
-!plots/.gitkeep
-
 # Data (downloaded at runtime)
 data/
 *.parquet
