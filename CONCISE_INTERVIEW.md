@@ -158,6 +158,8 @@ LANGUAGE            │  Fine-tuned / prompted LLM   │        │  LLM + RAG g
 
 ## T1 · Time Series Forecasting for Pricing — Classical vs Deep Learning
 
+**[Detailed Answer](./DETAILED_ANSWERS/T1/README.md)**
+
 **Open with the intuition (15 seconds):**
 > "Classical time-series models assume the past has a stable statistical structure — a mean it reverts to, a volatility process that clusters. Deep learning models assume nothing about structure and instead learn it from data, at the cost of needing much more of it. For financing rates and pricing, I choose based on how much history I actually have and how nonlinear the driving factors are."
 
@@ -334,6 +336,8 @@ class RegimeGatedForecaster:
 ---
 
 ## T2 · Regression Family — OLS, LASSO, Elastic Net for Financing Rates
+
+**[Detailed Answer](./DETAILED_ANSWERS/T2/README.md)**
 
 **Open with the intuition:**
 > "OLS asks every feature to justify its coefficient with no penalty for being greedy. In financing data, features are highly collinear — GC rate, term, collateral quality, and counterparty credit spread all move together — so OLS coefficients become unstable and flip sign from month to month. LASSO and Elastic Net add a penalty that forces the model to be disciplined about which features it actually trusts."
