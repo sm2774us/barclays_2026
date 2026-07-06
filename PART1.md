@@ -665,7 +665,7 @@ $$
 ```
 Base weight:        W0  (d x k, frozen)
                       │
-        x ───────────►│─────────────┐
+        x ───────────►│──────────────┐
                       │              │  low-rank path
                       ▼              ▼
                    W0 x     +   (alpha/r) · B(Ax)
