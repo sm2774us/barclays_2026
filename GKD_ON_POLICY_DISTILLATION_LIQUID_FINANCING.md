@@ -3,6 +3,31 @@
 > Source paper: Agarwal, Vieillard, Zhou, Stanczyk, Ramos, Geist, Bachem. *On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes.* ICLR 2024. arXiv:2306.13649.
 > Target role: VP, AI/ML Modeler — Liquid Financing (Equities/Delta One, Rate/Credit Financing, FX, Risk, Futures & Prime Derivatives). Stack: Python 3.13, C++26, `uv`, Google style, Plotly/Kaleido, GitHub Actions CI, nanobind, CPCV, Deflated Sharpe, HRP, Ledoit-Wolf.
 
+
+---
+
+## Table of Contents
+
+
+- [1. Core Theory Recap](#1-core-theory-recap)
+- [2. Why This Is *Directly* Relevant to the Liquid Financing Role](#2-why-this-is-directly-relevant-to-the-liquid-financing-role)
+- [3. Recipe 1 — Distilling a Financing-Domain LLM Copilot for BMC Inference](#3-recipe-1--distilling-a-financing-domain-llm-copilot-for-bmc-inference)
+- [4. Recipe 2 — On-Policy Distillation for Sequential/Numeric Models (Pricing, Time Series)](#4-recipe-2--on-policy-distillation-for-sequentialnumeric-models-pricing-time-series)
+- [5. Recipe 3 — RL + On-Policy Distillation for Risk-Aware Copilots (Eq. 5 Fusion)](#5-recipe-3--rl--on-policy-distillation-for-risk-aware-copilots-eq-5-fusion)
+- [6. Recipe 4 — Data-Efficiency Play for the "50+ Problem Statement Backlog"](#6-recipe-4--data-efficiency-play-for-the-50-problem-statement-backlog)
+- [7. Recipe 5 — Self-Distillation for Continuous Weekly Refresh](#7-recipe-5--self-distillation-for-continuous-weekly-refresh)
+- [8. Cost/Latency Model for BMC Deployment Decisions](#8-costlatency-model-for-bmc-deployment-decisions)
+- [9. Evaluation Harness (CPCV-Aligned, Google-Style, Plotly Outputs)](#9-evaluation-harness-cpcv-aligned-google-style-plotly-outputs)
+- [10. Interview Talking Points Mapped to JD Bullets](#10-interview-talking-points-mapped-to-jd-bullets)
+- [11. Key Formulas Quick Reference](#11-key-formulas-quick-reference)
+- [12. References](#12-references)
+- [Prior Experience](#prior-experience)
+- [How I intend to use for this seat?](#how-i-intend-to-use-for-this-seat)
+- [How the implementation changes for a closed-source model like Claude vs Open Soure Model?](#how-the-implementation-changes-for-a-closed-source-model-like-claude-vs-open-soure-model)
+- [Use-Cases](#use-cases)
+
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 1. Core Theory Recap
@@ -85,6 +110,8 @@ loss.backward(); optimizer.step()
 | Pushing past your best model | RL |
 | Copying a teacher's behavior, no log-probs available | SFT |
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 2. Why This Is *Directly* Relevant to the Liquid Financing Role
@@ -111,6 +138,8 @@ The JD's core loop — **"50+ problem statements, 10 actively prioritized," ship
  Student       Student         Student       Student      Student
  (BMC, <50ms)  (BMC, <50ms)    (BMC)         (BMC)         (BMC)
 ```
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -292,6 +321,8 @@ def train_loop(
 | Compliance/regulatory Q&A copilot | 0.9 (reverse-KL-like) | Mode-seeking → commits to the single correct/most-likely teacher answer |
 | Instruction-tuned general desk assistant | reverse KL (per paper §4.4) | Outperformed forward KL by largest margin on held-out MMLU/BBH-style eval |
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 4. Recipe 2 — On-Policy Distillation for Sequential/Numeric Models (Pricing, Time Series)
@@ -407,6 +438,8 @@ Teacher-forcing (SFT-analogue)          On-policy distillation (OPD-analogue)
 
 This is the same rationale behind **CPCV over walk-forward**: eliminate a mismatch between the distribution the model is scored/deployed under and the distribution it was fit on.
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 5. Recipe 3 — RL + On-Policy Distillation for Risk-Aware Copilots (Eq. 5 Fusion)
@@ -472,6 +505,8 @@ def rl_plus_gkd_loss(
 
 **Tuning guidance from paper's Figure 5 (RLAIF + OPD trade-off):** sweep $\alpha \in \{0.05, 0.1, 0.25, 0.5\}$ — lower $\alpha$ favors reward (factual consistency ↑ fastest at $\alpha{=}0.05$: +45% entailment), higher $\alpha$ favors summary/task quality. For financing risk copilots where factual grounding to legal/collateral text is non-negotiable, bias toward $\alpha \le 0.1$.
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 6. Recipe 4 — Data-Efficiency Play for the "50+ Problem Statement Backlog"
@@ -486,6 +521,8 @@ $$
 1. Cold-start: SFT a small student on whatever ground-truth labels exist per problem statement (even 0.5–5%).
 2. Swap to on-policy rollouts against the firm's best available teacher (largest in-house model or ensemble) for the remaining training budget — $\lambda = 1$.
 3. Track ROUGE/BLEU-analogues replaced by domain metrics: e.g., Deflated-Sharpe-weighted P&L accuracy, calibration error on spread forecasts, entailment score vs. source docs for text.
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -507,6 +544,8 @@ Week N+1: Model_{N+1} = self-distill(teacher=Model_N, student=copy(Model_N))
 
 This is materially cheaper than full retraining and, per the paper, tends to *improve* over the prior checkpoint rather than merely replicate it — useful for a "10 actively prioritized problem statements" cadence where full retrains aren't affordable weekly.
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 8. Cost/Latency Model for BMC Deployment Decisions
@@ -518,6 +557,8 @@ $$
 $$
 
 **Decision rule to present to the 10–15-person IT engineering team:** if it's too costly to sample on-policy from the student during fine-tuning, it will likely also be too costly to serve to end users at target QPS — so on-policy training cost should be evaluated *relative to serving cost*, not in isolation. This is a direct talking point for the "collaborate with IT engineering to support deployment" responsibility.
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -588,6 +629,8 @@ def build_ablation_heatmap(results: list[EvalResult]) -> go.Figure:
     return fig
 ```
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 10. Interview Talking Points Mapped to JD Bullets
@@ -601,6 +644,8 @@ def build_ablation_heatmap(results: list[EvalResult]) -> go.Figure:
 | "Templatizing AI/ML solutions across business lines" | §2 deployment map: one teacher, five desk-specific distilled students sharing the same training harness/config dataclass. |
 | "50+ problem statements, 10 prioritized" | Recipe 4: 5%-labeled-data efficiency result directly compresses time-to-MVP per problem statement. |
 | "Start-up mindset... ship to production" | Recipe 5: self-distillation as a low-cost weekly refresh loop instead of full retrains. |
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -616,6 +661,8 @@ D_{JSD(\beta)}(P\|Q) &= \beta D_{KL}(P\|\beta P + (1-\beta)Q) + (1-\beta) D_{KL}
 \end{aligned}
 $$
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## 12. References
@@ -623,6 +670,8 @@ $$
 - Agarwal, R., Vieillard, N., Zhou, Y., Stanczyk, P., Ramos, S., Geist, M., Bachem, O. *On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes.* ICLR 2024. arXiv:2306.13649v3.
 - Roit et al. 2023 — RLEF (entailment-reward RLAIF), used as the RL-reward pattern in §5.
 - Job description: *AI / ML Modeler — Liquid Financing*, Global Financial Firm, NYC Midtown, VP level.
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -634,6 +683,8 @@ $$
 
 **What I find valuable about this paper is that it gives that intuition a rigorous, general framework — the divergence formulation, the data-efficiency results, the RL-fusion extension — which is exactly the kind of thing I'd want to formalize and reuse here for the sequential/autoregressive parts of the financing pipeline, rather than reinventing it ad hoc the way I had to back then."**
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## How I intend to use for this seat?
@@ -644,11 +695,15 @@ $$
 
 **For this seat, I see three direct applications. First, for the BMC (Baseboard Management Controller) inference infrastructure — compressing a large in-house financing LLM down to something deployable at low latency, while preserving desk-specific reasoning, using on-policy distillation instead of standard fine-tuning. Second, for the pricing and time-series models — the same distribution-mismatch problem shows up in autoregressive forecasting, like multi-step financing curve or spread forecasts, where teacher-forcing during training doesn't match how the model actually gets used at inference. The paper's on-policy framing generalizes directly to that. And third, given the backlog — 50+ problem statements, 10 prioritized — the data efficiency result matters practically: it means we can stand up production-quality models for new use cases with a fraction of the labeled data and compute we'd otherwise need."**
 
+[🔝 Back to Top](#table-of-contents)
+
 ---
 
 ## How the implementation changes for a closed-source model like Claude vs Open Soure Model?
 
 Good question — it changes the architecture meaningfully, because you don't have access to Claude's weights or full output distribution, which the paper's method assumes.
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
 
@@ -693,6 +748,8 @@ generation loops during training. Choose GKD (available via tools like the
 are distilling an LLM for complex tasks like reasoning, translation, or mathematical formatting, 
 where long-sequence errors tend to compound heavily.
 
+[🔝 Back to Top](#table-of-contents)
+
 --- 
 
 **What breaks:**
@@ -709,5 +766,36 @@ The core GKD loss requires token-level KL/JSD between teacher and student logit 
 4. **Keep the open-weight student.** The whole point is still a small, BMC-deployable model — Claude stays server-side as the periodic teacher/grader during training, never in the low-latency inference path.
 
 So practically: same on-policy philosophy — train on the student's own outputs, get dense correction from a stronger model — but implemented as **Claude-graded on-policy SFT / RLAIF**, not literal token-level GKD, because the API surface doesn't expose what the paper's method needs.
+
+[🔝 Back to Top](#table-of-contents)
+
+---
+
+## Use-Cases
+
+Yes — if in-house LLMs already exist and BMC servers are the deployment target, this is exactly the setting the paper assumes: you control the full forward pass of both teacher and student, so the exact GKD algorithm (token-level KL/JSD, on-policy rollouts, stop-gradient sampling) is directly implementable, not an approximation. Here's how I'd frame it and the concrete use cases.
+
+**Why it fits cleanly:**
+- In-house teacher LLM → full logit access, no API bottleneck.
+- BMC servers → the latency/memory-constrained deployment target that *motivates* compression in the first place.
+- Same firm infra → training and serving both stay inside the perimeter, satisfying the data-governance constraint from before.
+
+**Concrete use cases at this seat:**
+
+1. **BMC-deployable desk copilots (Recipe 1).** Distill the large in-house LLM into a 3–8B student per business line — Equities/Delta One, Rate/Credit Financing, FX, Risk, Prime — each fine-tuned on desk-specific documents and financing terminology. On-policy GKD lets each student hit near-teacher quality at a fraction of inference cost, which is the direct "templatize AI/ML solutions across business lines" mandate in the JD.
+
+2. **Low-latency trade/margin explainability.** Real-time margin call or repo-rate explanations need sub-second responses on BMC hardware. A distilled student trained on-policy against the in-house teacher, with JSD(β) tuned toward mode-seeking (β≈0.9), gives commitment to the single correct/most-defensible answer rather than diverse hedged phrasing — important when compliance reviews the output.
+
+3. **RL + distillation fusion for factual grounding (§5, Eq. 5).** Combine an internal entailment/consistency reward (checking generated text against source financing docs) with on-policy distillation toward the teacher. This directly reduces hallucination risk in anything client- or compliance-facing, while the teacher-regularization term prevents the "alignment tax" of pure RL fine-tuning.
+
+4. **Continuous refresh without full retrain (Recipe 5 — self-distillation).** Weekly/monthly, treat last week's deployed student as the new teacher and self-distill an updated checkpoint on-policy against fresh market/financing data. Cheap relative to full retraining, and the paper shows this can *surpass* the prior checkpoint rather than just replicate it — useful for keeping 10+ prioritized problem statements current without a full MLOps retrain cycle each time.
+
+5. **Data-efficient bootstrapping of new problem statements (Recipe 4).** For any of the 50+ backlog items with limited labeled data, use the in-house teacher to bootstrap a student via on-policy distillation rather than waiting for a large labeled dataset — the paper shows 5% labeled data with on-policy GKD beats 100% with standard supervised KD.
+
+6. **Autoregressive pricing/curve forecasting (Recipe 2), non-text.** If the in-house LLM infrastructure extends to autoregressive numeric heads (e.g., LLM-adjacent sequence models for financing curve or spread pricing), the same rollout-and-distill idea applies: train the small production model on its own predicted path, scored by the larger teacher, to eliminate the teacher-forcing/inference mismatch.
+
+**One important scoping note for the interview:** I'd flag that step 1 in practice — before any of this — is confirming the in-house teacher's serving stack exposes full logits (not just top-k), since that determines whether you implement exact JSD(β) or fall back to a top-k-restricted approximation. That's a specific, concrete technical question worth asking the interviewer directly — it shows you're already thinking about implementation constraints, not just theory.
+
+[🔝 Back to Top](#table-of-contents)
 
 ---
